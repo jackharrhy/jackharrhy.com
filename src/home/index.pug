@@ -1,0 +1,47 @@
+doctype
+html
+	head
+		title= "jackharrhy.com | home"
+		link(rel="shortcut icon" href="/favicon.ico")
+		link(rel="stylesheet", href="css/normalize.min.css")
+		link(rel="stylesheet", href="css/skeleton.min.css")
+		link(rel="stylesheet", href="css/home.min.css")
+
+	body
+		canvas#canvas
+		div.container
+			div.row
+				div(class="twelve columns")
+					p#h1 hi, i'm jack
+
+			div.row
+				div(class="three columns")
+
+				div(class="two columns")
+					p #[a(mailto="jack@jackharrhy.com") email]
+
+				div(class="two columns")
+					p #[a(href="http://github.com/jackharrhy") github]
+
+				div(class="two columns")
+					p #[a(href="https://twitter.com/jackharrhyisme") twitter]
+
+				div(class="three columns")
+
+			div.row
+				div(class="twelve columns project-header")
+					p here are some of my projects
+
+			mixin project(link, title, desc)
+				div.row
+					a(href= link)
+						div(class="row project")
+							div(class="four columns project-title")
+								p= title
+							div(class="eight columns project-desc")
+								p= desc
+
+			+project('/audioVis', 'audioVis', 'a html5 audio-visualiser using the Web Audio API & the canvas')
+			+project('/button', 'button', 'a button in which anyone can click to increment it')
+
+		script(src='js/home.min.js')

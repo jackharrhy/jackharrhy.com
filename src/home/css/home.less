@@ -1,0 +1,53 @@
+@color1: #0161ab;
+@color2: #e3393f;
+@color3: #ffc265;
+@background: #ffffff;
+
+@import url(https://fonts.googleapis.com/css?family=Cabin);
+
+body {
+	margin: 0;
+	text-align: center;
+	font-family: Cabin;
+	font-size: 3rem;
+	background-color: @background;
+}
+
+.columns {
+	height: 80px;
+}
+
+.project-header {
+	margin: 2em 0 1em 0;
+	height: 30px;
+	font-size: 2rem;
+}
+
+.project {
+	font-size: 1.5rem;
+
+	.project-title {
+		text-align: right;
+	}
+	.project-desc {
+		text-align: left;
+	}
+}
+
+#canvas {
+	height: 100px;
+	width: 100%;
+}
+
+#h1 {
+	color: @color2;
+}
+
+#h2 {
+	color: @color3;
+}
+
+a {
+	color: @color1;
+	text-decoration: none;
+}
