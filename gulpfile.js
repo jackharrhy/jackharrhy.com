@@ -3,7 +3,13 @@ var watch = require('gulp-watch');
 
 var rename = require('gulp-rename');
 
-gulp.task('default', ['notify', 'pug', 'less', 'css', 'js']);
+gulp.task('default', [
+	'notify',
+	'pug',
+	'less', 'css',
+	'js',
+	'copy-imgs', 'copy-fonts'
+]);
 
 gulp.task('notify', function () {
 	console.log('Watching for changes... (CTRL-C to stop)');
@@ -48,4 +54,15 @@ gulp.task('js', function () {
 		.pipe(uglify())
 		.pipe(rename({suffix: '.min'}))
 		.pipe(gulp.dest('./dist'));
+});
+
+gulp.task('copy-imgs', function () {
+	return gulp.src('./src/**/img/*')
+		.pipe(watch('./src/**/img/*'))
+		.pipe(gulp.dest('./dist'))
+});
+gulp.task('copy-fonts', function () {
+	return gulp.src('./src/**/font/*')
+		.pipe(watch('./src/**/font/*'))
+		.pipe(gulp.dest('./dist'))
 });

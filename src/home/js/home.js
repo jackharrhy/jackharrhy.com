@@ -6,9 +6,18 @@ var cursorX;
 document.onmousemove = function(e) {
 	cursorX = e.pageX / 2;
 	// ^ crude fix right here :(
-}
+};
 
 canvas.height = 100;
+
+function setColor(r,g,b,a) {
+	newColor = 'rgba('+
+		String(Math.ceil(r))+','+
+		String(Math.ceil(g))+','+
+		String(Math.ceil(b))+','+
+		String(a)+')';
+	c.fillStyle = newColor;
+}
 
 var frame = -1;
 function loop() {
@@ -16,14 +25,16 @@ function loop() {
 	canvas.width = window.innerWidth;
 
 	c.clearRect(0,0,canvas.width,canvas.height);
-
+	
+	
 	for(var i=0; i<=window.innerWidth/2; i++) {
-		c.fillStyle = 'rgba('+
-			String(Math.ceil(Math.sin(frame/4 + i/2)*100) + 155)+','+
-			String(Math.ceil(Math.cos(frame/5 + i/2.5)*100) + 155)+','+
-			String(Math.ceil(Math.sin(frame/6 + i/3)*100) + 155)+','+
-			String(1)+')';
-
+		setColor(
+			(Math.sin(frame/4 + i/2  ) * 100) + 155,
+			(Math.cos(frame/5 + i/2.5) * 100) + 155,
+			(Math.sin(frame/6 + i/2  ) * 100) + 155,
+			1
+		);
+	
 		if(i-50 < cursorX && i+50 > cursorX) {
 			var grad = ((cursorX - i) - 50) * -1;
 
