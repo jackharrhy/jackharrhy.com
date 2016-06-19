@@ -9,6 +9,7 @@
   "author": "Jack Arthur Harrhy",
   "license": "MIT",
   "devDependencies": {
-    "socket.io": "^1.4.6"
+    "socket.io": "^1.4.6",
+    "winston": "^2.2.0"
   }
 }

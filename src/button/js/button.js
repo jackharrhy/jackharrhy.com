@@ -28,4 +28,3 @@ socket.on('click', function(count) {
 	update(buttonCount, 'counter');
 	update(sessionCount, 'session');
 });
-

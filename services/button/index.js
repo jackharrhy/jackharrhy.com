@@ -1,38 +1,38 @@
-console.log('[0] Button starting... :3000');
+var winston = require('winston');
 
-var buttonCount;
-var prevButtonCount;
+winston.add(winston.transports.File, { filename: 'button.log' });
+
+winston.info('startup', new Date().toString());
+
+var buttonCount, prevButtonCount;
 
 var fs = require('fs');
-
-fs.readFile('./count', 'utf8', function(err,data) {
+fs.readFile('./button-count.txt', 'utf8', function(err,data) {
 	if(err) throw err;
-
 	buttonCount = parseInt(data);
 });
 
 function logClicks() {
 	if(buttonCount && buttonCount !== prevButtonCount) {
-		fs.writeFile('count', String(buttonCount), function(err) {
+		fs.writeFile('./button-count.txt', String(buttonCount), function(err) {
+			winston.info('loggedclick', buttonCount.toString());
 			if(err) throw err;
-			console.log('[/] Wrote "' + String(buttonCount) + '" to "./count"');
 			prevButtonCount = buttonCount;
 		});
 	}
-	setTimeout(logClicks, 60000);
+	setTimeout(logClicks, 10000);
 }
-setTimeout(logClicks, 5000);
+logClicks();
 
 var io = require('socket.io')(3000);
-
 io.sockets.on('connection', function(socket) {
-	console.log('[=] Socket "' + socket.handshake.headers.host + '" connected');
+	winston.info('socket', socket);
 
 	io.emit('new socket', buttonCount);
 
 	socket.on('click', function() {
 		buttonCount++;
-		console.log('[@] ' + String(buttonCount) + ' Click(s)!');
+		winston.info('increment', buttonCount);
 		io.emit('click', buttonCount);
 	});
 });

@@ -19,6 +19,18 @@ function setColor(r,g,b,a) {
 	c.fillStyle = newColor;
 }
 
+var squareSize = 3;
+function makeSquare(i, cosMul, sinMul, mod) {
+	c.fillRect(
+		i * 2,
+		50 +
+			Math.cos((frame-i) * cosMul) *
+			Math.sin((frame-i) * sinMul) -
+			Math.sin(frame+i)*mod,
+		squareSize,
+		squareSize);
+}
+
 var frame = -1;
 function loop() {
 	frame += 1;
@@ -29,9 +41,9 @@ function loop() {
 	
 	for(var i=0; i<=window.innerWidth/2; i++) {
 		setColor(
-			(Math.sin(frame/4 + i/2  ) * 100) + 155,
-			(Math.cos(frame/5 + i/2.5) * 100) + 155,
-			(Math.sin(frame/6 + i/2  ) * 100) + 155,
+			(Math.sin(frame/6 + i/2) * 100) + 155,
+			(Math.cos(frame/7 + i/3) * 100) + 155,
+			(Math.sin(frame/8 + i/4) * 100) + 155,
 			1
 		);
 	
@@ -43,25 +55,11 @@ function loop() {
 			} else {
 				mod = grad;
 			}
-
-			c.fillRect(
-				i * 2,
-				50 +
-					(Math.cos((frame+i)/60)*30)*
-					Math.sin((frame-i)/30)-
-					(Math.sin(frame+i))*mod/3,
-				2,
-				2);
+			
+			makeSquare(i, 10, 10, mod);
 
 		} else {
-			c.fillRect(
-				i * 2,
-				50 +
-					(Math.cos((frame+i)/60)*30)*
-					Math.sin((frame-i)/30)+
-					Math.cos((frame+i))/10,
-				2,
-				2);
+			makeSquare(i, 10, 10, 0);
 		}
 	}
 

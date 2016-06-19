@@ -1,24 +1,31 @@
 html
 	head
+		title= "jackharrhy.com | button"
 		link(rel="shortcut icon" href="/favicon.ico")
-		link(rel="stylesheet" href="css/button.min.css")
-
-		title button
+		link(rel="stylesheet", href="css/normalize.min.css")
+		link(rel="stylesheet", href="css/skeleton.min.css")
+		link(rel="stylesheet", href="css/button.min.css")
 	
 	body
 		div#counterContainer(style='-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;', unselectable='one', onselectstart='return false;')
-			h2 total
-			h1#counter
+		
+			div.row
+				div.two.columns.offset-by-three
+					h2 since joined
+					h1#session
 
-			h2 since joined
-			h1#session
+				div.two.columns
+					h2 total
+					h1#counter
 
-			h2 yours
-			h1#user
+				div.two.columns
+					h2 yours
+					h1#user
 
-		div#buttonContainer
-			div#button(onclick="socket.emit('click'); userCount++; update(userCount, 'user');")
-				img(src="img/unpressed.png")
+		div.row
+			div#buttonContainer.six.columns.offset-by-three
+				div#button(onclick="socket.emit('click'); userCount++; update(userCount, 'user');")
+					img(src="img/unpressed.png")
 
 		script(src="/serv/button/socket.io/socket.io.js")
 		script(src="js/button.min.js")
