@@ -24,7 +24,7 @@ function logClicks() {
 }
 logClicks();
 
-var io = require('socket.io')(3000);
+var io = require('socket.io')(9191);
 io.sockets.on('connection', function(socket) {
 	winston.info('socket', socket);
 
