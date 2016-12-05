@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setPixelRatio(window.devicePixelRatio);
 	renderer.setSize(eyeCatcher.offsetWidth, eyeCatcher.offsetHeight);
-	renderer.setClearColor(0xf7f7f5, 1);
+	renderer.setClearColor(0x001024, 1);
 	eyeCatcher.appendChild(renderer.domElement);
 
 	window.addEventListener('resize', onWindowResize, false );
@@ -25,12 +25,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var cubes = [];
 
 	var moveBackNum = eyeCatcher.offsetWidth / 175;
-	var amountOfCubes = 30;
+	var amountOfCubes = 65;
 
 	for(var i=0; i<amountOfCubes; i++) {
 		cubes[i] = {
-			geo: new THREE.BoxGeometry(1, 1, 1),
-			mat: new THREE.MeshPhongMaterial({ color: "rgb(255,"+String(Math.floor(i*255/amountOfCubes))+","+String(Math.floor(i*255/amountOfCubes))+")" })
+			geo: new THREE.BoxGeometry(0.1, 1, 1),
+			mat: new THREE.MeshPhongMaterial({ color: 0xb1c7d6 })
 		};
 		cubes[i].mesh = new THREE.Mesh(cubes[i].geo, cubes[i].mat);
 		scene.add(cubes[i].mesh);
@@ -63,10 +63,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				if(cube.mesh.position.x > moveBackNum) {
 					cube.mesh.position.x *= -1;
 				}
-				cube.mesh.position.z += Math.sin(frame/50)/250;
-
-				cube.mesh.rotation.x += 0.004;
-				cube.mesh.rotation.y += 0.004;
+				cube.mesh.position.z += Math.sin(frame/50 + i)/250;
 			}
 		}
 

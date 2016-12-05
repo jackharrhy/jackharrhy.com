@@ -4,7 +4,11 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 2em;
   font-weight: 300;
-  background-color: #f7f7f5;
+  background-color: #001024;
+}
+.page-wrap {
+  margin: 0 auto;
+  width: 100%;
 }
 #links {
   margin: 0 auto;
@@ -31,21 +35,22 @@ h3 {
   text-align: center;
 }
 h1 {
-  color: #ff2a32;
+  color: #b1c7d6;
   font-size: 4em;
   font-weight: 600;
   margin-top: 0.4em;
   margin-bottom: 0.4em;
 }
 h2 {
-  color: #0056b0;
+  color: #4da1bd;
   font-weight: 600;
 }
 a {
-  color: #138ce9;
+  color: #eeedf0;
   text-decoration: none;
 }
 #footer {
+  color: #4da1bd;
   text-align: center;
   font-size: 0.5em;
 }

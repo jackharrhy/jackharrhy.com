@@ -7,33 +7,33 @@ html
 		script(src="https://use.fontawesome.com/d5982fa2af.js")
 
 	body
-		header
-			h1 hi, i'm jack
+		.page-wrap
+			header
+				h1 hello, i'm jack
 
-		#eyeCatcher
+			#eyeCatcher
 
-		#links
-			#link
-				p #[a(mailto="jack@jackharrhy.com") #[i(class="fa fa-envelope-o",aria-hidden="true")] jack@jackharrhy.com]
+			#links
+				#link
+					p #[a(mailto="jack@jackharrhy.com") #[i(class="fa fa-envelope-o",aria-hidden="true")] jack@jackharrhy.com]
 
-			#link
-				p #[a(href="http://github.com/jackharrhy") #[i(class="fa fa-github",aria-hidden="true")] jackharrhy]
+				#link
+					p #[a(href="http://github.com/jackharrhy") #[i(class="fa fa-github",aria-hidden="true")] jackharrhy]
 
-			#link
-				p #[a(href="https://twitter.com/jackharrhyisme") #[i(class="fa fa-twitter",aria-hidden="true")] @jackharrhyisme]
+				#link
+					p #[a(href="https://twitter.com/jackharrhyisme") #[i(class="fa fa-twitter",aria-hidden="true")] @jackharrhyisme]
 
-		mixin project(link, title, desc)
-			a(href= link)
-				div#project
-					p#projectTitle= title
-					p#projectDesc= desc
+			mixin project(link, title, desc)
+				a(href= link)
+					div#project
+						p#projectTitle= title
+						p#projectDesc= desc
 
-		#projects
-			h2 projects
-
-			+project("/bullet", "bullet", "a small vanilla html5 canvas object-avoiding game")
-			+project("/button", "button", "a button in which anyone can click to increment it")
-			+project("/audioVis", "audioVis", "a html5 audio-visualiser using the Web Audio API & the canvas")
+			#projects
+				//h2 projects
+				//project("/bullet", "bullet", "a small vanilla html5 canvas object-avoiding game")
+				//+project("/button", "button", "a button in which anyone can click to increment it")
+				//+project("/audioVis", "audioVis", "a html5 audio-visualiser using the Web Audio API & the canvas")
 
 		#footer
 			p 2016 Jack Harrhy
