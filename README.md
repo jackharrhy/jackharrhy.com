@@ -1,2 +1,2 @@
 # jackharrhy.com
-jackharrhy.com's content constructor
+jackharrhy.com's content
