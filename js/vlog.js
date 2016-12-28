@@ -12,7 +12,7 @@ function animateBackHome() {
 	setTimeout(animateMainContainer, 700);
 }
 function animateMainContainer() {
-	animate('main-container', 'fadeIn', 'mui-container animated');
+	animate('main-container', 'fadeIn', 'mui-container-fluid animated');
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
