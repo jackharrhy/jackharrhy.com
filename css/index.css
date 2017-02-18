@@ -1,0 +1,88 @@
+body, html {
+  height: 100%;
+}
+
+body {
+  font-family: 'texgyreherosregular', 'Helvetica Neue', helvetica, sans-serif;
+  background-color: #040404;
+  color: #FDFDFD;
+}
+
+h2 {
+  margin: 0.75em 0;
+  font-size: 1.8em;
+  font-weight: normal;
+}
+body .box:nth-child(1) {
+  margin-top: 0;
+}
+
+#align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#page-wrap {
+  margin: 0 auto;
+  width: 855px;
+  height: 86%;
+}
+
+.box {
+  width: 25.75em;
+}
+
+.box:last-of-type {
+  margin-bottom: 3em;
+}
+
+.text {
+  margin: -1.75em 0 -3.75em 0;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  word-wrap: break-word;
+}
+.text h2:nth-child(1) {
+  margin-top: 0;
+}
+
+.image {
+  height: 314px;
+  width: 100%;
+}
+#floater {
+  float: right;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 25.75em;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+}
+
+@media only screen and (max-width: 940px) {
+  #page-wrap {
+    width: 90%;
+  }
+  .box {
+    width: 100%;
+  }
+  #floater {
+    float: right;
+  }
+  .text {
+    margin: 2em 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  img {
+    width: 100%;
+  }
+}
