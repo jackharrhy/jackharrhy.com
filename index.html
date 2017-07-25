@@ -2,41 +2,45 @@
 <html>
 <head>
   <title>jackharrhy.com</title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="fonts/texgyreheros_regular_macroman/stylesheet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/jquery.fullpage.min.css">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <div id="align">
-    <div id="page-wrap">
-      <div class="box text">
-        <h2>hi</h2>
-        <h2>my name is jack arthur harrhy</h2>
-        <h2>i make stuff</h2>
-      </div>
+  <div id="footer">
+    <p><a href="mailto:me@jackharrhy.com">email</a> &#9679; <a href="https://instagram.com/jackarthurharrhy/">instagram</a> &#9679; <a href="https://vsco.co/jackharrhy/">vsco</a></p>
+  </div>
 
-      <div class="box image">
-        <div id="floater">
-          <img src="img/1.jpg">
+  <div id="fullpage">
+    <div class="section p0">
+      <div id="box">
+        <div id="section-container">
+          <img id="me" data-src="img/me.jpg">
         </div>
-      </div>
 
-      <div class="box text">
-        <h2>my email is</h2>
-        <a href="mailto:me@jackharrhy.com"><h2>me@jackharrhy.com</h2></a>
-      </div>
-
-      <div class="box image">
-        <div id="floater">
-          <img src="img/2.jpg">
-        </div>
-      </div>
-
-      <div class="box text">
-        <h2>you can find me on</h2>
-        <h2><a href="https://www.youtube.com/user/0TheEdiblePencil0">youtube</a> • <a href="https://www.instagram.com/jackharrhy/">instagram</a> • <a href="https://vsco.co/jackharrhy/">vsco</a></h2>
+        <p id="myname">jack arthur harrhy</p>
       </div>
     </div>
+
+    <div class="section p1">
+      <img class="pic flowers1" src="img/flowers1.jpg">
+    </div>
+
+    <div class="section p2">
+      <img class="pic cabot1" src="img/cabot1.jpg">
+    </div>
+
+    <div class="section p3">
+      <img class="pic apples1" src="img/apples1.jpg">
+    </div>
+
+    <div class="section p4">
+      <video class="vid dt1" data-autoplay loop>
+      	<source data-src="vid/dt1.mp4" type="video/mp4" />
+      </video>
+    </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/jquery.fullpage.min.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
