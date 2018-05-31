@@ -13,7 +13,7 @@ var length = 40;
 
 for(var i=0; i<=length; i++) {
   var geometry = new THREE.BoxGeometry(1.2-Math.random(),1.2-Math.random(),1.2-Math.random());
-  var material = new THREE.MeshBasicMaterial({ color: randomColor({ hue: 'red' }) });
+  var material = new THREE.MeshBasicMaterial({ color: randomColor({ hue: 'purple' }) });
   var cube = new THREE.Mesh(geometry, material);
 
   cube.rotation.x += i/10;

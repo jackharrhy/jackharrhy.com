@@ -8,8 +8,25 @@ body {
   font-weight: bold;
 }
 
-p {
-  font-size: 2em;
+ul {
+  padding: 0;
+  display: inline;
+  height: auto;
+}
+
+ul li {
+  font-size: 2.75em;
+  display: inline;
+  padding: 0 0.25em;
+}
+
+ul li:before {
+  content: '★';
+  padding-right: 0.5em;
+}
+
+ul li:first-child::before {
+  content: '';
 }
 
 a {
@@ -32,6 +49,8 @@ a:hover {
 
 #centerpiece {
   width: auto;
+  height: auto;
+  overflow: inherit;
 }
 
 h1 {
@@ -45,3 +64,4 @@ canvas {
   left: 0;
   z-index: -1;
 }
+
