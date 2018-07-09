@@ -3,41 +3,9 @@ html, body {
 }
 
 body {
-  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Space Mono', monospace;
   text-align: center;
   font-weight: bold;
-}
-
-ul {
-  padding: 0;
-  display: inline;
-  height: auto;
-}
-
-ul li {
-  font-size: 2.75em;
-  display: inline;
-  padding: 0 0.25em;
-}
-
-ul li:before {
-  content: '★';
-  padding-right: 0.5em;
-}
-
-ul li:first-child::before {
-  content: '';
-}
-
-a {
-  text-decoration: none;
-  transition: color 0.5s ease;
-  color: black
-}
-
-a:hover {
-  color: #56c7e9;
-  transition: color 0.5s ease;
 }
 
 #page-wrap {
@@ -48,14 +16,54 @@ a:hover {
 }
 
 #centerpiece {
-  width: auto;
+  width: 100%;
   height: auto;
   overflow: inherit;
 }
 
 h1 {
-  margin-top: 0;
-  font-size: 3.5em;
+  margin: 0 0 -0.05em 0;
+  font-size: 3em;
+}
+
+h1, ul li {
+  text-shadow: -2px 2px 0 rgba(255,0,0,0.25);
+}
+
+ul {
+  margin: 0 -0.5em 0 0;
+  padding: 0;
+}
+
+ul li {
+  display: block;
+  margin-top: -0.1em;
+  padding: 0 0.25em;
+
+  text-align: left;
+  font-size: 2em;
+}
+
+ul li:before {
+  content: '>';
+  padding-left: 0.75em;
+  padding-right: 0.35em;
+}
+
+#links {
+  width: 20em;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.5s ease;
+  color: black
+}
+
+a:hover {
+  color: #ff0000;
+  transition: color 0.5s ease;
 }
 
 canvas {
@@ -65,3 +73,8 @@ canvas {
   z-index: -1;
 }
 
+@media only screen and (max-width: 800px) {
+  #links {
+    width: 75%;
+  }
+}
