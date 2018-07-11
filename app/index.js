@@ -17,12 +17,12 @@ const amount = 19;
 
 for (let i = 0; i <= amount; i++) {
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshBasicMaterial({
+	const material = new THREE.MeshLambertMaterial({
 		color: 'red'
 	});
 	const cube = new THREE.Mesh(geometry, material);
 
-	cube.rotation.x += i / 100;
+	cube.rotation.x += i / 50;
 
 	cubes.push(cube);
 	scene.add(cubes[cubes.length - 1]);
@@ -38,17 +38,15 @@ const render = function () {
 	renderer.render(scene, camera);
 
 	cubes.forEach(({position, rotation}, i) => {
-		position.x = Math.sin((frame / 2 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.y = Math.cos((frame / 2 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.z = Math.cos(frame / 5 + i) / 3.5;
+		position.x = Math.sin((frame / 2.5 + (i * Math.PI * 2)) / 20) * 6.25;
+		position.y = Math.cos((frame / 2.5 + (i * Math.PI * 2)) / 20) * 6.25;
+		position.z = Math.cos(frame / 3 + i) / 3.5;
 		rotation.x += 0.05;
 		rotation.y += 0.05;
 	});
 
 	requestAnimationFrame(render);
 };
-
-render();
 
 window.addEventListener('resize', () => {
 	camera.aspect = window.innerWidth / window.innerHeight;

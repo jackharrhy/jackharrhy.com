@@ -16,6 +16,7 @@
     "babel-preset-latest": "^6",
     "brunch": "^2",
     "clean-css-brunch": "^2",
+    "normalize.css": "^8.0.0",
     "three": "^0.94.0",
     "uglify-js-brunch": "^2"
   }

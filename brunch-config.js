@@ -13,6 +13,9 @@ exports.files = {
 exports.npm = {
 	globals: {
 		THREE: 'three'
+	},
+	styles: {
+		'normalize.css': ['normalize.css']
 	}
 };
 
