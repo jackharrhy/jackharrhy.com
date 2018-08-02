@@ -1,8 +1,6 @@
 {
-  "name": "brunch-app",
-  "description": "Brunch.io application",
-  "private": true,
-  "author": "Brunch",
+  "name": "jackharrhy.com",
+  "author": "Jack Arthur Harrhy",
   "version": "0.0.1",
   "repository": "",
   "scripts": {
