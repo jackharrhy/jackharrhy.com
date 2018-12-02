@@ -1,10 +1,13 @@
-const THREE = require('three');
+import 'normalize.css';
+import './styles/main.scss';
+
+import * as THREE from 'three';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 
-const clearColor = 0xf9f9f9;
+const clearColor = CLEARCOLOR;
 
 camera.position.z = 10;
 
@@ -18,7 +21,7 @@ const amount = 19;
 for (let i = 0; i <= amount; i++) {
 	const geometry = new THREE.BoxGeometry(1, 1, 1);
 	const material = new THREE.MeshLambertMaterial({
-		color: 'red'
+		color: COLOR1
 	});
 	const cube = new THREE.Mesh(geometry, material);
 
@@ -33,8 +36,13 @@ light.position.z = 0;
 scene.add(light);
 
 let frame = -1;
+
+const settings = {
+	spin: true,
+};
+
 const render = function () {
-	frame += 1;
+	frame += settings.spin ? 1 : 0;
 	renderer.render(scene, camera);
 
 	cubes.forEach(({position, rotation}, i) => {
@@ -59,3 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.body.appendChild(renderer.domElement);
 	render();
 });
+
+function parseMessage(message) {
+	if (message.spin === 'true' || message.spin === true) {
+		settings.spin = true;
+	}
+	else if (message.spin === 'false' || message.spin === false) {
+		settings.spin = false;
+	}
+}
+
+const socket = new WebSocket(WEBSOCKETSERVER);
+
+socket.onopen = (event) => console.log(`\u{1F537}`);
+
+socket.onmessage = (data) => {
+	try {
+		const message = JSON.parse(data.data);
+		parseMessage(message);
+	} catch(e) {}
+};

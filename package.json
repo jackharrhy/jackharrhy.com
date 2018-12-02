@@ -1,20 +1,29 @@
 {
   "name": "jackharrhy.com",
   "author": "Jack Arthur Harrhy",
-  "version": "0.0.1",
-  "repository": "",
+  "version": "0.1.0",
+  "repository": "https://github.com/jackharrhy/jackharrhy.com",
   "scripts": {
-    "start": "brunch watch --server",
-    "build": "brunch build --production"
+    "start:dev": "webpack-dev-server --config config/webpack.dev.js",
+    "build": "webpack --config config/webpack.prod.js"
   },
-  "dependencies": {
-    "auto-reload-brunch": "^2",
-    "babel-brunch": "~6.0",
-    "babel-preset-latest": "^6",
-    "brunch": "^2",
-    "clean-css-brunch": "^2",
-    "normalize.css": "^8.0.0",
-    "three": "^0.94.0",
-    "uglify-js-brunch": "^2"
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "babel-loader": "^8.0.4",
+    "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "^1.0.1",
+    "dotenv": "^6.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.5",
+    "node-sass": "^4.10.0",
+    "normalize.css": "^8.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "three": "^0.99.0",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   }
 }

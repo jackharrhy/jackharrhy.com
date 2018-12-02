@@ -1,0 +1,83 @@
+html,
+body {
+	height: 100%;
+}
+
+body {
+	font-family: 'Space Mono', monospace;
+	text-align: center;
+	font-weight: bold;
+}
+
+#page-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+#centerpiece {
+	width: 100%;
+	height: auto;
+	overflow: inherit;
+}
+
+h1 {
+	margin: 0 0 .3em 0;
+	font-size: 3em;
+	text-shadow: -2px 2px 0 $COLOR1;
+
+	span {
+		color: $COLOR3;
+		text-shadow: -2px 2px 0 rgb(0, 0, 0);
+	}
+}
+
+ul {
+	margin: 0 -0.5em 0 0;
+	padding: 0;
+
+	li {
+		text-shadow: -2px 2px 0 $COLOR1;
+		display: block;
+		padding: 0 0.25em;
+		text-align: left;
+		font-size: 2em;
+
+		:before {
+			content: '>';
+			padding-left: 0.75em;
+			padding-right: 0.35em;
+		}
+	}
+}
+
+#links {
+	width: 20em;
+	margin: 0 auto;
+}
+
+a {
+	text-decoration: none;
+	transition: color 0.5s ease;
+	color: black;
+
+	:hover {
+		color: $COLOR2;
+		transition: color 0.5s ease;
+	}
+}
+
+canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0.8;
+}
+
+@media only screen and (max-width: 600px) {
+	#links {
+		width: 75%;
+	}
+}
