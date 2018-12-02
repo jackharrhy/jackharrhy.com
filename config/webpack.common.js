@@ -1,15 +1,18 @@
+const {DefinePlugin} = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const {
-	paths,
-	filename
-} = require('./paths');
+	path,
+	filename,
+	loader,
+	color,
+} = require('./shared');
 
 module.exports = {
-	entry: paths.jsin,
+	entry: path.jsin,
 	output: {
-		path: paths.out,
+		path: path.out,
 		filename: filename.js,
 	},
 	module: {
@@ -19,7 +22,7 @@ module.exports = {
 				use: [
 					'style-loader',
 					'css-loader',
-					'sass-loader',
+					loader.sass,
 				],
 			},
 			{
@@ -36,7 +39,12 @@ module.exports = {
 			from: 'public',
 		}]),
 		new HtmlWebpackPlugin({
-			template: paths.htmlin,
+			template: path.htmlin,
 		}),
+		new DefinePlugin({
+			CLEARCOLOR: `"${color.CLEARCOLOR}"`,
+			COLOR1: `"${color.COLOR1}"`,
+			WEBSOCKETSERVER: `"${process.env.WEBSOCKETSERVER}"`,
+		})
 	],
 };

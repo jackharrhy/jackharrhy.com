@@ -1,4 +1,7 @@
+.env
+
 *.swo
 *.swp
+
 node_modules/
 build/

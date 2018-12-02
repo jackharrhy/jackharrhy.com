@@ -25,10 +25,10 @@ body {
 h1 {
 	margin: 0 0 .3em 0;
 	font-size: 3em;
-	text-shadow: -2px 2px 0 rgb(255, 0, 0);
+	text-shadow: -2px 2px 0 $COLOR1;
 
 	span {
-		color: rgba(255, 58, 67, 1);
+		color: $COLOR3;
 		text-shadow: -2px 2px 0 rgb(0, 0, 0);
 	}
 }
@@ -38,7 +38,7 @@ ul {
 	padding: 0;
 
 	li {
-		text-shadow: -2px 2px 0 rgb(255, 0, 0);
+		text-shadow: -2px 2px 0 $COLOR1;
 		display: block;
 		padding: 0 0.25em;
 		text-align: left;
@@ -63,7 +63,7 @@ a {
 	color: black;
 
 	:hover {
-		color: #ff4040;
+		color: $COLOR2;
 		transition: color 0.5s ease;
 	}
 }
