@@ -9,7 +9,7 @@ pipeline:
     image: drillster/drone-rsync
     hosts: [ "jackharrhy.com" ]
     source: build/*
-    target: ~/web-static/jackharrhy.com
+    target: ~/web-static/jackharrhy.com/
     recursive: true
     user: jack
     delete: true
