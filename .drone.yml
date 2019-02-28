@@ -7,7 +7,7 @@ pipeline:
 
   deploy:
     image: drillster/drone-rsync
-    hosts: [ "jackharrhy.com" ]
+    hosts: [ "host" ]
     source: build/*
     target: ~/web-static/jackharrhy.com/
     recursive: true
