@@ -1,0 +1,23 @@
+pipeline:
+  build:
+    image: node
+    commands:
+      - npm install
+      - npm run build
+
+  deploy:
+    image: drillster/drone-rsync
+    hosts: [ "jackharrhy.com" ]
+    source: build/*
+    target: ~/web-static/jackharrhy.com
+    recursive: true
+    user: jack
+    delete: true
+    secrets: [ rsync_key ]
+    when:
+      event: [ push, tag ]
+      local: false
+
+branches: master
+when:
+  event: [ push, pull_request, tag ]
