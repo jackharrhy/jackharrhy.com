@@ -6,14 +6,15 @@ pipeline:
       - npm run build
 
   deploy:
-    image: drillster/drone-rsync
-    hosts: [ "jackharrhy.com" ]
-    source: build/*
-    target: ~/web-static/jackharrhy.com/
-    recursive: true
-    user: jack
-    delete: true
-    secrets: [ rsync_key ]
+    image: appleboy/drone-scp
+    settings:
+      host: jackharrhy.com
+      username: jack
+      key:
+        from_secret: ssh_key
+      target: "~/web-static/jackharrhy.com"
+      source: "build/*"
+      rm: true
     when:
       event: [ push, tag ]
       local: false
