@@ -8,12 +8,14 @@ pipeline:
   deploy:
     image: appleboy/drone-scp
     settings:
-      host: jackharrhy.com
       username: jack
-      key:
+      host: jackharrhy.com
+      ssh_key:
         from_secret: ssh_key
-      target: "~/web-static/jackharrhy.com"
-      source: "build/*"
+      target:
+        - ~/web-static/jackharrhy.com
+      source:
+        - build/*
       rm: true
     when:
       event: [ push, tag ]
