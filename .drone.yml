@@ -5,18 +5,13 @@ pipeline:
       - npm install
       - npm run build
 
-  deploy:
-    image: appleboy/drone-scp
+  publish:
+    image: plugins/gh-pages
     settings:
-      username: jack
-      host: jackharrhy.com
+      username: jackharrhy
       ssh_key:
         from_secret: ssh_key
-      target:
-        - ~/web-static/jackharrhy.com
-      source:
-        - build/*
-      rm: true
+      pages_directory: build/
     when:
       event: [ push, tag ]
       local: false
