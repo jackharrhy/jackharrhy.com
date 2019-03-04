@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: frontend
+- name: publish-to-docker
   image: plugins/docker
   settings:
     repo: jackharrhy/jackharrhy.com
