@@ -1,21 +1,19 @@
-pipeline:
-  build:
-    image: node
-    commands:
-      - npm install
-      - npm run build
+kind: pipeline
+name: default
 
-  publish:
-    image: plugins/gh-pages
-    settings:
-      username: jackharrhy
-      ssh_key:
-        from_secret: ssh_key
-      pages_directory: build/
-    when:
-      event: [ push, tag ]
-      local: false
-
-branches: master
-when:
-  event: [ push, pull_request, tag ]
+steps:
+- name: frontend
+  image: plugins/docker
+  settings:
+    repo: jackharrhy/jackharrhy.com
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    branch:
+      - master
+    event:
+      - push
+      - tag
