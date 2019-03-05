@@ -3,6 +3,7 @@ FROM node:10.15.2-alpine as builder
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/package.json
+COPY .env.dist /usr/src/app/.env
 RUN npm install --silent
 COPY . /usr/src/app
 RUN npm run build
