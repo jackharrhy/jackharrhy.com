@@ -1,7 +1,7 @@
+import * as THREE from 'three';
+
 import 'normalize.css';
 import './styles/main.scss';
-
-import * as THREE from 'three';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -19,7 +19,7 @@ const cubes = [];
 const amount = 19;
 
 for (let i = 0; i <= amount; i++) {
-	const geometry = new THREE.BoxGeometry(1, 1, 1);
+	const geometry = new THREE.TorusGeometry(0.6, 0.2, 10, 350);
 	const material = new THREE.MeshLambertMaterial({
 		color: COLOR1
 	});
@@ -46,11 +46,9 @@ const render = function () {
 	renderer.render(scene, camera);
 
 	cubes.forEach(({position, rotation}, i) => {
-		position.x = Math.sin((frame / 2.5 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.y = Math.cos((frame / 2.5 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.z = Math.cos(frame / 3 + i) / 3.5;
-		rotation.x += 0.05;
-		rotation.y += 0.05;
+		position.x = Math.cos((frame / 5 + (i * Math.PI * 2)) / 20) * 6.25;
+		position.y = Math.sin((frame / 5 + (i * Math.PI * 2)) / 20) * 6.25;
+		rotation.x += Math.sin(frame / 100) / 10;
 	});
 
 	requestAnimationFrame(render);
@@ -85,5 +83,8 @@ socket.onmessage = (data) => {
 	try {
 		const message = JSON.parse(data.data);
 		parseMessage(message);
-	} catch(e) {}
+	}
+	catch(e) {
+		console.error(e);
+	}
 };
