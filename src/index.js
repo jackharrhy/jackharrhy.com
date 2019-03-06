@@ -46,8 +46,8 @@ const render = function () {
 	renderer.render(scene, camera);
 
 	cubes.forEach(({position, rotation}, i) => {
-		position.x = Math.cos((frame / 5 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.y = Math.sin((frame / 5 + (i * Math.PI * 2)) / 20) * 6.25;
+		position.x = Math.cos((frame / 4.5 + (i * Math.PI * 2)) / 20) * 6.25;
+		position.y = Math.sin((frame / 4.5 + (i * Math.PI * 2)) / 20) * 6.25;
 		rotation.x += Math.sin(frame / 100) / 10;
 	});
 
