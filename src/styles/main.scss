@@ -79,6 +79,11 @@ canvas {
 }
 
 @media only screen and (max-width: 600px) {
+	#centerpiece {
+		width: 100%;
+		background: none;
+		font-size: 0.9em;
+	}
 	#links {
 		width: 75%;
 	}
