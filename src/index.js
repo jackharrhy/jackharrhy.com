@@ -15,20 +15,20 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(clearColor, 1);
 
-const cubes = [];
-const amount = 19;
+const objects = [];
+for (let a = 0; a <= 18; a++) {
+	for (let b = 0; b <= 13; b++) {
+		const geometry = new THREE.TorusGeometry(0.6, 0.2, 10, 6);
+		const material = new THREE.MeshLambertMaterial({
+			color: COLOR1
+		});
 
-for (let i = 0; i <= amount; i++) {
-	const geometry = new THREE.TorusGeometry(0.6, 0.2, 10, 350);
-	const material = new THREE.MeshLambertMaterial({
-		color: COLOR1
-	});
-	const cube = new THREE.Mesh(geometry, material);
+		const object = new THREE.Mesh(geometry, material);
 
-	cube.rotation.x += i / 50;
-
-	cubes.push(cube);
-	scene.add(cubes[cubes.length - 1]);
+		object.data = {a,b};
+		objects.push(object);
+		scene.add(objects[objects.length - 1]);
+	}
 }
 
 const light = new THREE.AmbientLight(0xffffff);
@@ -38,17 +38,19 @@ scene.add(light);
 let frame = -1;
 
 const settings = {
-	spin: true,
+	inc: true,
 };
 
 const render = function () {
-	frame += settings.spin ? 1 : 0;
+	frame += settings.inc ? 1 : 0;
 	renderer.render(scene, camera);
 
-	cubes.forEach(({position, rotation}, i) => {
-		position.x = Math.cos((frame / 4.5 + (i * Math.PI * 2)) / 20) * 6.25;
-		position.y = Math.sin((frame / 4.5 + (i * Math.PI * 2)) / 20) * 6.25;
-		rotation.x += Math.sin(frame / 100) / 10;
+	objects.forEach(({position, rotation, data: {a, b}}) => {
+		position.y = Math.sin(frame/100) + (b * 2 - objects.length/20);
+		position.x = a * 2 - objects.length/15.6;
+		rotation.y += Math.sin((frame + a * 100)/100)/1000;
+		rotation.x += Math.cos((frame + b * 125)/100)/500;
+		rotation.z += Math.cos((frame + a * 150)/100)/400;
 	});
 
 	requestAnimationFrame(render);
@@ -67,11 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function parseMessage(message) {
-	if (message.spin === 'true' || message.spin === true) {
-		settings.spin = true;
+	if (message.nc  === 'true' || message.inc === true) {
+		settings.inc = true;
 	}
-	else if (message.spin === 'false' || message.spin === false) {
-		settings.spin = false;
+	else if (message.inc === 'false' || message.inc === false) {
+		settings.inc = false;
 	}
 }
 

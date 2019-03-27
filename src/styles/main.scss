@@ -17,13 +17,15 @@ body {
 }
 
 #centerpiece {
-	width: 100%;
+	padding: 1em 0em;
+	background: rgba(255,255,255,0.1);
+	border-radius: 1em;
 	height: auto;
 	overflow: inherit;
 }
 
 h1 {
-	margin: 0 0 .3em 0;
+	margin: 0;
 	font-size: 3em;
 	text-shadow: -2px 2px 0 $COLOR1;
 
@@ -45,16 +47,16 @@ ul {
 		font-size: 2em;
 
 		:before {
-			content: '>';
+			content: '->';
 			padding-left: 0.75em;
-			padding-right: 0.35em;
+			padding-right: 0.05em;
 		}
 	}
 }
 
 #links {
 	width: 20em;
-	margin: 0 auto;
+	margin: 1em auto 0 auto;
 }
 
 a {
