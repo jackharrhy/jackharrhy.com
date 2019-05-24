@@ -41,10 +41,5 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: path.htmlin,
 		}),
-		new DefinePlugin({
-			CLEARCOLOR: `"${color.CLEARCOLOR}"`,
-			COLOR1: `"${color.COLOR1}"`,
-			WEBSOCKETSERVER: `"${process.env.WEBSOCKETSERVER}"`,
-		})
 	],
 };

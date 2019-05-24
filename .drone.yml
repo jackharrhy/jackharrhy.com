@@ -8,24 +8,6 @@ steps:
     - npm install
     - npm run build
 
-#- name: deploy-to-server
-#image: drillster/drone-rsync
-#settings:
-#user:
-#from_secret: ssh_user
-#key:
-#from_secret: ssh_key
-#hosts:
-#- jackharrhy.com
-#source: ./build
-#target:
-#from_secret: target_dir
-#when:
-#branch:
-#- master
-#event:
-#- push
-
 - name: publish-to-docker
   image: plugins/docker
   settings:
