@@ -2,11 +2,16 @@
 
 # website
 FROM node:10.15.2-alpine as websitebuilder
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
 COPY package.json /usr/src/app/package.json
 RUN npm install --silent
+
 COPY . /usr/src/app
+COPY .env.dist /usr/src/app/.env
+
 RUN npm run build
 
 # socket-server
@@ -33,12 +38,15 @@ RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk
         zlib-dev
 
 ADD ./socket-server /src
+COPY .env.dist /src/.env
+
 WORKDIR /src
 RUN shards build --production --static
 
 # production environment
 
 FROM nginx:1.13.9-alpine
+
 RUN apk add --no-cache --update --force-overwrite \
 	bash \
 	supervisor
