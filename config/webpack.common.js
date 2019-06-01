@@ -44,7 +44,7 @@ module.exports = {
 			template: path.htmlin,
 		}),
 		new DefinePlugin({
-			'process.env.SS_PORT': process.env.SS_PORT,
+			'process.env.SS_ENDPOINT': JSON.stringify(process.env.SS_ENDPOINT),
 		}),
 	],
 };

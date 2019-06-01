@@ -2,12 +2,6 @@ kind: pipeline
 name: default
 
 steps:
-- name: build
-  image: node
-  commands:
-    - npm install
-    - npm run build
-
 - name: publish-to-docker
   image: plugins/docker
   settings:
