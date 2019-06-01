@@ -29,6 +29,27 @@ body > div, header {
 	align-items: center;
 }
 
+#console {
+	overflow: hidden;
+	width: 100%;
+	z-index: -1;
+	position: absolute;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column-reverse;
+	top: 0;
+	opacity: 0.5;
+
+	p {
+		margin: 0;
+		color: white;
+		font-family: monospace;
+	}
+
+	filter: blur(2px);
+	-webkit-filter: blur(2px);
+}
+
 #second-page {
 	background-color: white;
 }

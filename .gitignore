@@ -1,7 +1,11 @@
 .env
 
+.vscode
 *.swo
 *.swp
 
 node_modules/
 build/
+
+socket-server/bin
+socket-server/lib

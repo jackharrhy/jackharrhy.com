@@ -1,4 +1,6 @@
-const {DefinePlugin} = require('webpack')
+require('dotenv').config();
+
+const {DefinePlugin} = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -40,6 +42,9 @@ module.exports = {
 		}]),
 		new HtmlWebpackPlugin({
 			template: path.htmlin,
+		}),
+		new DefinePlugin({
+			'process.env.SS_PORT': process.env.SS_PORT,
 		}),
 	],
 };

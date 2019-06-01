@@ -1,0 +1,10 @@
+name: socket-server
+version: 0.1.0
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+targets:
+  socket-server:
+    main: src/server.cr
