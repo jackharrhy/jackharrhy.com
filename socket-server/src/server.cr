@@ -10,6 +10,14 @@ messages = Deque.new([] of String)
 clients = [] of HTTP::WebSocket
 inputs = [] of HTTP::WebSocket
 
+get "/" do
+	previous_sent_messages = ""
+	messages.each do |m|
+		previous_sent_messages += m
+	end
+	previous_sent_messages
+end
+
 ws "/" do |socket|
 	puts "Socket connected to /: #{socket}"
 
