@@ -40,7 +40,9 @@ ws input_endpoint do |socket|
 
 	inputs.push socket
 
-	socket.on_message do |message|
+	socket.on_message do |raw_message|
+		message = raw_message.chomp + "\n"
+
 		puts "New message from Socket on #{input_endpoint}: #{socket} - #{message}"
 		messages.push message
 

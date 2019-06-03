@@ -45,6 +45,7 @@ module.exports = {
 		}),
 		new DefinePlugin({
 			'process.env.SS_ENDPOINT': JSON.stringify(process.env.SS_ENDPOINT),
+			'process.env.SS_URI': JSON.stringify(process.env.SS_URI),
 		}),
 	],
 };
