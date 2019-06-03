@@ -12,14 +12,12 @@ const isValidUrl = (string) => {
 
 let socketServerURI;
 
-if (isValidUrl(ssURI)) {
+if (!isValidUrl(ssURI)) {
 	socketServerURI = `${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${window.location.host}` + ssEndpoint;
 }
 else {
 	socketServerURI = ssURI;
 }
-
-console.log(ssURI);
 
 export default {
 	socketServerURI,
