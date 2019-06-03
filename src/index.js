@@ -6,7 +6,10 @@ import config from './config';
 let consoleElem;
 
 const log = (text) => {
-	console.log(text);
+	if (text !== '') {
+		console.log(text);
+	}
+
 	const p = document.createElement('p');
 	p.innerHTML = text;
 	consoleElem.insertBefore(p, consoleElem.firstChild);
