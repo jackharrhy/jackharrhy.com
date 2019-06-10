@@ -41,6 +41,7 @@ ADD ./socket-server /src
 COPY .env.dist /src/.env
 
 WORKDIR /src
+RUN shards install
 RUN shards build --production --static
 
 # production environment
