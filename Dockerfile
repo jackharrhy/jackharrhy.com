@@ -16,12 +16,12 @@ RUN npm run build
 
 # socket-server
 FROM alpine:latest as crystalbuilder
-RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
-    && apk add --update --no-cache --force-overwrite \
+RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
+RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
+RUN apk add --update --no-cache --force-overwrite \
         crystal@edge \
         g++ \
         gc-dev \
-        libevent-dev \
         libunwind-dev \
         libxml2-dev \
         llvm \
@@ -41,7 +41,6 @@ ADD ./socket-server /src
 COPY .env.dist /src/.env
 
 WORKDIR /src
-RUN shards install
 RUN shards build --production --static
 
 # production environment
