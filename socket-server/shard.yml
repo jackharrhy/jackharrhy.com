@@ -7,4 +7,4 @@ dependencies:
 
 targets:
   socket-server:
-    main: src/server.cr
+    main: src/socket-server.cr
