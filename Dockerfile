@@ -15,7 +15,7 @@ COPY .env.dist /usr/src/app/.env
 RUN npm run build
 
 # socket-server
-FROM alpine:latest as crystalbuilder
+FROM alpine:3.10 as crystalbuilder
 RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
 RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
 RUN apk add --update --no-cache --force-overwrite \
@@ -24,10 +24,10 @@ RUN apk add --update --no-cache --force-overwrite \
         gc-dev \
         libunwind-dev \
         libxml2-dev \
-        llvm \
-        llvm-dev \
-        llvm-libs \
-        llvm-static \
+        llvm8 \
+        llvm8-dev \
+        llvm8-libs \
+        llvm8-static \
         make \
         musl-dev \
         openssl-dev \
