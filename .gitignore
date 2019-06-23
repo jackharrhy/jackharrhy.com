@@ -7,5 +7,9 @@
 node_modules/
 build/
 
+socket-server/dev
 socket-server/bin
 socket-server/lib
+
+socket-server/sentry
+socket-server/socket-server

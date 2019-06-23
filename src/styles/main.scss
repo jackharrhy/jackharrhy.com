@@ -1,32 +1,101 @@
 body {
 	background-color: black;
 	margin: 0;
-}
-header {
-	height: 100vh;
-	
-	div {
-		height: 10em;
-		width: 10em;
-		line-height: 10em;
-		background-color: white;
-		background: rgb(242,70,69);
-		background: linear-gradient(25deg, rgba(242,70,69,1) 0%, rgba(242,70,69,1) 0%, rgba(235,192,141,1) 100%);
-
-		h1 {
-			margin: 0;
-			font-family: 'VT323', monospace;
-			text-align: center;
-			font-weight: 400;
-		}
-	}
+	font-family: 'VT323', monospace;
 }
 
 body > div, header {
 	height: 100vh;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+header {
+	height: 100vh;
+
+	> div {
+		height: 12em;
+		width: 12em;
+	}
+
+	#title {
+		line-height: 12em;
+		background: rgb(242,70,69);
+		background: linear-gradient(25deg, rgba(242,70,69,1) 0%, rgba(242,70,69,1) 0%, rgba(235,192,141,1) 100%);
+
+		h1 {
+			margin: 0;
+			text-align: center;
+			font-weight: 400;
+		}
+	}
+	
+	#chat {
+		opacity: 0.3;
+		pointer-events: none;
+		margin-top: 2em;
+
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		border: 1px solid #333;
+		background-color: rgba(0,0,0,0.5);
+
+		#chat-container {
+			display: flex;
+			flex-direction: column-reverse;
+
+			height: calc(12em - 1.5em);
+			width: 90%;
+			color: white;
+
+			overflow-y: scroll;
+			scrollbar-width: none;
+			&::-webkit-scrollbar {
+				width: 0px;
+				background: transparent;
+			}
+
+			p {
+				margin: 0.35em 0;
+				word-wrap: break-word;
+			}
+
+			.self {
+				text-align: right;
+			}
+		}
+
+		#chat-input {
+			width: 100%;
+			align-self: flex-end;
+			display: flex;
+			flex-direction: row;
+			height: 1.5em;
+
+			input, button {
+				height: 1.5em;
+				border: none;
+				padding: 0;
+			}
+			input {
+				width: 80%;
+			}
+			button {
+				width: 20%;
+			}
+		}
+	}
+
+	@media screen and ( max-height: 500px ) {
+		flex-direction: row;
+
+		#chat {
+			margin: 0 0 0 2em;
+		}
+	}
 }
 
 #console {
@@ -46,7 +115,7 @@ body > div, header {
 		font-family: monospace;
 	}
 
-	filter: blur(2px);
+	filter: blur(1.25px);
 	-webkit-filter: blur(1.25px);
 }
 
