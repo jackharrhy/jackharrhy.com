@@ -11,5 +11,7 @@ socket-server/dev
 socket-server/bin
 socket-server/lib
 
+socket-server/history
+
 socket-server/sentry
 socket-server/socket-server
