@@ -58,6 +58,8 @@ ADD ./supervisord.conf /etc/
 COPY --from=websitebuilder /usr/src/app/build /usr/share/nginx/html
 COPY --from=crystalbuilder /src/bin/socket-server /app/socket-server
 
+RUN mkdir -p /app/history
+
 EXPOSE 80 3000
 
 # TODO Kemal still says it lives in dev. land, make kemal prod.
