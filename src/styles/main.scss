@@ -31,16 +31,29 @@ header {
 			font-weight: 400;
 		}
 	}
+
+	#links {
+		display: flex;
+		justify-content: center;
+		margin-top: 0.5em;
+
+		background-color: white;
+
+		ul {
+			align-self: center;
+			padding-inline-start: 0;
+		}
+	}
 	
 	#chat {
 		opacity: 0.3;
 		pointer-events: none;
-		margin-top: 2em;
+		margin-top: 0.5em;
 
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		border: 1px solid #333;
+		border: 1px solid rgba(255,255,255,0.8);
 		background-color: rgba(0,0,0,0.5);
 
 		#chat-container {
@@ -89,10 +102,10 @@ header {
 		}
 	}
 
-	@media screen and ( max-height: 500px ) {
+	@media screen and ( max-height: 620px ) {
 		flex-direction: row;
 
-		#chat {
+		#links, #chat {
 			margin: 0 0 0 2em;
 		}
 	}
@@ -119,6 +132,3 @@ header {
 	-webkit-filter: blur(1.25px);
 }
 
-#second-page {
-	background-color: white;
-}
