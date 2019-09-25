@@ -3,6 +3,12 @@ require "json"
 require "uuid"
 require "uuid/json"
 
+struct UUID
+  def to_json_object_key
+    to_s
+  end
+end
+
 require "./config"
 require "./client"
 require "./message"
