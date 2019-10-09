@@ -1,7 +1,40 @@
 @import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
+html, body {
+	height: 100%;
+}
+
 body {
 	background-color: black;
 	margin: 0;
 	font-family: 'VT323', monospace;
+	font-size: 3rem;
+
+	flex-wrap: wrap;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+
+p {
+	color: white;
+	font-size: 6rem;
+	margin: 0;
+}
+
+a {
+	color: white;
+}
+
+ul li::before {
+	content: "\2022";
+	color: white;
+	font-weight: bold;
+	display: inline-block;
+	width: 1em;
+	margin-left: -1em;
+}
+
+header {
+	height: 10em;
 }
