@@ -1,136 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
+
+html, body {
+	height: 100%;
+}
+
 body {
 	background-color: black;
 	margin: 0;
 	font-family: 'VT323', monospace;
+	font-size: 3rem;
+
+	flex-wrap: wrap;
+	display: flex;
+	align-content: center;
+	justify-content: center;
 }
 
-body > div, header {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+p {
+	color: white;
+	font-size: 6rem;
+	margin: 0;
+}
+
+a {
+	color: white;
+}
+
+ul li::before {
+	content: "\2022";
+	color: white;
+	font-weight: bold;
+	display: inline-block;
+	width: 1em;
+	margin-left: -1em;
 }
 
 header {
-	height: 100vh;
-
-	> div {
-		border-radius: 12em;
-		border: 1em solid rgb(25,25,25);
-		height: 12em;
-		width: 12em;
-	}
-
-	#title {
-		line-height: 12em;
-		background: rgb(242,70,69);
-		background: linear-gradient(25deg, rgb(246, 200, 88) 0%, rgb(236, 160, 44) 100%);
-
-		h1 {
-			margin: 0;
-			text-align: center;
-			font-weight: 400;
-		}
-	}
-
-	#links {
-		display: flex;
-		justify-content: center;
-		margin-top: 0.5em;
-
-		background-color: rgba(246,219,167,0.9);
-
-		ul {
-			align-self: center;
-			padding-inline-start: 0;
-		}
-	}
-	
-	#chat {
-		opacity: 0.3;
-		pointer-events: none;
-		margin-top: 0.5em;
-
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		border: 1px solid rgba(255,255,255,0.8);
-		background-color: rgba(0,0,0,0.5);
-
-		#chat-container {
-			display: flex;
-			flex-direction: column-reverse;
-
-			height: calc(12em - 1.5em);
-			width: 90%;
-			color: white;
-
-			overflow-y: scroll;
-			scrollbar-width: none;
-			&::-webkit-scrollbar {
-				width: 0px;
-				background: transparent;
-			}
-
-			p {
-				margin: 0.35em 0;
-				word-wrap: break-word;
-			}
-
-			.self {
-				text-align: right;
-			}
-		}
-
-		#chat-input {
-			width: 100%;
-			align-self: flex-end;
-			display: flex;
-			flex-direction: row;
-			height: 1.5em;
-
-			input, button {
-				height: 1.5em;
-				border: none;
-				padding: 0;
-			}
-			input {
-				width: 80%;
-			}
-			button {
-				width: 20%;
-			}
-		}
-	}
-
-	@media screen and ( max-height: 620px ) {
-		flex-direction: row;
-
-		#links, #chat {
-			margin: 0 0 0 2em;
-		}
-	}
+	height: 10em;
 }
-
-#console {
-	overflow: hidden;
-	width: 100%;
-	z-index: -1;
-	position: absolute;
-	justify-content: flex-start;
-	align-items: flex-start;
-	flex-direction: column-reverse;
-	top: 0;
-	opacity: 0.5;
-
-	p {
-		margin: 0;
-		color: white;
-		font-family: monospace;
-	}
-
-	filter: blur(1.25px);
-	-webkit-filter: blur(1.25px);
-}
-
