@@ -21,14 +21,24 @@
 			</header>
 		</div>
 
-		<div id="containers">
-			<p>currently running docker containers on this vps:</p>
-			<%- containers.each do |container| -%>
-			<hr>
-			<div class="container">
-				<p>image: <%= container.image %>, state: <%= container.state %>, created: <%= container.created %>, status: <%= container.status %></p>
-			</div>
-			<%- end -%>
+		<div id="containers-container">
+			<table id="containers">
+				<caption>currently running docker containers on this vps:</caption>
+				<tr>
+					<td>image</td>
+					<td>state</td>
+					<td>created</td>
+					<td>status</td>
+				</tr>
+				<%- containers.each do |container| -%>
+				<tr>
+					<td><%= container.image %></td>
+					<td><%= container.state %></td>
+					<td><%= container.created %></td>
+					<td><%= container.status %></td>
+				</tr>
+				<%- end -%>
+			</table>
 		</div>
 	</body>
 </html>

@@ -10,7 +10,6 @@ body {
 
 	font-family: 'Source Code Pro', monospace;
 	font-weight: 500;
-	text-align: center;
 }
 
 a {
@@ -44,9 +43,21 @@ header {
 	padding: 1.5rem;
 	border: 1px solid white;
 	box-shadow: 2px 2px 0px #999;
+	text-align: center;
+}
+
+#containers-container {
+	margin-top: 2rem;
+	display: flex;
 }
 
 #containers {
-	padding: 2rem;
+	align-self: center;
+	margin: 0 auto;
+	padding: 1rem;
 	color: white;
+}
+
+td {
+	padding: 0 0.75rem;
 }
