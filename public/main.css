@@ -29,7 +29,6 @@ p:first-child {
 
 #header-container {
 	display: flex;
-	width: 100vw;
 	height: 60vh;
 	min-height: 18rem;
 	background-color: #b3dcde;
@@ -47,7 +46,7 @@ header {
 }
 
 #containers-container {
-	margin-top: 2rem;
+	margin: 0 2rem;
 	display: flex;
 }
 
