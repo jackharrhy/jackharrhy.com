@@ -1,4 +1,4 @@
-FROM node:10-alpine as websitebuilder
+FROM node:13-alpine as websitebuilder
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
