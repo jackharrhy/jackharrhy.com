@@ -13,5 +13,7 @@ dependencies:
     github: aca-labs/crystal-docker
   kemal:
     github: kemalcr/kemal
+  dotenv:
+    github: gdotdesign/cr-dotenv
 
 crystal: 0.34.0

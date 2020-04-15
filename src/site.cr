@@ -4,6 +4,14 @@ require "http/client"
 require "docker"
 require "kemal"
 
+require "dotenv"
+
+begin
+  Dotenv.load
+end
+
+TRAEFIK_HOST = ENV["JACKHARRHY_COM_TRAEFIK_HOST"]
+
 client = Docker::Api::ApiClient.new
 
 def dockerhub_link_from_image(image : String)
@@ -18,7 +26,7 @@ end
 
 get "/" do
   containers = client.containers all: true
-  traefik_response = HTTP::Client.get "http://localhost:8080/api/http/routers"
+  traefik_response = HTTP::Client.get "http://#{TRAEFIK_HOST}:8080/api/http/routers"
   traefik_body = JSON.parse(traefik_response.body).as_a.reject { |i| i["entryPoints"][0] != "websecure"}
   render "src/views/index.ecr"
 end

@@ -8,6 +8,10 @@ shards:
     github: aca-labs/crystal-docker
     commit: d68a89e1ed47f2e95ab9fd854e54f98e54e1697d
 
+  dotenv:
+    github: gdotdesign/cr-dotenv
+    version: 0.7.0
+
   exception_page:
     github: crystal-loot/exception_page
     version: 0.1.4
