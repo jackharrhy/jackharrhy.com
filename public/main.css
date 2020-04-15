@@ -13,8 +13,11 @@ body {
 }
 
 a {
-	margin: 0;
 	text-decoration: none;
+}
+
+header a {
+	margin: 0;
 	color: black;
 }
 
@@ -45,16 +48,24 @@ header {
 	text-align: center;
 }
 
-#containers-container {
+#table-container {
 	margin: 2rem 0;
 	display: flex;
 }
 
-#containers {
+table {
 	align-self: center;
 	margin: 0 auto;
 	padding: 1rem;
 	color: white;
+}
+
+table a {
+	color: #d7c6ea;
+}
+
+table a:hover {
+	color: #c9ade5;
 }
 
 td {
