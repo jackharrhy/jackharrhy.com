@@ -1,0 +1,17 @@
+name: jackharrhycom
+version: 0.1.0
+
+authors:
+  - Jack Arthur Harrhy <me@jackharrhy.com>
+
+targets:
+  site:
+    main: src/site.cr
+
+dependencies:
+  docker:
+    github: aca-labs/crystal-docker
+  kemal:
+    github: kemalcr/kemal
+
+crystal: 0.34.0

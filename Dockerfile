@@ -1,19 +1,24 @@
-FROM node:13-alpine as websitebuilder
+# build
+FROM crystallang/crystal:0.34.0-alpine-build as build
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /build
 
-COPY package.json /usr/src/app/package.json
-RUN npm install --silent
+COPY shard.yml /build/
+COPY shard.lock /build/
+RUN mkdir src
+COPY ./src /build/src
 
-COPY . /usr/src/app
+RUN shards
+RUN shards build site --release --static
 
-RUN npm run build
+# prod
+FROM alpine:3
 
-FROM nginx:alpine
+WORKDIR /app
 
-COPY --from=websitebuilder /usr/src/app/build /usr/share/nginx/html
+COPY --from=build /build/bin/site /app/site
+RUN mkdir public
+COPY ./public /app/public
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["/app/site"]

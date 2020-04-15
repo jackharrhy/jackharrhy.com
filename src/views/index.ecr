@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>jackharrhy.com</title>
+		<meta name="author" content="Jack Arthur Harrhy">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="favicon.png">
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+		<div id="header-container">
+			<header>
+				<p>hi, i'm jack</p>
+				<p><a href="mailto:me@jackharrhy.com">email</a></p>
+				<p><a href="https://github.com/jackharrhy/">github</a></p>
+				<p><a href="https://gitlab.com/jackharrhy/">gitlab</a></p>
+				<p><a href="https://www.youtube.com/channel/UCQc0h7PzKi2KJiYvb5pM4FA">youtube</a></p>
+				<p><a href="https://instagram.com/jackarthurharrhy/">instagram</a></p>
+				<p><a href="https://vsco.co/jackharrhy/">vsco</a></p>
+			</header>
+		</div>
+
+		<div id="containers">
+			<p>currently running docker containers on this vps:</p>
+			<%- containers.each do |container| -%>
+			<hr>
+			<div class="container">
+				<p>image: <%= container.image %>, state: <%= container.state %>, created: <%= container.created %>, status: <%= container.status %></p>
+			</div>
+			<%- end -%>
+		</div>
+	</body>
+</html>
