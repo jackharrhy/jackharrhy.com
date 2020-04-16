@@ -24,18 +24,20 @@
 		<div id="table-container">
 			<table>
 				<caption>currently running docker containers on this vps:</caption>
-				<tr>
-					<td>name</td>
-					<td>state</td>
-					<td>created</td>
-					<td>status</td>
-				</tr>
+				<thead>
+					<tr>
+						<td>name</td>
+						<td>state</td>
+						<td>created</td>
+						<td>status</td>
+					</tr>
+				</thead>
 				<%- containers.each do |container| -%>
 				<tr>
-					<td><a href="<%= dockerhub_link_from_image container.image %>"><%= container.image %></a></td>
-					<td><%= container.state %></td>
-					<td><%= container.created %></td>
-					<td><%= container.status %></td>
+					<td data-label="name"><a href="<%= dockerhub_link_from_image container.image %>"><%= container.image %></a></td>
+					<td data-label="state"><%= container.state %></td>
+					<td data-label="created"><%= container.created %></td>
+					<td data-label="status"><%= container.status %></td>
 				</tr>
 				<%- end -%>
 			</table>
@@ -43,16 +45,18 @@
 		<div id="table-container">
 			<table>
 				<caption>currently active traefik https routes on this vps:</caption>
-				<tr>
-					<td>name</td>
-					<td>status</td>
-					<td>rule</td>
-				</tr>
+				<thead>
+					<tr>
+						<td>name</td>
+						<td>status</td>
+						<td>rule</td>
+					</tr>
+				</thead>
 				<%- traefik_body.each do |route| -%>
 				<tr>
-					<td><%= route["name"] %></td>
-					<td><%= route["status"] %></td>
-					<td><%= traefik_links_from_rule route["rule"].as_s %></td>
+					<td data-label="name"><%= route["name"] %></td>
+					<td data-label="status"><%= route["status"] %></td>
+					<td data-label="rule"><%= traefik_links_from_rule route["rule"].as_s %></td>
 				</tr>
 				<%- end -%>
 			</table>

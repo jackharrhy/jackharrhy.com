@@ -71,3 +71,22 @@ table a:hover {
 td {
 	padding: 0 0.75rem;
 }
+
+@media screen and (max-width: 600px) {
+	thead {
+		display: none;
+	}
+	td:first-child {
+		margin-top: 1rem;
+	}
+	td {
+		padding: 0;
+		display: block;
+		text-align: right;
+	}
+	td::before {
+		margin-right: 12px;
+		content: attr(data-label);
+		float: left;
+	}
+}
