@@ -61,11 +61,21 @@ def traefik_links_from_rule(rule : String)
   display
 end
 
+last_updated = Time.utc - 1.days
+cached_page = ""
+
 get "/" do
-  containers = client.containers all: true
-  traefik_response = HTTP::Client.get "http://#{TRAEFIK_HOST}:8080/api/http/routers"
-  traefik_body = JSON.parse(traefik_response.body).as_a.reject { |i| i["entryPoints"][0] != "websecure"}
-  render "src/views/index.ecr"
+  now = Time.utc
+  span =  now - last_updated
+  if span.seconds > 5 || cached_page == ""
+    containers = client.containers all: true
+    traefik_response = HTTP::Client.get "http://#{TRAEFIK_HOST}:8080/api/http/routers"
+    traefik_body = JSON.parse(traefik_response.body).as_a.reject { |i| i["entryPoints"][0] != "websecure"}
+    cached_page = render "src/views/index.ecr"
+    last_updated = Time.utc
+  end
+
+  cached_page
 end
 
 Kemal.config.env = "production"
