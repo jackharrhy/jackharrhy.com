@@ -25,6 +25,42 @@ def dockerhub_link_from_image(image : String)
   "https://hub.docker.com/#{domain}/#{name}"
 end
 
+def rule_part_to_a_tag(rule_part : String)
+  url = "https://"
+  host_regex = /Host\(`([\w.]*)`\)/
+  path_prefix_regex = /PathPrefix\(`([\w\/-]*)`\)/
+
+  match = host_regex.match rule_part
+  url = "#{url}#{match[1]}" if match
+
+  match = path_prefix_regex.match rule_part
+  url = "#{url}#{match[1]}" if match
+
+  "<a href=\"#{url}\">#{rule_part}</a>"
+end
+
+def traefik_links_from_rule(rule : String)
+  display = ""
+  postfix_bracket = false
+
+  if rule.starts_with? "("
+    postfix_bracket = true
+    display = "("
+    rule = rule.lchop
+    rule = rule.rchop
+  end
+
+  rules = rule.split " || "
+  rules.each do |rule_part|
+    a_tag = rule_part_to_a_tag rule_part
+    display = "#{display}#{a_tag} || "
+  end
+  display = display.chomp " || "
+  display = "#{display})" if postfix_bracket
+
+  display
+end
+
 get "/" do
   containers = client.containers all: true
   traefik_response = HTTP::Client.get "http://#{TRAEFIK_HOST}:8080/api/http/routers"

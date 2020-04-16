@@ -52,7 +52,7 @@
 				<tr>
 					<td><%= route["name"] %></td>
 					<td><%= route["status"] %></td>
-					<td><%= route["rule"]%></td>
+					<td><%= traefik_links_from_rule route["rule"].as_s %></td>
 				</tr>
 				<%- end -%>
 			</table>
