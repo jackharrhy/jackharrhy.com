@@ -21,7 +21,8 @@ def dockerhub_link_from_image(image : String)
     domain = "r/#{parts[0]}"
     parts.shift
   end
-  "https://hub.docker.com/#{domain}/#{parts.pop}"
+  name = parts.pop.split(":")[0]
+  "https://hub.docker.com/#{domain}/#{name}"
 end
 
 get "/" do
