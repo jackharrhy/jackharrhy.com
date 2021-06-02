@@ -1,4 +1,4 @@
-name: jackharrhycom
+name: jackharrhy
 version: 0.1.0
 
 authors:
@@ -16,4 +16,4 @@ dependencies:
   dotenv:
     github: gdotdesign/cr-dotenv
 
-crystal: 0.34.0
+crystal: 1.0.0

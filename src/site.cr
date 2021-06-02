@@ -71,6 +71,7 @@ get "/" do
     containers = client.containers all: true
     traefik_response = HTTP::Client.get "http://#{TRAEFIK_HOST}:8080/api/http/routers"
     traefik_body = JSON.parse(traefik_response.body).as_a.reject { |i| i["entryPoints"][0] != "websecure"}
+    uptime = `uptime`
     cached_page = render "src/views/index.ecr"
     last_updated = Time.utc
   end

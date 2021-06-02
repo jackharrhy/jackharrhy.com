@@ -1,5 +1,5 @@
 # build
-FROM crystallang/crystal:0.34.0-alpine-build as build
+FROM crystallang/crystal:1.0.0-alpine-build as build
 
 WORKDIR /build
 
@@ -9,7 +9,7 @@ COPY shard.lock /build/
 RUN mkdir src
 COPY ./src /build/src
 
-RUN shards
+RUN shards --ignore-crystal-version
 RUN shards build site --release --static
 
 # prod
