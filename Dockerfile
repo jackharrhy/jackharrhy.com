@@ -1,27 +1,10 @@
-# build
-FROM crystallang/crystal:1.0.0-alpine-build as build
-
-WORKDIR /build
-
-COPY shard.yml /build/
-COPY shard.lock /build/
-
-RUN mkdir src
-COPY ./src /build/src
-
-RUN shards --ignore-crystal-version
-RUN shards build site --release --static
-
-# prod
-FROM alpine:3
-
+FROM node:16 AS builder
 WORKDIR /app
+COPY . .
+RUN npm install && npm run build
 
-COPY ./.env.dist /app/.env
-COPY --from=build /build/bin/site /app/site
-
-RUN mkdir public
-COPY ./public /app/public
-
-EXPOSE 3000
-CMD ["/app/site"]
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /app/dist .
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
