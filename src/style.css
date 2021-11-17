@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	font-family: "JetBrains Mono", monospace;
+}
+
+a {
+	@apply underline text-blue-600;
+}
+
+.project {
+	@apply text-xs mt-2 p-2 border-gray-400 border;
+}
