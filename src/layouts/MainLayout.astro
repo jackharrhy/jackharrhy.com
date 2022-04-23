@@ -1,0 +1,56 @@
+---
+import "../style.css";
+
+const { title } = Astro.props
+const url = new URL(Astro.request.url);
+
+---
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<title>{title} - jackharrhy</title>
+	</head>
+	<body class="bg-background h-full">
+		<div class="container pt-8 pb-4 mx-auto">
+			<div class="left flex justify-end">
+				<nav class="flex flex-col mr-8">
+					<h1 class="font-bold">jack harrhy</h1>
+					<p>
+						<a href="/">about</a>{ url.pathname === "/" && "🠔" }
+					</p>
+					<p>
+						<a href="/now">now</a>{ url.pathname.startsWith("/now") && "🠔" }
+					</p>
+					<p>
+						<a href="/projects">projects</a>{ url.pathname.startsWith("/projects") && "🠔" }
+					</p>
+					<div class="flex flex-col text-sm mt-4">
+						<a href="https://github.com/jackharrhy/">
+							<i class="fab fa-github"></i> github
+						</a>
+						<a href="https://twitter.com/jackharrhyisme">
+							<i class="fab fa-twitter"></i> twitter
+						</a>
+						<a href="https://www.instagram.com/jackarthurharrhy/">
+							<i class="fab fa-instagram"></i> instagram
+						</a>
+						<a href="https://steamcommunity.com/id/fudgeisgood/">
+							<i class="fab fa-steam"></i> steam
+						</a>
+						<a href="https://www.youtube.com/c/TheEdiblePencil">
+							<i class="fab fa-youtube"></i> youtube
+						</a>
+					</div>
+				</nav>
+			</div>
+			<div class="main">
+				<slot />
+			</div>
+			<div class="right"></div>
+		</div>
+	</body>
+</html>

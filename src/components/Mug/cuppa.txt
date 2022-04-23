@@ -1,4 +1,4 @@
-picocad;cuppa;8;7;11
+picocad;cuppa;8;1;11
 {
 {
  name='cylinder', pos={0,0.245,0}, rot={0,0,0},

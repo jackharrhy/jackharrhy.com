@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -9,9 +9,26 @@
 }
 
 a {
-	@apply underline text-blue-600;
+	@apply text-link;
+}
+a:hover {
+	@apply underline;
 }
 
-.project {
-	@apply text-xs mt-2 p-2 border-gray-400 border;
+.container {
+	display: grid;
+	grid-auto-columns: 1fr;
+	grid-template-columns: 1fr 36em 1fr;
+	grid-template-rows: 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "left main right";
+}
+main {
+	grid-area: main;
+}
+.left {
+	grid-area: left;
+}
+.right {
+	grid-area: right;
 }
