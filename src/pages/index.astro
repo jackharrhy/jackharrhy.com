@@ -1,14 +1,19 @@
+---
+import "../style.css";
+
+import Mug from "../components/Mug.astro";
+---
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<title>hi, i'm jack</title>
 	</head>
-
 	<body class="bg-[#fff1e8]">
-		<main class="w-11/12 sm:w-[30rem] mx-auto mt-2 mb-4 sm:my-8">
+		<main class="w-11/12 sm:w-[30rem] mx-auto mt-2 mb-4 sm:my-6">
 			<header>
 				<div class="flex place-content-between">
 					<div>
@@ -32,15 +37,12 @@
 						</a>
 					</div>
 				</div>
-				<canvas id="canvas" class="mx-auto my-1"></canvas>
+				<Mug client:load />
 				<ul>
 					<li class="text-sm pt-3">
 						currently finishing up my education at
-						<a href="https://www.mun.ca/">MUN</a>, of which i'm the
-						president of the
-						<a href="https://muncompsci.ca/"
-							>MUN Computer Science Society</a
-						>
+						<a href="https://www.mun.ca/">MUN</a>, of which i'm the president of the
+						<a href="https://muncompsci.ca/">MUN Computer Science Society</a>
 					</li>
 					<li class="text-sm pt-3">
 						i'm also working a part-time contract at
@@ -49,20 +51,16 @@
 					</li>
 					<li class="text-sm pt-3">
 						previously i've worked for
-						<a href="https://www.bluedroplearningnetworks.com/"
-							>Bluedrop</a
-						>, and
-						<a href="https://www.colabsoftware.com/"
-							>CoLab Software</a
-						>, as a full stack developer
+						<a href="https://www.bluedroplearningnetworks.com/">Bluedrop</a>
+						, and <a href="https://www.colabsoftware.com/">CoLab Software</a>
+						, as a full stack developer
 					</li>
 					<li class="text-sm pt-3">
 						part-time instructor at
 						<a href="https://www.get-coding.ca/">Get Coding</a>
 					</li>
 					<li class="text-xs pt-3">
-						active with <a href="https://ctsnl.ca/">CTSNL</a>, and
-						sometimes
+						active with <a href="https://ctsnl.ca/">CTSNL</a>, and sometimes
 						<a href="https://www.meetup.com/NDevMeetup/">NDev</a>
 					</li>
 					<li class="text-xs pt-3">
@@ -75,12 +73,7 @@
 				</ul>
 				<div class="flex flex-col sm:flex-row my-2 justify-between">
 					<span class="text-xs">
-						<a href="https://jackharrhy.github.io/resume/"
-							>my resume</a
-						>, built as a
-						<a href="https://github.com/jackharrhy/resume"
-							>modular latex resume</a
-						>
+						<a href="https://jackharrhy.github.io/resume/">my resume</a>, built as a <a href="https://github.com/jackharrhy/resume">modular latex resume</a>
 					</span>
 				</div>
 				<div class="flex flex-col sm:flex-row mt-2 justify-between">
@@ -91,8 +84,7 @@
 					</div>
 					<div>
 						<span class="text-xs">
-							<i class="fab fa-discord"></i> &lt;i&gt;jack arthur
-							null&lt;/i&gt;#7539
+							<i class="fab fa-discord"></i> &lt;i&gt;jack arthur null&lt;/i&gt;#7539
 						</span>
 					</div>
 				</div>
@@ -100,38 +92,25 @@
 				<h1 class="text-sm">some projects i care about</h1>
 				<ul class="px-1 mt-2">
 					<li class="project">
-						<a href="https://github.com/fogo-sh/stickertrade"
-							>stickertrade</a
-						>: (WIP) local sticker trading invite-only platform
+						<a href="https://github.com/fogo-sh/stickertrade">stickertrade</a>: (WIP) local sticker trading invite-only platform
 					</li>
 					<li class="project">
-						<a href="https://github.com/fogo-sh/grackdb">grackdb</a
-						>: (WIP) a database of projects built by myself and
-						friends, with a clean interface to view + edit
+						<a href="https://github.com/fogo-sh/grackdb">grackdb</a>: (WIP) a database of projects built by myself and friends, with a clean interface to view + edit
 					</li>
 					<li class="project">
-						<a
-							href="https://github.com/MUNComputerScienceSociety/Automata"
-							>Automata</a
-						>: discord bot that manages the cs society discord
+						<a href="https://github.com/MUNComputerScienceSociety/Automata">Automata</a>: discord bot that manages the cs society discord
 					</li>
 					<li class="project">
-						<a href="https://github.com/jackharrhy/yaMUN">yaMUN</a>:
-						(WIP) better MUN course view / schedule app
+						<a href="https://github.com/jackharrhy/yaMUN">yaMUN</a>: (WIP) better MUN course view / schedule app
 					</li>
 					<li class="project">
-						<a href="https://github.com/StackCoin/StackCoin"
-							>StackCoin</a
-						>: discord currency, written in crystal
+						<a href="https://github.com/StackCoin/StackCoin">StackCoin</a>: discord currency, written in crystal
 					</li>
 					<li class="project">
-						<a href="https://github.com/jackharrhy/metrobus-spy"
-							>metrobus-spy</a
-						>: api for metrobus data in ~30 lines of python
+						<a href="https://github.com/jackharrhy/metrobus-spy">metrobus-spy</a>: api for metrobus data in ~30 lines of python
 					</li>
 				</ul>
 			</header>
 		</main>
-		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>
