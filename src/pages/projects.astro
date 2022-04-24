@@ -1,11 +1,12 @@
 ---
-import Project from '../components/Project.astro';
 import MainLayout from "../layouts/MainLayout.astro";
+import ProjectContainer from '../components/ProjectContainer.astro';
+import Project from '../components/Project.astro';
 ---
 <MainLayout title="projects">
 	<h1 class="font-semibold">projects</h1>
 	<h2 class="text-md mt-4 mb-1">currently working on</h2>
-	<div class="flex flex-wrap gap-6 p-2">
+	<ProjectContainer>
 		<Project
 			title="stickertrade"
 			link="https://stickertrade.ca/"
@@ -14,20 +15,20 @@ import MainLayout from "../layouts/MainLayout.astro";
 		<Project
 			title="bogos"
 			link="https://github.com/fogo-sh/bogos"
-			description="photo gallery for friends, when we go out on outings"
+			description="photo gallery for outings with friends"
 		/>
 		<Project
 			title="borik"
 			link="https://github.com/fogo-sh/borik"
 			description="discord bot for breaking images in fun ways"
 		/>
-	</div>
+	</ProjectContainer>
 	<h2 class="text-md mt-4 mb-1">projects on the backburner <span class="opacity-50 italic">(that i wish to return to)</span></h2>
-	<div class="flex flex-wrap gap-6 p-2">
+	<ProjectContainer>
 		<Project
 			title="grackdb"
 			link="https://grackdb.fogo.sh/"
-			description="a database for projects and their contributors"
+			description="database for projects and their contributors"
 		/>
 		<Project
 			title="StackCoin"
@@ -39,12 +40,12 @@ import MainLayout from "../layouts/MainLayout.astro";
 			link="https://github.com/jackharrhy/yaMUN"
 			description="improved user experience for MUN course browsing"
 		/>
-	</div>
+	</ProjectContainer>
 	<h2 class="text-md mt-4 mb-1">previously worked on</h2>
-	<div class="flex flex-wrap gap-6 p-2">
+	<ProjectContainer>
 		<Project
 			title="Automata"
-			link="https://github.com/fogo-sh/stickertrade"
+			link="https://github.com/MUNComputerScienceSociety/Automata"
 			description="multiuse discord bot for the muncs society"
 		/>
 		<Project
@@ -57,9 +58,9 @@ import MainLayout from "../layouts/MainLayout.astro";
 			link="https://muncompsci.ca/"
 			description="website for the muncs society"
 		/>
-	</div>
+	</ProjectContainer>
 	<h2 class="text-sm mt-4 mb-1">advent of code</h2>
-	<ul class="text-xs pt-1 pl-2">
+	<ul class="text-sm pt-1 pl-2">
 		<a href="https://github.com/jackharrhy/advent2021" target="_blank">
 			<li><span class="font-semibold">advent2021</span> - partial solutions written in elixir</li>
 		</a>
@@ -71,7 +72,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 		</a>
 	</ul>
 	<h2 class="text-sm mt-4 mb-1">smaller projects</h2>
-	<div class="flex flex-wrap text-xs gap-3 p-2">
+	<div class="flex flex-wrap text-[0.875rem] gap-3 p-2">
 		<Project
 			title="hungry.c"
 			link="https://github.com/jackharrhy/hungry.c"

@@ -14,9 +14,9 @@ const url = new URL(Astro.request.url);
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<title>{title} - jackharrhy</title>
 	</head>
-	<body class="bg-background h-full">
-		<div class="container pt-8 pb-4 mx-auto">
-			<div class="left flex justify-end">
+	<body class="bg-background h-full text-[18px]">
+		<div class="container pt-4 lg:pt-8 pb-4 px-4 lg:px-0 mx-auto">
+			<div class="left flex justify-start lg:justify-end">
 				<nav class="flex flex-col mr-8">
 					<h1 class="font-bold">jack harrhy</h1>
 					<p>
@@ -47,6 +47,7 @@ const url = new URL(Astro.request.url);
 					</div>
 				</nav>
 			</div>
+			<hr class="my-8 border border-slate-400 lg:hidden">
 			<div class="main">
 				<slot />
 			</div>

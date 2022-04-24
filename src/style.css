@@ -32,3 +32,9 @@ main {
 .right {
 	grid-area: right;
 }
+
+@media (max-width: 1024px) {
+	.container {
+		@apply flex flex-col;
+	}
+}
