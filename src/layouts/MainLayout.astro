@@ -12,11 +12,36 @@ const url = new URL(Astro.request.url);
 		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<script src="https://unpkg.com/css-doodle@0.27.1/css-doodle.min.js"></script>
 		<title>{title} - jackharrhy</title>
+		<style>
+			css-doodle {
+				--rule: (
+					@grid: 1 / 100% 100%;
+					opacity: 0.1;
+					filter: blur(2px);
+					background-size: 83px 135px;
+					background-color: #FFF1E8;
+					background-image: @doodle(
+						@grid: 2 / 100%;
+						background: @pn(#FF004D, #FFCCAA, #C2C3C7);
+						transform-origin:
+							@pn(100% 100%, 0 100%, 100% 0, 0 0);
+						transform:
+							rotateX(45deg)
+							skewY(@pn(34deg, -34deg, -34deg));
+					);
+				);
+			}
+		</style>
 	</head>
-	<body class="bg-background h-full text-[18px]">
-		<div class="container pt-4 lg:pt-8 pb-4 px-4 lg:px-0 mx-auto">
-			<div class="left flex justify-start lg:justify-end">
+	<body class="bg-background h-full text-[18px] flex">
+		<div class="contain h-full w-full">
+			<div class="backdrop -z-20">
+				<css-doodle use="var(--rule)"></css-doodle>
+			</div>
+			<div class="sidebar bg-background opacity-50 -z-10"></div>
+			<div class="sidebar py-4 lg:pt-8 flex justify-start lg:justify-end">
 				<nav class="flex flex-col mr-8">
 					<h1 class="font-bold">jack harrhy</h1>
 					<p>
@@ -48,10 +73,9 @@ const url = new URL(Astro.request.url);
 				</nav>
 			</div>
 			<hr class="my-8 border border-slate-400 lg:hidden">
-			<div class="main">
+			<div class="main px-8 py-4 lg:pt-8 bg-background">
 				<slot />
 			</div>
-			<div class="right"></div>
 		</div>
 	</body>
 </html>

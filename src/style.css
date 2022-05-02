@@ -15,26 +15,26 @@ a:hover {
 	@apply underline;
 }
 
-.container {
+.contain {
 	display: grid;
 	grid-auto-columns: 1fr;
-	grid-template-columns: 1fr 36em 1fr;
+	grid-template-columns: 1fr 10em 40em 10em 1fr;
 	grid-template-rows: 1fr;
 	gap: 0px 0px;
-	grid-template-areas: "left main right";
 }
-main {
-	grid-area: main;
+
+.backdrop {
+	grid-area: 1 / 1 / 2 / 6;
 }
-.left {
-	grid-area: left;
+.sidebar {
+	grid-area: 1 / 2 / 2 / 3;
 }
-.right {
-	grid-area: right;
+.main {
+	grid-area: 1 / 3 / 2 / 4;
 }
 
 @media (max-width: 1024px) {
-	.container {
+	.contain {
 		@apply flex flex-col;
 	}
 }
