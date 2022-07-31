@@ -3,61 +3,37 @@ import MainLayout from "../layouts/MainLayout.astro";
 import ProjectContainer from '../components/ProjectContainer.astro';
 import Project from '../components/Project.astro';
 ---
+
 <MainLayout title="projects">
 	<h1 class="font-semibold">projects</h1>
 	<h2 class="text-md mt-4 mb-1">currently working on</h2>
 	<ProjectContainer>
-		<Project
-			title="stickertrade"
-			link="https://stickertrade.ca/"
-			description="local marketplace for trading stickers"
-		/>
-		<Project
-			title="bogos"
-			link="https://github.com/fogo-sh/bogos"
-			description="photo gallery for outings with friends"
-		/>
+		<Project title="~jaharrhy" link="https://www.cs.mun.ca/~jaharrhy/"
+			description="my labnet garden, giving old web vibes" />
+		<Project title="bogos" link="https://github.com/fogo-sh/bogos"
+			description="photo gallery for outings with friends" />
 	</ProjectContainer>
-	<h2 class="text-md mt-4 mb-1">projects on the backburner <span class="opacity-50 italic">(that i wish to return to)</span></h2>
+	<h2 class="text-md mt-4 mb-1">projects on the backburner <span class="opacity-50 italic">(that i wish to return
+			to)</span></h2>
 	<ProjectContainer>
-		<Project
-			title="grackdb"
-			link="https://grackdb.fogo.sh/"
-			description="database for projects and their contributors"
-		/>
-		<Project
-			title="StackCoin"
-			link="https://github.com/StackCoin/StackCoin"
-			description="discord based psuedo currency"
-		/>
-		<Project
-			title="yaMUN"
-			link="https://github.com/jackharrhy/yaMUN"
-			description="improved user experience for MUN course browsing"
-		/>
+		<Project title="stickertrade" link="https://stickertrade.ca/"
+			description="local marketplace for trading stickers" />
+		<Project title="grackdb" link="https://grackdb.fogo.sh/"
+			description="database for projects and their contributors" />
+		<Project title="StackCoin" link="https://github.com/StackCoin/StackCoin"
+			description="discord based psuedo currency" />
+		<Project title="yaMUN" link="https://github.com/jackharrhy/yaMUN"
+			description="improved user experience for MUN course browsing" />
 	</ProjectContainer>
 	<h2 class="text-md mt-4 mb-1">previously worked on</h2>
 	<ProjectContainer>
-		<Project
-			title="Automata"
-			link="https://github.com/MUNComputerScienceSociety/Automata"
-			description="multiuse discord bot for the muncs society"
-		/>
-		<Project
-			title="Storefront"
-			link="https://github.com/jackharrhy/Storefront"
-			description="items in minecraft chests visible online"
-		/>
-		<Project
-			title="muncompsci.ca"
-			link="https://muncompsci.ca/"
-			description="website for the muncs society"
-		/>
-		<Project
-			title="borik"
-			link="https://github.com/fogo-sh/borik"
-			description="discord bot for breaking images in fun ways"
-		/>
+		<Project title="Automata" link="https://github.com/MUNComputerScienceSociety/Automata"
+			description="multiuse discord bot for the muncs society" />
+		<Project title="Storefront" link="https://github.com/jackharrhy/Storefront"
+			description="items in minecraft chests visible online" />
+		<Project title="muncompsci.ca" link="https://muncompsci.ca/" description="website for the muncs society" />
+		<Project title="borik" link="https://github.com/fogo-sh/borik"
+			description="discord bot for breaking images in fun ways" />
 	</ProjectContainer>
 	<h2 class="text-sm mt-4 mb-1">advent of code</h2>
 	<ul class="text-sm pt-1 pl-2">
@@ -73,40 +49,13 @@ import Project from '../components/Project.astro';
 	</ul>
 	<h2 class="text-sm mt-4 mb-1">smaller projects</h2>
 	<div class="flex flex-wrap text-[0.875rem] gap-3 p-2">
-		<Project
-			title="hungry.c"
-			link="https://github.com/jackharrhy/hungry.c"
-			description="is hungry"
-		/>
-		<Project
-			title="guesbok"
-			link="https://github.com/jackharrhy/guesbok"
-			description="xss is a feautre not a bug"
-		/>
-		<Project
-			title="amogus"
-			link="https://github.com/jackharrhy/amogus"
-			description="/dev/amogus"
-		/>
-		<Project
-			title="DUaaS"
-			link="https://github.com/jackharrhy/DUaaS"
-			description="/dev/urandom as a service"
-		/>
-		<Project
-			title="~jaharrhy"
-			link="https://www.cs.mun.ca/~jaharrhy/"
-			description="my labnet garden"
-		/>
-		<Project
-			title="meowj"
-			link="https://github.com/jackharrhy/meowj"
-			description="pancake-ify json"
-		/>
-		<Project
-			title="card-animation"
-			link="https://jackharrhy.github.io/card-animation/"
-			description="floatin' around"
-		/>
+		<Project title="hungry.c" link="https://github.com/jackharrhy/hungry.c" description="is hungry" />
+		<Project title="guesbok" link="https://github.com/jackharrhy/guesbok"
+			description="xss is a feautre not a bug" />
+		<Project title="amogus" link="https://github.com/jackharrhy/amogus" description="/dev/amogus" />
+		<Project title="DUaaS" link="https://github.com/jackharrhy/DUaaS" description="/dev/urandom as a service" />
+		<Project title="meowj" link="https://github.com/jackharrhy/meowj" description="pancake-ify json" />
+		<Project title="card-animation" link="https://jackharrhy.github.io/card-animation/"
+			description="floatin' around" />
 	</div>
 </MainLayout>
