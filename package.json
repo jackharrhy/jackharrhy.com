@@ -8,7 +8,10 @@
 		"preview": "astro preview"
 	},
 	"devDependencies": {
-		"@astrojs/tailwind": "^0.2.5",
-		"astro": "^1.0.0-rc.3"
+		"@astrojs/react": "^1.2.0",
+		"@astrojs/tailwind": "^2.0.2",
+		"astro": "^1.4.7",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	}
 }
