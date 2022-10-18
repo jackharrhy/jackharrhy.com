@@ -1,82 +1,70 @@
 ---
 import "../style.css";
 
-const { title } = Astro.props
+const { title } = Astro.props;
 const url = new URL(Astro.request.url);
-
 ---
 
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-
-<head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-		integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<script src="https://unpkg.com/css-doodle@0.27.1/css-doodle.min.js"></script>
-	<title>{title} - jackharrhy</title>
-	<style>
-		css-doodle {
-			--rule: (@grid: 1 / 100% 100%;
-					opacity: 0.1;
-					filter: blur(2px);
-					background-size: 83px 135px;
-					background-color: #FFF1E8;
-					background-image: @doodle(@grid: 2 / 100%;
-						background: @pn(#FF004D, #FFCCAA, #C2C3C7);
-						transform-origin: @pn(100% 100%, 0 100%, 100% 0, 0 0);
-						transform: rotateX(45deg) skewY(@pn(34deg, -34deg, -34deg));
-					);
-				);
-		}
-	</style>
-</head>
-
-<body class="bg-background h-full text-[18px] flex">
-	<div class="contain h-full w-full">
-		<div class="backdrop -z-20">
-			<css-doodle use="var(--rule)"></css-doodle>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+			integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<title>{title} - jackharrhy</title>
+	</head>
+	<body class="bg-background h-full text-[18px] flex">
+		<div class="contain h-full w-full">
+			<div class="backdrop -z-20">
+				<css-doodle use="var(--rule)" />
+			</div>
+			<div class="sidebar bg-background opacity-50 -z-10"></div>
+			<div class="sidebar py-4 lg:pt-8 flex justify-start lg:justify-end">
+				<nav class="flex flex-col mt-4 lg:my-0 mx-8 lg:mx-auto">
+					<h1 class="font-bold">jack harrhy</h1>
+					<p>
+						<a href="/">about</a>{url.pathname === "/" && "🡐"}
+					</p>
+					<p>
+						<a href="/now">now</a>{
+							url.pathname.startsWith("/now") && "🡐"
+						}
+					</p>
+					<p>
+						<a href="/projects">projects</a>{
+							url.pathname.startsWith("/projects") && "🡐"
+						}
+					</p>
+					<div class="flex flex-col text-sm mt-4">
+						<a href="https://github.com/jackharrhy/">
+							<i class="fab fa-github"></i> github
+						</a>
+						<a href="https://twitter.com/jackharrhyisme">
+							<i class="fab fa-twitter"></i> twitter
+						</a>
+						<a href="https://www.instagram.com/jackarthurharrhy/">
+							<i class="fab fa-instagram"></i> instagram
+						</a>
+						<a href="https://steamcommunity.com/id/fudgeisgood/">
+							<i class="fab fa-steam"></i> steam
+						</a>
+						<a href="https://www.youtube.com/c/TheEdiblePencil">
+							<i class="fab fa-youtube"></i> youtube
+						</a>
+					</div>
+				</nav>
+			</div>
+			<hr class="my-8 border border-slate-400 lg:hidden" />
+			<div class="main px-8 py-4 lg:pt-8 bg-background">
+				<slot />
+			</div>
 		</div>
-		<div class="sidebar bg-background opacity-50 -z-10"></div>
-		<div class="sidebar py-4 lg:pt-8 flex justify-start lg:justify-end">
-			<nav class="flex flex-col mt-4 lg:my-0 mx-8 lg:mx-auto">
-				<h1 class="font-bold">jack harrhy</h1>
-				<p>
-					<a href="/">about</a>{ url.pathname === "/" && "🡐" }
-				</p>
-				<p>
-					<a href="/now">now</a>{ url.pathname.startsWith("/now") && "🡐" }
-				</p>
-				<p>
-					<a href="/projects">projects</a>{ url.pathname.startsWith("/projects") && "🡐" }
-				</p>
-				<div class="flex flex-col text-sm mt-4">
-					<a href="https://github.com/jackharrhy/">
-						<i class="fab fa-github"></i> github
-					</a>
-					<a href="https://twitter.com/jackharrhyisme">
-						<i class="fab fa-twitter"></i> twitter
-					</a>
-					<a href="https://www.instagram.com/jackarthurharrhy/">
-						<i class="fab fa-instagram"></i> instagram
-					</a>
-					<a href="https://steamcommunity.com/id/fudgeisgood/">
-						<i class="fab fa-steam"></i> steam
-					</a>
-					<a href="https://www.youtube.com/c/TheEdiblePencil">
-						<i class="fab fa-youtube"></i> youtube
-					</a>
-				</div>
-			</nav>
-		</div>
-		<hr class="my-8 border border-slate-400 lg:hidden">
-		<div class="main px-8 py-4 lg:pt-8 bg-background">
-			<slot />
-		</div>
-	</div>
-</body>
-
+	</body>
 </html>

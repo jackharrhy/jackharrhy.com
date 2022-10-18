@@ -2,7 +2,9 @@
 	import PicoCADViewer from "./Mug/pico-cad-viewer.js";
 	import cuppa from "./Mug/cuppa.txt?raw";
 
-	const canvas = document.getElementById("canvas") as HTMLCanvasElement | null;
+	const canvas = document.getElementById(
+		"canvas"
+	) as HTMLCanvasElement | null;
 
 	if (canvas === null) throw new Error("no canvas!");
 
