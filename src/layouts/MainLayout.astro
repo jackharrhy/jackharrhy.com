@@ -16,30 +16,30 @@ const url = new URL(Astro.request.url);
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
 			integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
 			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
+			referrerPolicy="no-referrer"
 		/>
 		<title>{title} - jackharrhy</title>
 	</head>
 	<body class="bg-background h-full text-[18px] flex">
 		<div class="contain h-full w-full">
 			<div class="backdrop -z-20">
-				<css-doodle use="var(--rule)" />
+				<css-doodle use="var(--rule)"></css-doodle>
 			</div>
 			<div class="sidebar bg-background opacity-50 -z-10"></div>
 			<div class="sidebar py-4 lg:pt-8 flex justify-start lg:justify-end">
 				<nav class="flex flex-col mt-4 lg:my-0 mx-8 lg:mx-auto">
 					<h1 class="font-bold">jack harrhy</h1>
 					<p>
-						<a href="/">about</a>{url.pathname === "/" && "🡐"}
+						<a href="/">about</a>{url.pathname === "/" && "←"}
 					</p>
 					<p>
 						<a href="/now">now</a>{
-							url.pathname.startsWith("/now") && "🡐"
+							url.pathname.startsWith("/now") && "←"
 						}
 					</p>
 					<p>
 						<a href="/projects">projects</a>{
-							url.pathname.startsWith("/projects") && "🡐"
+							url.pathname.startsWith("/projects") && "←"
 						}
 					</p>
 					<div class="flex flex-col text-sm mt-4">
@@ -62,9 +62,9 @@ const url = new URL(Astro.request.url);
 				</nav>
 			</div>
 			<hr class="my-8 border border-slate-400 lg:hidden" />
-			<div class="main px-8 py-4 lg:pt-8 bg-background">
+			<main class="px-8 py-4 lg:pt-8 bg-background">
 				<slot />
-			</div>
+			</main>
 		</div>
 	</body>
 </html>
