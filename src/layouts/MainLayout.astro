@@ -13,10 +13,10 @@ const url = new URL(Astro.request.url);
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link
 			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-			integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
 			crossorigin="anonymous"
-			referrerPolicy="no-referrer"
+			referrerpolicy="no-referrer"
 		/>
 		<title>{title} - jackharrhy</title>
 	</head>
@@ -33,6 +33,11 @@ const url = new URL(Astro.request.url);
 						<a href="/">about</a>{url.pathname === "/" && "←"}
 					</p>
 					<p>
+						<a href="/posts">posts</a>{
+							url.pathname.startsWith("/posts") && "←"
+						}
+					</p>
+					<p>
 						<a href="/now">now</a>{
 							url.pathname.startsWith("/now") && "←"
 						}
@@ -44,19 +49,25 @@ const url = new URL(Astro.request.url);
 					</p>
 					<div class="flex flex-col text-sm mt-4">
 						<a href="https://github.com/jackharrhy/">
-							<i class="fab fa-github"></i> github
+							<i class="fab fa-github w-3.5"></i> github
 						</a>
 						<a href="https://twitter.com/jackharrhyisme">
-							<i class="fab fa-twitter"></i> twitter
+							<i class="fab fa-twitter w-3.5"></i> twitter
+						</a>
+						<a href="https://nfld.social/@jack">
+							<i class="fab fa-mastodon w-3.5"></i> mastodon
+						</a>
+						<a href="https://www.threads.net/@jackarthurharrhy">
+							<i class="fas fa-at w-3.5"></i> threads
 						</a>
 						<a href="https://www.instagram.com/jackarthurharrhy/">
-							<i class="fab fa-instagram"></i> instagram
+							<i class="fab fa-instagram w-3.5"></i> instagram
 						</a>
 						<a href="https://steamcommunity.com/id/fudgeisgood/">
-							<i class="fab fa-steam"></i> steam
+							<i class="fab fa-steam w-3.5"></i> steam
 						</a>
 						<a href="https://www.youtube.com/c/TheEdiblePencil">
-							<i class="fab fa-youtube"></i> youtube
+							<i class="fab fa-youtube w-3.5"></i> youtube
 						</a>
 					</div>
 				</nav>
