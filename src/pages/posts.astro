@@ -1,9 +1,38 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+const posts = await getCollection("posts");
+
+const formatDate = (date: Date) => {
+  const d = new Date(date);
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+};
 ---
 
 <MainLayout title="posts">
-    <h1 class="font-semibold">posts</h1>
-    <h2 class="text-md mt-4 mb-1">ramblings of mine</h2>
-    <p class="opacity-50">coming soon...</p>
+  <h1 class="font-semibold">posts</h1>
+  <h2 class="text-md mt-2 mb-3">ramblings of mine</h2>
+  <p class="opacity-50">coming soon...</p>
+  <ul>
+    {
+      posts
+        .filter(({ data: { published } }) => published)
+        .map(({ slug, data: { title, pubDate, tags } }) => (
+          <>
+            <li class="flex items-center">
+              <span class="mr-5 font-semibold">{formatDate(pubDate)}</span>
+              <a href={`/post/${slug}/`} class="mr-4">
+                {title}
+              </a>
+              {tags.map((tag) => (
+                <span class="text-sm text-gray-500">#{tag}</span>
+              ))}
+            </li>
+          </>
+        ))
+    }
+  </ul>
+  <a href="/posts/rss.xml">
+    <i class="mt-6 fa-solid fa-square-rss"></i>
+  </a>
 </MainLayout>
