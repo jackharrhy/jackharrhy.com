@@ -1,0 +1,28 @@
+<script>
+  import PicoCADViewer from "./Floppy/pico-cad-viewer.js";
+  import cuppa from "./Floppy/floppy.txt?raw";
+
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement | null;
+
+  if (canvas === null) throw new Error("no canvas!");
+
+  const viewer = new PicoCADViewer({
+    canvas,
+    fov: 45,
+    resolution: { width: 256, height: 150 },
+  });
+
+  viewer.backgroundColor = [0, 0, 0, 0];
+
+  viewer.load(cuppa);
+
+  let spin = 0;
+
+  viewer.startDrawLoop((dt) => {
+    spin += dt;
+    viewer.setTurntableCamera(8, spin, 0.1, { x: 0, y: 1.25, z: 0 });
+    viewer.setLightDirectionFromCamera();
+  });
+</script>
+
+<canvas id="canvas" class="mx-auto"></canvas>
