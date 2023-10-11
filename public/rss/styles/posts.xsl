@@ -21,9 +21,6 @@
             <xsl:value-of select="/rss/channel/description" />
           </p>
           <section>
-            <xsl:if test="count(/rss/channel/item) = 0">
-              <p class="coming-soon">coming soon...</p>
-            </xsl:if>
             <xsl:for-each select="/rss/channel/item">
               <article>
                 <xsl:value-of select="substring(pubDate, 0, 17)" />
