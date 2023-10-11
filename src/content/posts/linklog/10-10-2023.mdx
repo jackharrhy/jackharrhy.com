@@ -1,0 +1,66 @@
+---
+title: "Linklog - October 10th, 2023"
+tags:
+  - linklog
+pubDate: 2023-10-10
+published: true
+---
+
+I consume many feeds, and sometimes I see posts I like that I have something to either say about, or just want to collect together into a form others can consume.
+
+I also consume other peoples [linklogs](https://en.wikipedia.org/wiki/Linklog), so here goes one of my own!
+
+- https://stephango.com/flexoki - Flexoki is an inky color scheme for prose and code.
+
+  - I've always liked the look and feel of Stephs' blog (and content of course!), planning to see how this fits my personal site and potentially refactor the colors for the first time in a while.
+
+- https://codedamn.com/news/product/dont-use-prisma - We migrated to SQL. Our biggest learning? Don’t use Prisma
+
+  - I really liked using Prisma when I first started to build [Sticker Trade](https://github.com/fogo-sh/stickertrade), and since I deploy to a boring singleton docker container, the issue of the engine being a few megabytes never bit me, but I can see this being annoying within a serverless environment since it would affect the [cold start](https://docs.aws.amazon.com/lambda/latest/operatorguide/execution-environments.html#cold-start-latency) time quite a bit.
+  - Also the point 'There is no concept of SQL-level joins in Prisma.', I wasn't aware of this, and if this is true, what an interesting lack of seemingly important feature.
+  - I'm planning on migrating Sticker Trade to [Drizzle](https://orm.drizzle.team/) next time I return to that project, and honestly I think if the writer of this article gave Drizzle a look as well they'd likely follow suit, seems like Drizzle is what Prisma should have been, _properly TypeScript-native from the start_, no schema DSL, no Rust engine, more ergonomic hand-written queries, etc.
+
+- https://github.com/nasa-gcn/gcn.nasa.gov - General Coordinates Network (GCN) web site
+
+  - If there was ever a pristine example of real world Remix app (in my opinion), this seems to be it.
+  - How [breadcrumbs are handled](https://github.com/nasa-gcn/gcn.nasa.gov/blob/9b8c2ab33ad0c9f98084ca8c803750f7ba8ce2ad/app/root/Title.tsx) is quite clever, first time seeing [useMatches](https://remix.run/docs/en/main/hooks/use-matches) in the wild.
+
+- https://twitter.com/youyuxi/status/1709943106215530867 - The cat is out of the bag: we are working on Rolldown, a rust port of Rollup. 🦀
+
+  - Evan You, creator of Vue and Vite, announcing Rollup, which aims to replace esbuild and Rollup within Vite.
+  - This is a big deal to me, since esbuild is currently what makes Vite fast to build during development (since it mostly _doesn't_ build), and Rollup is currently used for production builds; there has always been a distinct separation between dev mode and build mode.
+  - I always assumed this is just how Vite has to work, since both esbuild and Rollup seem like big enough projects they would be outside the scope of implementing within Vite, but with Rollup being announced and planned as something which can do both the esbuild approach of at-request-time-non-bundling-bundling, and also an optimised production build at the same time, is really neat.
+  - I'm happy Vite exists, and I no longer have to fight with unruly Webpack configuration files for both my one off personal projects and work repositories.
+  - Still keeping an eye out on [Turbopack](https://turbo.build/pack), but I feel like Turopack is still hyper-focused on being the best tooling for Nextjs, we will have to see if that remains the case forever though.
+  - _Unrelated but related_, [Remix has a WIP PR up for integrating Vite support](https://github.com/remix-run/remix/pull/7590), I don't what this implies, but _nice_.
+
+- https://deno.news/archive/deno-october-update-deno-137-and-deno-queues - Deno October Update: Deno 1.37 and Deno Queues
+
+  - "Modern JavaScript in Jupyter notebooks" seems nice, I wonder if you can use MDX with this and have an almost storybook-like experience, I guess not though since it would have no browser APIs.
+  - Still neat.
+
+- https://blog.stackblitz.com/posts/announcing-wasi/ - Announcing Native Language Support in WebContainers
+
+  - The title of this blog post is '...native language support...', but I am more hyped by the slug, _`announcing-wasi`_, I like whenever I see a StackBlitz link to a code example, and have been happy to see them move towards doing more and more in the browser without relying on cloud compute to host things, and I'm also been awaiting the eventual adoption of [WASI](https://wasi.dev/) by more and more things.
+  - Curious to know what aspects of WASI this makes use of, following through a link in the article led me to [WebAssembly: An Updated Roadmap for Developers](https://bytecodealliance.org/articles/webassembly-the-updated-roadmap-for-developers), which mentions `wasi:sockets`.
+  - The last time I tried to do stuff with WASI the lack of a socket interface made a lot of interesting two-way communication out of the question, all you could do was call a synchronous function and return without any two way communication, or at least not without adding a lot of glue code between the WASM runtime and the application code, running the reason one would even reach for WASI in the first place.
+  - I assume a lot of this is either solved problems, or soon to be solved problems now.
+  - Nice.
+
+- https://jakelazaroff.com/words/an-interactive-intro-to-crdts/ - An Interactive Intro to CRDTs
+
+  - Not really much to say here, I like this article :)
+  - The CRDTs / realtime space is one I've wanted to break into with some little personal projects, but I've never found time / need for it.
+  - I wanted some time ago to muck around with [Delta](https://slab.com/blog/announcing-delta-for-elixir/), but never looked into that either.
+  - Someday :)
+  - (also there is a [follow up article](https://jakelazaroff.com/words/building-a-collaborative-pixel-art-editor-with-crdts/) on building collaborative pixel art editors with CRDTs, now I really want to dig into this)
+
+- https://stylex-docusaurus.vercel.app/ - The Power of Inline Styles. The Speed of Atomic CSS.
+
+  - Meta (Facebook) CSS library.
+  - I don't get it, I'm too Tailwind-pilled at this point to understand anything that isn't tailwind adjacent syntactically.
+  - It's ok though, I'm sure if it takes off in two years time I would have never thought I could have been so silly.
+
+- https://joshcollinsworth.com/blog/tailwind-is-smart-steering - Classic rock, Mario Kart, and why we can't agree on Tailwind
+  - I wasn't planning on including this link here, but it surfaced in my [miniflux](https://miniflux.app/) feed through being posted on [lobste.rs](https://lobste.rs/), and it felt like the logical next link to include after giving a vague dis against stylex, I am in the camp of Tailwind _[smart steering](https://mariokart.fandom.com/wiki/Smart_Steering)_ enjoyer, so I am likely not the target audience of stylex.
+  - Yeah.
