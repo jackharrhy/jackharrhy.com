@@ -14,6 +14,8 @@ const { Content } = await entry.render();
 ---
 
 <MainLayout title="posts">
-  <h1 class="font-semibold">{entry.data.title}</h1>
-  <Content />
+  <article class="prose lg:prose-lg prose-h1:text-3xl">
+    <h1 class="font-semibold">{entry.data.title}</h1>
+    <Content />
+  </article>
 </MainLayout>

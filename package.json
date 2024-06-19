@@ -12,6 +12,7 @@
   "devDependencies": {
     "@astrojs/react": "^2.2.2",
     "@astrojs/tailwind": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.10",
     "astro": "^2.10.9",
     "npm-check-updates": "^16.11.1",
     "react": "^18.2.0",
