@@ -7,9 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: current
       - name: Publish to Dockerhub Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
