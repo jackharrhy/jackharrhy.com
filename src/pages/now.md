@@ -12,4 +12,4 @@ title: "now"
 
 <br />
 
-_last updated jan 31st, 2024_
+_last updated july 1st, 2024_
