@@ -77,10 +77,7 @@ def blocks_to_md(blocks: list[dict], indent: int = 0) -> str:
 
         content = re.sub(r"\[\[Garden/([^\]]+)\]\]", r"[[\1]]", content)
 
-        if indent == 0:
-            md += f"{content}\n\n"
-        else:
-            md += f"{content}\n\n"
+        md += f"{content}\n\n"
 
         if "children" in block and len(block["children"]) > 0:
             md += blocks_to_md(block["children"], indent + 1)
