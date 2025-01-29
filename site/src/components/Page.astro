@@ -1,0 +1,51 @@
+---
+import { getEntry, render } from "astro:content";
+
+const { id } = Astro.props;
+
+if (!id) {
+  throw new Error("Page ID is required");
+}
+
+const entry = await getEntry("garden", id)!;
+
+if (!entry) {
+  throw new Error(`Page not found: ${id}`);
+}
+
+const { Content } = await render(entry);
+
+const today = new Date()
+  .toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+  .replace(/(\d+)(?=(,\s\d+)$)/, (match) => {
+    const num = parseInt(match);
+    const suffix = ["th", "st", "nd", "rd"][
+      num % 10 > 3 || (num % 100) - (num % 10) == 10 ? 0 : num % 10
+    ];
+    return num + suffix;
+  });
+
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title={id === "garden" ? undefined : entry.data.name}>
+  <main class="pb-8 px-8 mx-auto h-full">
+    {id !== "garden" && <h2>{entry.data.name}</h2>}
+    <Content />
+  </main>
+  <footer
+    class="flex items-center gap-4 justify-center text-sm text-base-500 fixed bottom-0 w-full py-4"
+  >
+    <span>Jack's Garden 🌱</span><span>Last built on {today}</span>
+  </footer>
+</Layout>
+
+<style is:global>
+  indent {
+    margin-left: calc(attr(level) * 1rem);
+  }
+</style>

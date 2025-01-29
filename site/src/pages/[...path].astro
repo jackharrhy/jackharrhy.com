@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+import Page from "../components/Page.astro";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("garden");
+  return collection.map((entry) => ({
+    params: { path: entry.id },
+  }));
+}
+
+const { path } = Astro.params;
+---
+
+<Page id={path} />

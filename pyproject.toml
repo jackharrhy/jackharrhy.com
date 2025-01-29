@@ -1,0 +1,12 @@
+[project]
+name = "garden"
+version = "0.1.0"
+description = "🌱"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "loguru>=0.7.3",
+    "pydantic>=2.10.6",
+    "typer>=0.15.1",
+]
