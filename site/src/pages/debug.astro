@@ -1,0 +1,12 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const collection = await getCollection("garden");
+---
+
+<Layout title="All">
+  <ul>
+    {collection.map((entry) => <li>{entry.id}</li>)}
+  </ul>
+</Layout>
