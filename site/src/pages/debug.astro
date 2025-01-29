@@ -6,7 +6,28 @@ const collection = await getCollection("garden");
 ---
 
 <Layout title="All">
+  <p>
+    This page is for debugging, I don't really want to have a general index of
+    all content, I think part of the fun of a garden is finding different little
+    hidden knooks and crannies.
+  </p>
+  <p>
+    However, while I'm still working on this, this page will obviously be quite
+    useful.
+  </p>
+  <p>
+    I'll probably leave it in, but at some point I'll remove references to it,
+    so only those who know will find themselves here.
+  </p>
+  <hr />
+  <p>A list of all the pages in the garden:</p>
   <ul>
-    {collection.map((entry) => <li>{entry.id}</li>)}
+    {
+      collection.map((entry) => (
+        <li>
+          <a href={`/${entry.id}`}>{entry.id}</a>
+        </li>
+      ))
+    }
   </ul>
 </Layout>

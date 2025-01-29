@@ -2,6 +2,20 @@
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            "blockquote p:first-of-type::before": {
+              content: "none",
+            },
+            "blockquote p:last-of-type::after": {
+              content: "none",
+            },
+          },
+        },
+      }),
+    },
     colors: {
       black: "#100F0F",
       paper: "#FFFCF0",
