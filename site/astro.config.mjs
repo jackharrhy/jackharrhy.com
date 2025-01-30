@@ -47,7 +47,7 @@ export default defineConfig({
             permalinks,
             pageResolver: (name) => [slugify(name)],
             hrefTemplate: (permalink) =>
-              permalink === "garden" ? "/" : `/${permalink}`,
+              permalink === "home" ? "/" : `/${permalink}`,
           },
         ],
       ],

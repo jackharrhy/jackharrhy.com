@@ -1,0 +1,52 @@
+<script>
+  import PicoCADViewer from "./Mug/pico-cad-viewer.js";
+  import cuppa from "./Mug/cuppa.txt?raw";
+
+  const getCanvas = () => {
+    const canvas = document.getElementById(
+      "canvas"
+    ) as HTMLCanvasElement | null;
+    if (canvas === null) throw new Error("no canvas!");
+    return canvas;
+  };
+
+  const canvas = getCanvas();
+
+  const largeSize = { width: 250, height: 180 };
+  const smallSize = { width: 100, height: 50 };
+
+  const getResolution = () => {
+    const path = window.location.pathname;
+    if (path === "/") {
+      return largeSize;
+    }
+    return smallSize;
+  };
+
+  const viewer = new PicoCADViewer({
+    canvas,
+    fov: 15,
+    resolution: getResolution(),
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    const resolution = getResolution();
+    viewer.setResolution(resolution.width, resolution.height);
+  });
+
+  viewer.backgroundColor = [0, 0, 0, 0];
+
+  viewer.load(cuppa);
+
+  let spin = 0;
+
+  viewer.startDrawLoop((dt: number) => {
+    spin += dt;
+    viewer.setTurntableCamera(8, spin, 0.1, { x: 0, y: 0.6, z: 0 });
+    viewer.setLightDirectionFromCamera();
+  });
+</script>
+
+<div class="flex justify-center" transition:name="mug" transition:persist>
+  <canvas id="canvas"></canvas>
+</div>

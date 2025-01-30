@@ -1,9 +1,14 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
+import Mug from "../components/Mug.astro";
+
 interface Props {
   title?: string;
+  noFooter?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, noFooter = false } = Astro.props;
 
 const today = new Date()
   .toLocaleDateString("en-US", {
@@ -31,28 +36,42 @@ const today = new Date()
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>"
     />
-    <title>{title ? `${title} - Jack's Garden` : "Jack's Garden"}</title>
+    <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
+    <ClientRouter />
   </head>
   <body class="flex flex-col items-center h-full justify-between">
     <div
       class="prose prose-xl prose-orange prose-li:my-0 prose-p:mt-0 prose-p:mb-4 prose-h1:mb-10 prose-h2:mt-0 max-w-[60ch] w-full"
     >
-      <header class="px-8 pt-8 flex leading-none">
-        <h1>
-          <a
-            href="/"
-            class="no-underline hover:underline decoration-2 text-shade-900"
-            >Jack's Garden 🌱</a
-          >
-        </h1>
+      <header
+        class="relative not-prose px-8 py-8 flex justify-between leading-none"
+      >
+        {
+          title && (
+            <div class="absolute hidden sm:block left-36 lg:-left-16 top-4">
+              <Mug />
+            </div>
+          )
+        }
+
+        <a href="/" class="hover:underline">Jack Harrhy</a>
+        <div class="flex gap-4">
+          <a href="/about" class="hover:underline">About</a>
+          <a href="/garden" class="hover:underline">Garden</a>
+          <a href="/now" class="hover:underline">Now</a>
+        </div>
       </header>
-      <slot />
+      <main class="pb-8 px-8 mx-auto" transition:animate="fade">
+        <slot />
+      </main>
     </div>
-    <footer
-      class="flex items-center gap-4 justify-center text-sm text-base-500 w-full py-4"
-    >
-      <span>Jack's Garden 🌱</span><span>Last built on {today}</span>
-    </footer>
+    {
+      !noFooter && (
+        <footer class="flex items-center gap-4 justify-center text-sm text-base-500 w-full py-4">
+          <span>Last built on {today}</span>
+        </footer>
+      )
+    }
   </body>
 </html>
 

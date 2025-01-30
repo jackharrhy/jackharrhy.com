@@ -60,7 +60,7 @@ def get_page(client: httpx.Client, page_name: str) -> dict:
     return blocks
 
 
-def blocks_to_md(blocks: list[dict], indent: int = 0) -> str:
+def blocks_to_md(client: httpx.Client, blocks: list[dict], indent: int = 0) -> str:
     if indent == 0:
         md = ""
     else:
@@ -72,6 +72,12 @@ def blocks_to_md(blocks: list[dict], indent: int = 0) -> str:
 
         content = block["content"]
 
+        embed_match = re.match(r"\{\{embed \[\[(.+?)\]\]\}\}", content)
+        if embed_match:
+            page_name = embed_match.group(1)
+            page = get_page(client, page_name)
+            content = blocks_to_md(client, page, indent + 1)
+
         if not content:
             content = '<div class="w-full h-4"></div>'
 
@@ -80,7 +86,7 @@ def blocks_to_md(blocks: list[dict], indent: int = 0) -> str:
         md += f"{content}\n\n"
 
         if "children" in block and len(block["children"]) > 0:
-            md += blocks_to_md(block["children"], indent + 1)
+            md += blocks_to_md(client, block["children"], indent + 1)
 
     if indent > 0:
         md += "</div>\n"
@@ -98,7 +104,7 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
     for name in names:
         page = get_page(client, name)
-        md = blocks_to_md(page).strip() + "\n"
+        md = blocks_to_md(client, page).strip() + "\n"
 
         yield Page(name=name.removeprefix("Garden/"), markdown=md)
 
@@ -127,10 +133,15 @@ def export_pages(client: httpx.Client):
 
 
 @app.command(name="build")
-def run_build():
+def run_build(page_name: str | None = None):
     client = create_logseq_client()
 
-    export_pages(client)
+    if page_name:
+        page = get_page(client, f"Garden/{page_name}")
+        md = blocks_to_md(client, page).strip() + "\n"
+        export_page(Page(name=page_name, markdown=md))
+    else:
+        export_pages(client)
 
 
 @app.command(name="reload")
@@ -146,7 +157,6 @@ def run_reload(interval: int = 4):
     while True:
         current_cache = {}
 
-        # Build initial cache
         for page in get_pages(client):
             current_cache[page.name] = page.markdown
 

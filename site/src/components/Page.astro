@@ -1,7 +1,9 @@
 ---
 import { getEntry, render } from "astro:content";
 
-const { id } = Astro.props;
+import Mug from "./Mug.astro";
+
+const { id, header = true } = Astro.props;
 
 if (!id) {
   throw new Error("Page ID is required");
@@ -18,11 +20,12 @@ const { Content } = await render(entry);
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title={id === "garden" ? undefined : entry.data.name}>
-  <main class="pb-8 px-8 mx-auto">
-    {id !== "garden" && <h2>{entry.data.name}</h2>}
-    <Content />
-  </main>
+<Layout
+  title={entry.data.name === "Home" ? undefined : entry.data.name}
+  noFooter={!header}
+>
+  {header && <h2>{entry.data.name}</h2>}
+  <Content components={{ Mug }} />
 </Layout>
 
 <style is:global>
