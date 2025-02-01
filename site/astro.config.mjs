@@ -32,6 +32,8 @@ const gardenFiles = getGardenFiles("src/data/garden");
 
 const permalinks = [...gardenFiles, "debug", "404"];
 
+console.log(permalinks);
+
 // https://astro.build/config
 export default defineConfig({
   adapter: node({

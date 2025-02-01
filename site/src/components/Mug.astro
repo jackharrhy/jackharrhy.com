@@ -1,3 +1,7 @@
+---
+const { sizing = "small" } = Astro.props;
+---
+
 <script>
   import PicoCADViewer from "./Mug/pico-cad-viewer.js";
   import cuppa from "./Mug/cuppa.txt?raw";
@@ -15,9 +19,10 @@
   const largeSize = { width: 250, height: 180 };
   const smallSize = { width: 100, height: 50 };
 
+  const areWeOnHome = () => window.location.pathname === "/";
+
   const getResolution = () => {
-    const path = window.location.pathname;
-    if (path === "/") {
+    if (areWeOnHome()) {
       return largeSize;
     }
     return smallSize;
@@ -30,6 +35,14 @@
   });
 
   document.addEventListener("astro:page-load", () => {
+    if (areWeOnHome()) {
+      canvas.classList.remove("my-0");
+      canvas.classList.add("my-16");
+    } else {
+      canvas.classList.remove("my-16");
+      canvas.classList.add("my-0");
+    }
+
     const resolution = getResolution();
     viewer.setResolution(resolution.width, resolution.height);
   });

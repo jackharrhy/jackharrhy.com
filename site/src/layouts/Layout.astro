@@ -9,20 +9,6 @@ interface Props {
 }
 
 const { title, noFooter = false } = Astro.props;
-
-const today = new Date()
-  .toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-  .replace(/(\d+)(?=(,\s\d+)$)/, (match) => {
-    const num = parseInt(match);
-    const suffix = ["th", "st", "nd", "rd"][
-      num % 10 > 3 || (num % 100) - (num % 10) == 10 ? 0 : num % 10
-    ];
-    return num + suffix;
-  });
 ---
 
 <!doctype html>
@@ -34,21 +20,31 @@ const today = new Date()
     <meta name="generator" content={Astro.generator} />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫖</text></svg>"
     />
+    <style>
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.com/Virgil.woff2");
+      }
+      @font-face {
+        font-family: "Cascadia";
+        src: url("https://excalidraw.com/Cascadia.woff2");
+      }
+    </style>
     <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
     <ClientRouter />
   </head>
   <body class="flex flex-col items-center h-full justify-between">
     <div
-      class="prose prose-xl prose-orange prose-li:my-0 prose-p:mt-0 prose-p:mb-4 prose-h1:mb-10 prose-h2:mt-0 max-w-[60ch] w-full"
+      class="prose prose-xl prose-orange prose-li:my-0 prose-p:mt-0 prose-p:mb-4 max-w-[60ch] w-full"
     >
       <header
-        class="relative not-prose px-8 py-8 flex justify-between leading-none"
+        class="relative not-prose px-8 py-10 pt-12 flex justify-between leading-none"
       >
         {
           title && (
-            <div class="absolute hidden sm:block left-36 lg:-left-16 top-4">
+            <div class="absolute hidden sm:block left-36 lg:-left-20 top-8">
               <Mug />
             </div>
           )
@@ -57,18 +53,18 @@ const today = new Date()
         <a href="/" class="hover:underline">Jack Harrhy</a>
         <div class="flex gap-4">
           <a href="/about" class="hover:underline">About</a>
-          <a href="/garden" class="hover:underline">Garden</a>
+          <a href="/projects" class="hover:underline">Projects</a>
           <a href="/now" class="hover:underline">Now</a>
         </div>
       </header>
-      <main class="pb-8 px-8 mx-auto" transition:animate="fade">
+      <main class="pb-8 px-8 mx-auto">
         <slot />
       </main>
     </div>
     {
       !noFooter && (
         <footer class="flex items-center gap-4 justify-center text-sm text-base-500 w-full py-4">
-          <span>Last built on {today}</span>
+          <span>Made with 🫖</span>
         </footer>
       )
     }
