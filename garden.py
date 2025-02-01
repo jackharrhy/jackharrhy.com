@@ -3,9 +3,11 @@ import re
 import shutil
 from pathlib import Path
 from typing import Generator
+from cloudpathlib import S3Client
 import subprocess
 
 from pydantic import BaseModel
+from pydantic_settings import BaseSettings, SettingsConfigDict
 import typer
 from loguru import logger
 import httpx
@@ -15,12 +17,36 @@ API_TOKEN = "abc123"
 
 LOGSEQ_DIR = Path("./logseq")
 ASSETS_DIR = LOGSEQ_DIR / "assets"
+ASSETS_STAGING_DIR = Path("./assets-staging")
 DRAWS_DIR = LOGSEQ_DIR / "draws"
 
 OUTPUT_DIR = Path("./site/src/data/garden")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 app = typer.Typer()
+
+
+class Settings(BaseSettings):
+    r2_access_key: str
+    r2_secret_key: str
+    r2_bucket: str
+
+    cloudflare_account_id: str
+
+    model_config = SettingsConfigDict(
+        env_prefix="garden_", env_file=".env", env_file_encoding="utf-8"
+    )
+
+
+settings = Settings()
+
+
+def get_r2_client() -> S3Client:
+    return S3Client(
+        aws_access_key_id=settings.r2_access_key,
+        aws_secret_access_key=settings.r2_secret_key,
+        endpoint_url=f"https://{settings.cloudflare_account_id}.r2.cloudflarestorage.com",
+    )
 
 
 class Asset(BaseModel):
@@ -39,6 +65,7 @@ class Asset(BaseModel):
 
 class Page(BaseModel):
     name: str
+    filename: str
     markdown: str
     assets: list[Asset]
 
@@ -277,8 +304,11 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
         md, assets = blocks_to_md(client, page)
         md, more_assets = search_md_for_assets(md)
 
+        name = name.removeprefix("Garden/")
+
         yield Page(
-            name=name.removeprefix("Garden/"),
+            name=name,
+            filename=name,
             markdown=md,
             assets=list(set(assets + more_assets)),
         )
@@ -318,6 +348,7 @@ def run_build(page_name: str | None = None):
         export_page(
             Page(
                 name=page_name,
+                filename=page_name,
                 markdown=md,
                 assets=list(set(assets + more_assets)),
             )
@@ -358,7 +389,7 @@ def run_reload(interval: int = 4):
             logger.info("Rebuild complete")
 
 
-@app.command(name="asset-manifest")
+@app.command(name="sync-assets")
 def run_build_asset_manifest():
     client = create_logseq_client()
 
@@ -370,7 +401,33 @@ def run_build_asset_manifest():
 
     all_assets = list(set(all_assets))
 
-    print(all_assets)
+    logger.info(f"Syncing {len(all_assets)} assets to staging directory...")
+
+    ASSETS_STAGING_DIR.mkdir(parents=True, exist_ok=True)
+
+    for asset in all_assets:
+        src_path = ASSETS_DIR / asset.path
+        dst_path = ASSETS_STAGING_DIR / asset.path
+        dst_path.parent.mkdir(parents=True, exist_ok=True)
+
+        try:
+            shutil.copy2(src_path, dst_path)
+        except Exception as e:
+            logger.error(f"Failed to copy {src_path} to {dst_path}: {e}")
+            raise typer.Exit(1)
+
+    logger.info("Running rclone sync...")
+    result = subprocess.run(
+        ["rclone", "sync", "./assets-staging/", "garden:jacks-garden"],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        logger.error(f"rclone sync failed: {result.stderr}")
+        raise typer.Exit(1)
+
+    logger.info("Asset sync complete")
 
 
 if __name__ == "__main__":

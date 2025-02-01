@@ -33,7 +33,11 @@ const { title, noFooter = false } = Astro.props;
       }
     </style>
     <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
-    <ClientRouter />
+    <script
+      data-goatcounter="https://jackharrhy.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"></script>
+    <ClientRouter fallback="none" />
   </head>
   <body class="flex flex-col items-center h-full justify-between">
     <div

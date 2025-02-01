@@ -9,4 +9,7 @@ wheels/
 # Virtual environments
 .venv
 
+assets-staging/
+
 logseq
+.env

@@ -5,11 +5,14 @@ const { variant, image, link, name, description, date } = Astro.props;
 <a
   href={link}
   target="_blank"
-  class={`not-prose no-underline w-[12rem] ${variant === "block" ? "flex" : "inline-flex"} flex-col text-black p-1 text-[${variant === "small" ? "0.9rem" : "1rem"}]`}
+  class={`not-prose no-underline w-[12rem] ${variant === "block" ? "flex" : "inline-flex"} flex-col text-black p-1 ${variant === "small" ? "text-[0.8rem]" : "text-[1.1rem]"}`}
 >
   {
     image && (
-      <img src={image} class="w-full object-cover border mb-3 mt-4 h-[9em]" />
+      <img
+        src={image}
+        class="aspect-[12/9] w-full object-cover border mb-3 mt-4"
+      />
     )
   }
   <p class="font-semibold m-0 text-[1.1em]">
