@@ -1,8 +1,0 @@
-version: "3"
-
-services:
-  jackharrhycom:
-    image: jackharrhy/jackharrhy.com
-    build: ./.
-    ports:
-      - "127.0.0.1:8080:80"
