@@ -28,6 +28,13 @@ import Layout from "../layouts/Layout.astro";
   noFooter={!header}
 >
   {header && <h1>{entry.data.name}</h1>}
+  {
+    entry.data.description && (
+      <p class="not-prose text-2xl font-medium mb-10">
+        {entry.data.description}
+      </p>
+    )
+  }
   <Content components={{ Mug, Project, Feed, FeedTree }} />
 </Layout>
 

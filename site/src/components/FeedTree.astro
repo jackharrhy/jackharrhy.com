@@ -30,8 +30,17 @@ const tree = await getItems();
               <ul class="ml-8">
                 {Object.entries(days).map(([day, post]) => (
                   <li>
-                    <a href={post.id}>{day}</a>
-                    <span class="text-sm">{post.data.description}</span>
+                    <a
+                      href={post.id}
+                      class="flex gap-3 items-end justify-between"
+                    >
+                      <span class="underline text-[var(--tw-prose-links)]">
+                        {day}
+                      </span>
+                      <span class="text-[.9rem] pb-[0.1rem]">
+                        {post.data.description}
+                      </span>
+                    </a>
                   </li>
                 ))}
               </ul>
