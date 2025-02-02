@@ -3,6 +3,8 @@ import { getEntry, render } from "astro:content";
 
 import Mug from "./Mug.astro";
 import Project from "./Project.astro";
+import Feed from "./Feed.astro";
+import FeedTree from "./FeedTree.astro";
 
 const { id, header = true } = Astro.props;
 
@@ -26,7 +28,7 @@ import Layout from "../layouts/Layout.astro";
   noFooter={!header}
 >
   {header && <h1>{entry.data.name}</h1>}
-  <Content components={{ Mug, Project }} />
+  <Content components={{ Mug, Project, Feed, FeedTree }} />
 </Layout>
 
 <style is:global>

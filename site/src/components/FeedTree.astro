@@ -1,0 +1,44 @@
+---
+import { getLinkblogPostsAsTree } from "../feeds";
+
+const { source } = Astro.props;
+
+const getItems = async () => {
+  if (source === "linkblog") {
+    return await getLinkblogPostsAsTree();
+  } else {
+    throw new Error("unknown source");
+  }
+};
+
+const tree = await getItems();
+---
+
+<a class="no-underline" href={import.meta.env.SITE + "/" + source + "/rss.xml"}
+  ><i class="ph-bold ph-rss"></i></a
+>
+
+<div class="not-prose">
+  {
+    Object.entries(tree).map(([year, months]) => (
+      <details open>
+        <summary>{year}</summary>
+        <div class="ml-8">
+          {Object.entries(months).map(([month, days]) => (
+            <details open>
+              <summary>{month}</summary>
+              <ul class="ml-8">
+                {Object.entries(days).map(([day, post]) => (
+                  <li>
+                    <a href={post.id}>{day}</a>
+                    <span class="text-sm">{post.data.description}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+      </details>
+    ))
+  }
+</div>

@@ -65,6 +65,7 @@ class Asset(BaseModel):
 
 class Page(BaseModel):
     name: str
+    description: str | None
     filename: str
     markdown: str
     assets: list[Asset]
@@ -301,6 +302,11 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
     for name in names:
         page = get_page(client, name)
+
+        first_block = page[0]
+        if not first_block["properties"].get("public", False):
+            raise ValueError(f"Page {name} is not public")
+
         md, assets = blocks_to_md(client, page)
         md, more_assets = search_md_for_assets(md)
 
@@ -308,6 +314,7 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
         yield Page(
             name=name,
+            description=first_block["properties"].get("description", ""),
             filename=name,
             markdown=md,
             assets=list(set(assets + more_assets)),
@@ -320,8 +327,15 @@ def export_page(page: Page):
 
     logger.info(f"Exporting {page.name} to {path}")
 
+    # TODO switch to creating frontmatter using yaml properly
+
     content = f"""---
-name: "{page.name}"
+name: "{page.name}"{
+        f'''
+description: "{page.description}"'''
+        if page.description
+        else ""
+    }
 ---
 
 {page.markdown}"""

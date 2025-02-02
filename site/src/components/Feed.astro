@@ -1,0 +1,30 @@
+---
+import { getLinkblogPosts } from "../feeds";
+
+const { source, limit } = Astro.props;
+
+const getItems = async () => {
+  if (source === "linkblog") {
+    return await getLinkblogPosts();
+  } else {
+    throw new Error("unknown source");
+  }
+};
+
+const items = (await getItems()).slice(0, limit);
+---
+
+<div>
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          <p>
+            <a href={item.id}>{item.id.replace("linkblog/", "")}</a>
+            {item.data.description}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</div>

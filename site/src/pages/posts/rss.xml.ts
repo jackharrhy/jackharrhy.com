@@ -9,6 +9,6 @@ export const GET = async () => {
     site: import.meta.env.SITE,
     items: [],
     customData: `<language>en-us</language>`,
-    stylesheet: "/rss/styles/posts.xsl",
+    stylesheet: "/rss/styles/general.xsl",
   });
 };
