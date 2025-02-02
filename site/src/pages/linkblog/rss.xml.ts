@@ -19,7 +19,7 @@ export const GET = async () => {
         /^linkblog\/(\d{4})\/(\d{2})\/(\d{2})$/
       )!;
       return {
-        title: post.id.replace("linkblog/", ""),
+        title: `${post.id.replace("linkblog/", "")} - ${post.data.description}`,
         link: `${import.meta.env.SITE}/${post.id}`,
         pubDate: new Date(`${year}-${month}-${day}`),
       };
