@@ -1,0 +1,48 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Spinner from "../../components/Spinner.astro";
+
+export const prerender = true;
+---
+
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+<Layout title="Tweet Archiver">
+  <h1>Tweet Archiver</h1>
+  <p>
+    I'd like to include tweets into my webpage, but ensure that they're
+    accessible here even if the tweet is nuked / Twitter itself goes away.
+  </p>
+  <p>
+    Feel free to use this tool yourself, however I have made it more as a thing
+    for my own uses so it might not be very ergonomic for others.
+  </p>
+  <h2 class="text-red-500">Work in progress, not done yet!</h2>
+  <div class="no-prose my-10">
+    <form
+      hx-post="/tools/tweet-archiver/archive"
+      hx-target="#result"
+      hx-indicator="#spinner"
+      class="flex flex-col items-center gap-6"
+    >
+      <input
+        type="text"
+        value="https://x.com/jackharrhyisme/status/1873088463257661587"
+        name="url"
+        placeholder="Enter a tweet URL"
+        class="w-full px-4 py-2 rounded border-2 border-shade-200 focus:border-orange-300 focus:outline-none placeholder:text-shade-400"
+      />
+      <button
+        type="submit"
+        class="w-32 bg-orange-300/20 hover:bg-orange-200/40 text-black py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        hx-indicator="#spinner"
+      >
+        Archive
+      </button>
+    </form>
+  </div>
+  <div class="flex justify-center">
+    <Spinner id="spinner" className="htmx-indicator" />
+  </div>
+  <div id="result"></div>
+</Layout>

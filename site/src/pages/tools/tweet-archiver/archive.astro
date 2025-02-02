@@ -1,0 +1,107 @@
+---
+import * as cheerio from "cheerio";
+
+export const partial = true;
+export const prerender = false;
+
+if (Astro.request.method !== "POST") {
+  return new Response("Invalid request method, must be POST", {
+    status: 404,
+  });
+}
+
+const formData = await Astro.request.formData();
+const url = formData.get("url");
+
+if (!url) {
+  return new Response("Missing URL parameter", {
+    status: 400,
+  });
+}
+
+const NITTER_BASE_URL = "https://nitter.privacydev.net/";
+
+const twitterUrl = new URL(url.toString());
+const nitterUrl = new URL(
+  twitterUrl.pathname + twitterUrl.search,
+  NITTER_BASE_URL
+);
+
+const response = await fetch(nitterUrl.toString(), {
+  headers: {
+    accept: "text/html",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "max-age=0",
+    "upgrade-insecure-requests": "1",
+  },
+  method: "GET",
+});
+
+if (!response.ok) {
+  return new Response("Failed to fetch Nitter page", {
+    status: 500,
+  });
+}
+
+const text = await response.text();
+
+if (text === "") {
+  return new Response("Failed to fetch Nitter page, response was empty", {
+    status: 500,
+  });
+}
+
+const $ = cheerio.load(text);
+const tweetElement = $(".timeline-item").first();
+
+if (!tweetElement.length) {
+  return new Response("No tweet found on page", {
+    status: 404,
+  });
+}
+
+const tweet = {
+  fullName: tweetElement
+    .find(".fullname")
+    .not(".quote .fullname")
+    .text()
+    .trim(),
+  username: tweetElement
+    .find(".username")
+    .not(".quote .username")
+    .text()
+    .trim(),
+  id: tweetElement
+    .find(".tweet-date a")
+    .not(".quote .tweet-date a")
+    .attr("href")
+    ?.replace("/", ""),
+  date: tweetElement
+    .find(".tweet-date a")
+    .not(".quote .tweet-date a")
+    .attr("title"),
+  photoUrl: tweetElement
+    .find(".tweet-avatar img.avatar")
+    .not(".quote .tweet-avatar img.avatar")
+    .attr("src"),
+  attachments:
+    tweetElement.find(".gallery-video").not(".quote .gallery-video").html() ||
+    "",
+  contentHtml:
+    tweetElement.find(".tweet-content").not(".quote .tweet-content").html() ||
+    "",
+  content: tweetElement
+    .find(".tweet-content")
+    .not(".quote .tweet-content")
+    .text()
+    .trim(),
+  link: tweetElement.find(".tweet-link").not(".quote .tweet-link").attr("href"),
+};
+---
+
+<div class="font-sans-serif">
+  <p>{tweet.fullName} {tweet.username}</p>
+  <p>{tweet.date}</p>
+  <p>{tweet.content}</p>
+  <p>{tweet.link}</p>
+</div>
