@@ -6,6 +6,7 @@ const garden = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string().optional(),
+    ogImage: z.string().optional(),
   }),
 });
 

@@ -66,6 +66,8 @@ class Asset(BaseModel):
 class Page(BaseModel):
     name: str
     description: str | None
+    og_image: Asset | None
+
     filename: str
     markdown: str
     assets: list[Asset]
@@ -318,7 +320,10 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
         yield Page(
             name=name,
-            description=first_block["properties"].get("description", ""),
+            description=first_block["properties"].get("description", None),
+            og_image=asset_from_logseq_link(page[0]["properties"]["ogImage"])
+            if page[0]["properties"].get("ogImage")
+            else None,
             filename=name,
             markdown=md,
             assets=list(set(assets + more_assets)),
@@ -331,18 +336,16 @@ def export_page(page: Page):
 
     logger.info(f"Exporting {page.name} to {path}")
 
-    # TODO switch to creating frontmatter using yaml properly
+    content = "---\n"
+    content += f'name: "{page.name}"\n'
+    if page.description:
+        content += f'description: "{page.description}"\n'
+    if page.og_image:
+        content += f'ogImage: "{page.og_image.url}"\n'
+    content += "---\n\n"
 
-    content = f"""---
-name: "{page.name}"{
-        f'''
-description: "{page.description}"'''
-        if page.description
-        else ""
-    }
----
+    content += page.markdown
 
-{page.markdown}"""
     path.write_text(content)
 
 
@@ -366,6 +369,10 @@ def run_build(page_name: str | None = None):
         export_page(
             Page(
                 name=page_name,
+                description=page[0]["properties"].get("description", None),
+                og_image=asset_from_logseq_link(page[0]["properties"]["ogImage"])
+                if page[0]["properties"].get("ogImage")
+                else None,
                 filename=page_name,
                 markdown=md,
                 assets=list(set(assets + more_assets)),
@@ -414,6 +421,9 @@ def run_build_asset_manifest():
     all_assets: list[Asset] = []
 
     for page in get_pages(client):
+        if page.og_image:
+            all_assets.append(page.og_image)
+
         for asset in page.assets:
             all_assets.append(asset)
 

@@ -4,6 +4,7 @@ import node from "@astrojs/node";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 
+import metaTags from "astro-meta-tags";
 import remarkWikiLink from "remark-wiki-link";
 
 const slugify = (filename) =>
@@ -29,5 +30,6 @@ export default defineConfig({
         ],
       ],
     }),
+    metaTags(),
   ],
 });

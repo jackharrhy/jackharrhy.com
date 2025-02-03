@@ -6,9 +6,10 @@ import Mug from "../components/Mug.astro";
 interface Props {
   title?: string;
   noFooter?: boolean;
+  ogImage?: string;
 }
 
-const { title, noFooter = false } = Astro.props;
+const { title, noFooter = false, ogImage } = Astro.props;
 ---
 
 <!doctype html>
@@ -54,6 +55,11 @@ const { title, noFooter = false } = Astro.props;
       href="https://jackharrhy.dev/posts/rss.xml"
       title="Posts - jackharrhy.dev"
     />
+    <link
+      rel="webmention"
+      href="https://webmention.io/jackharrhy.dev/webmention"
+    />
+    {ogImage && <meta property="og:image" content={ogImage} />}
     <ClientRouter fallback="none" />
   </head>
   <body class="flex flex-col items-center h-full justify-between">
