@@ -22,27 +22,31 @@ const tree = await getItems();
   {
     Object.entries(tree).map(([year, months]) => (
       <details open>
-        <summary>{year}</summary>
-        <div class="ml-8">
+        <summary class="border-t-2 border-dashed border-shade-300">
+          {year}
+        </summary>
+        <div class="ml-8 border-t-2 border-dashed border-shade-300">
           {Object.entries(months).map(([month, days]) => (
-            <details open>
+            <details open class="border-b-2 border-dashed border-shade-300">
               <summary>{month}</summary>
               <ul class="ml-8">
-                {Object.entries(days).map(([day, post]) => (
-                  <li>
-                    <a
-                      href={post.id}
-                      class="flex gap-3 items-end justify-between"
-                    >
-                      <span class="underline text-[var(--tw-prose-links)]">
-                        {day}
-                      </span>
-                      <span class="text-[.9rem] pb-[0.1rem]">
-                        {post.data.description}
-                      </span>
-                    </a>
-                  </li>
-                ))}
+                {Object.entries(days)
+                  .sort((a, b) => b[0].localeCompare(a[0]))
+                  .map(([day, post]) => (
+                    <li class="last:border-b-0 border-b-2 border-dashed border-shade-300">
+                      <a
+                        href={post.id}
+                        class="flex gap-3 items-center justify-between hover:underline"
+                      >
+                        <span class="underline text-[var(--tw-prose-links)]">
+                          {day}
+                        </span>
+                        <span class="text-[.9rem] pb-[0.1rem] text-balance text-right">
+                          {post.data.description}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </details>
           ))}

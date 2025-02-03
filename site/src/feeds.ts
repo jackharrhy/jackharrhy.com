@@ -10,9 +10,7 @@ export const getLinkblogPosts = async () => {
     /^linkblog\/\d{4}\/\d{2}\/\d{2}$/.test(post.id)
   );
 
-  items.reverse();
-
-  return items;
+  return items.sort((a, b) => b.id.localeCompare(a.id));
 };
 
 export const getLinkblogPostsAsTree = async () => {

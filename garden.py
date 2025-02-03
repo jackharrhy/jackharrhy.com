@@ -155,7 +155,11 @@ def asset_back_to_md(asset: Asset, img: bool = False) -> str:
     if asset.ext.lower() in audio_extensions:
         return f"<audio controls src='{asset.url}'></audio>"
 
-    elif img or (asset.height and asset.width):
+    video_extensions = {"mp4", "webm"}
+    if asset.ext.lower() in video_extensions:
+        return f"<video controls src='{asset.url}'></video>"
+
+    if img or (asset.height and asset.width):
         return (
             f"<img src='{asset.url}' alt='{asset.name}.{asset.ext}'"
             + (

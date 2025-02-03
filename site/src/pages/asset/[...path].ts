@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import mime from "mime";
 
 import type { APIRoute } from "astro";
 
@@ -24,37 +25,7 @@ export const GET: APIRoute = async ({ params, request }) => {
   }
 
   const extension = path.extname(requestedPath).toLowerCase();
-  let contentType: string;
-
-  switch (extension) {
-    case ".jpg":
-    case ".jpeg":
-      contentType = "image/jpeg";
-      break;
-    case ".png":
-      contentType = "image/png";
-      break;
-    case ".svg":
-      contentType = "image/svg+xml";
-      break;
-    case ".gif":
-      contentType = "image/gif";
-      break;
-    case ".webp":
-      contentType = "image/webp";
-      break;
-    case ".mp3":
-      contentType = "audio/mpeg";
-      break;
-    case ".wav":
-      contentType = "audio/wav";
-      break;
-    case ".ogg":
-      contentType = "audio/ogg";
-      break;
-    default:
-      return new Response("Unsupported file type", { status: 400 });
-  }
+  const contentType = mime.getType(extension);
 
   let thisFile = import.meta.url.replace("file:", "");
 

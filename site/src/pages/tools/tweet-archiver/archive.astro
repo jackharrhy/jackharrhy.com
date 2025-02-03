@@ -4,6 +4,13 @@ import * as cheerio from "cheerio";
 export const partial = true;
 export const prerender = false;
 
+return new Response(
+  "This isn't finished yet, so for now this just returns this :)",
+  {
+    status: 200,
+  }
+);
+
 if (Astro.request.method !== "POST") {
   return new Response("Invalid request method, must be POST", {
     status: 404,
@@ -97,6 +104,35 @@ const tweet = {
     .trim(),
   link: tweetElement.find(".tweet-link").not(".quote .tweet-link").attr("href"),
 };
+
+let cobaltData;
+
+if (tweet.attachments) {
+  const tokenResponse = await fetch("https://api.cobalt.tools/session", {
+    headers: {
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.9",
+    },
+    method: "POST",
+  });
+
+  const { token, exp } = await tokenResponse.json();
+
+  // TODO store token an exp somewhere
+
+  const cobaltResponse = await fetch("https://api.cobalt.tools/", {
+    headers: {
+      accept: "application/json",
+      "accept-language": "en-US,en;q=0.9",
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ url: tweet.link }),
+    method: "POST",
+  });
+
+  cobaltData = await cobaltResponse.json();
+}
 ---
 
 <div class="font-sans-serif">
@@ -105,3 +141,5 @@ const tweet = {
   <p>{tweet.content}</p>
   <p>{tweet.link}</p>
 </div>
+
+<pre>{JSON.stringify(cobaltData, null, 2)}</pre>
