@@ -25,6 +25,7 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout
   title={entry.data.name === "Home" ? undefined : entry.data.name}
+  description={entry.data.description}
   noFooter={!header}
   ogImage={entry.data.ogImage}
 >

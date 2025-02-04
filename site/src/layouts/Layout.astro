@@ -5,11 +5,12 @@ import Mug from "../components/Mug.astro";
 
 interface Props {
   title?: string;
+  description?: string;
   noFooter?: boolean;
   ogImage?: string;
 }
 
-const { title, noFooter = false, ogImage } = Astro.props;
+const { title, description, noFooter = false, ogImage } = Astro.props;
 ---
 
 <!doctype html>
@@ -33,7 +34,6 @@ const { title, noFooter = false, ogImage } = Astro.props;
         src: url("https://excalidraw.com/Cascadia.woff2");
       }
     </style>
-    <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
     <script
       data-goatcounter="https://jackharrhy.goatcounter.com/count"
       async
@@ -59,6 +59,12 @@ const { title, noFooter = false, ogImage } = Astro.props;
       rel="webmention"
       href="https://webmention.io/jackharrhy.dev/webmention"
     />
+    <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
+    <meta
+      property="og:title"
+      content={title ? `${title} · Jack Harrhy` : "Jack Harrhy"}
+    />
+    {description && <meta property="og:description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
     <ClientRouter fallback="none" />
   </head>
