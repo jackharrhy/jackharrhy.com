@@ -31,8 +31,8 @@ export const GET = async () => {
     .slice(0, 10);
 
   return rss({
-    title: "Link blog - jackharrhy.dev",
-    description: "Link blog from Jack Harrhy",
+    title: "Linkblog - jackharrhy.dev",
+    description: "Linkblog from Jack Harrhy",
     site: import.meta.env.SITE,
     items: rssItems,
     customData: `<language>en-us</language>`,
