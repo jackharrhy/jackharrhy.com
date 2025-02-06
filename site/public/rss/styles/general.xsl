@@ -8,6 +8,7 @@
       <head>
         <title>RSS Feed | <xsl:value-of select="/rss/channel/title" />
         </title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="stylesheet" href="/rss/styles/general.css" />
       </head>
       <body>

@@ -5,7 +5,7 @@ name: "Meta/How this is built"
 This site starts from a Logseq graph, its actually the Logseq graph I've been using since ~2022, but every page in that graph denoted with `public:: true` is part of this website.
 
 <div class="ml-[calc(1*1rem)] mb-8">
-![graph.png](/asset/graph_1738337031270_0.png)
+<Image src='/asset/graph_1738337031270_0.png' alt='graph.png' width={2138} height={1336} />
 
 _My graph as it stands as of Jan 31st, 2025_
 
@@ -21,7 +21,7 @@ Where things get interested, is if the block has properties on it, such as this 
 <div class="ml-[calc(1*1rem)] mb-8">
 ```
 component:: Project
-image:: <img src='/asset/_jaharrhy_1738274907463_0.webp' alt='_jaharrhy.webp' height='149' width='167' />
+image:: <Image src='/asset/_jaharrhy_1738274907463_0.webp' alt='_jaharrhy.webp' width={167} height={149} />
 link:: https://www.cs.mun.ca/~jaharrhy/
 name:: ~jaharrhy
 description:: My labnet garden, giving old web vibes.
@@ -36,7 +36,7 @@ I have some code, that turns the above into this:
 ```
 
 </div>
-During this I also make note of `<img src='/asset/_jaharrhy_1738274907463_0.webp' alt='_jaharrhy.webp' height='149' width='167' />`, parse it using Regex, and keep a record of it separate to the markdown, so later on I can bundle up all assets referenced by my graph, and create an asset manifest I can later upload to cloud storage.
+During this I also make note of `<Image src='/asset/_jaharrhy_1738274907463_0.webp' alt='_jaharrhy.webp' width={167} height={149} />`, parse it using Regex, and keep a record of it separate to the markdown, so later on I can bundle up all assets referenced by my graph, and create an asset manifest I can later upload to cloud storage.
 
 I also support embedding:
 

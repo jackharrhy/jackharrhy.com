@@ -8,6 +8,7 @@ dependencies = [
     "cloudpathlib[s3]>=0.20.0",
     "httpx>=0.28.1",
     "loguru>=0.7.3",
+    "pillow>=11.1.0",
     "pydantic>=2.10.6",
     "pydantic-settings>=2.7.1",
     "typer>=0.15.1",

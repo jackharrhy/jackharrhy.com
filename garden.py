@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Generator
 from cloudpathlib import S3Client
 import subprocess
+import shelve
+from PIL import Image
 
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -23,6 +25,9 @@ DRAWS_DIR = LOGSEQ_DIR / "draws"
 OUTPUT_DIR = Path("./site/src/data/garden")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+ASSET_CACHE_FILE = Path("asset_cache.shelve")
+IMG_EXTS = {"png", "jpg", "jpeg", "webp", "gif", "svg"}
+
 app = typer.Typer()
 
 
@@ -39,6 +44,21 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+def get_local_image_size(file_path: Path) -> tuple[int, int]:
+    print(file_path)
+    if file_path.suffix.lower() == ".svg":
+        svg_text = file_path.read_text()
+        width_match = re.search(r'width="(\d+)', svg_text)
+        height_match = re.search(r'height="(\d+)', svg_text)
+        if width_match and height_match:
+            return int(width_match.group(1)), int(height_match.group(1))
+
+        raise ValueError(f"No width or height found in SVG: {file_path}")
+    else:
+        with Image.open(file_path) as img:
+            return img.width, img.height
 
 
 def get_r2_client() -> S3Client:
@@ -94,19 +114,12 @@ def query_logseq(client: httpx.Client, query: str) -> dict:
 
 def get_page(client: httpx.Client, page_name: str) -> list[dict]:
     response = client.post(
-        "/api",
-        json={
-            "method": "logseq.Editor.getPageBlocksTree",
-            "args": [page_name],
-        },
+        "/api", json={"method": "logseq.Editor.getPageBlocksTree", "args": [page_name]}
     )
     response.raise_for_status()
-
     blocks = response.json()
-
     if not blocks[0]["properties"]["public"]:
         raise ValueError(f"Page {page_name} is not public")
-
     return blocks
 
 
@@ -115,6 +128,33 @@ def return_mdx_component(component: str, properties: dict) -> str:
     for key, value in properties.items():
         props += f'{key}="{value}" '
     return f"<{component} {props}/>\n"
+
+
+def ensure_asset_dimensions(asset: Asset) -> Asset:
+    if asset.width is not None and asset.height is not None:
+        return asset
+
+    with shelve.open(str(ASSET_CACHE_FILE)) as db:
+        if asset.path in db:
+            info = db[asset.path]
+
+            if info["width"] is not None and info["height"] is not None:
+                asset.width = info["width"]
+                asset.height = info["height"]
+                return asset
+
+        local_path = ASSETS_DIR / asset.path
+
+        if not local_path.exists():
+            raise ValueError(f"Image not found on disk: {asset.path}")
+
+        w, h = get_local_image_size(local_path)
+
+        db[asset.path] = {"width": w, "height": h}
+        asset.width = w
+        asset.height = h
+
+    return asset
 
 
 def asset_from_logseq_link(link: str) -> Asset:
@@ -129,6 +169,9 @@ def asset_from_logseq_link(link: str) -> Asset:
     height = match.group("height")
     width = match.group("width")
 
+    if (height is not None and width is None) or (height is None and width is not None):
+        raise ValueError(f"Must provide *both* dimensions or neither in link: {link}")
+
     if not path.startswith("../assets/"):
         raise ValueError(f"Asset path must start with ../assets/: {path}")
 
@@ -140,8 +183,7 @@ def asset_from_logseq_link(link: str) -> Asset:
     timestamp = timestamp.group(1)
 
     url = f"/asset/{path}"
-
-    return Asset(
+    new_asset = Asset(
         name=name,
         ext=ext,
         path=path,
@@ -151,8 +193,10 @@ def asset_from_logseq_link(link: str) -> Asset:
         width=int(width) if width else None,
     )
 
+    return new_asset
 
-def asset_back_to_md(asset: Asset, img: bool = False) -> str:
+
+def asset_back_to_md(asset: Asset) -> str:
     audio_extensions = {"mp3", "wav", "ogg"}
     if asset.ext.lower() in audio_extensions:
         return f"<audio controls src='{asset.url}'></audio>"
@@ -161,18 +205,12 @@ def asset_back_to_md(asset: Asset, img: bool = False) -> str:
     if asset.ext.lower() in video_extensions:
         return f"<video controls src='{asset.url}'></video>"
 
-    if img or (asset.height and asset.width):
-        return (
-            f"<img src='{asset.url}' alt='{asset.name}.{asset.ext}'"
-            + (
-                f" height='{asset.height}' width='{asset.width}'"
-                if asset.height and asset.width
-                else ""
-            )
-            + " />"
-        )
-    else:
-        return f"![{asset.name}.{asset.ext}]({asset.url})"
+    asset = ensure_asset_dimensions(asset)
+
+    if asset.height is None or asset.width is None:
+        raise ValueError(f"Missing dimensions for asset: {asset.path}")
+
+    return f"<Image src='{asset.url}' alt='{asset.name}.{asset.ext}' width={{{asset.width}}} height={{{asset.height}}} />"
 
 
 def excalidraw_to_md(filename: str) -> tuple[str, Asset]:
@@ -200,7 +238,9 @@ def excalidraw_to_md(filename: str) -> tuple[str, Asset]:
         width=None,
     )
 
-    return asset_back_to_md(asset, img=True), asset
+    asset = ensure_asset_dimensions(asset)
+
+    return asset_back_to_md(asset), asset
 
 
 def blocks_to_md(
@@ -291,6 +331,7 @@ def search_md_for_assets(md: str) -> tuple[str, list[Asset]]:
 
     for match in image_matches:
         asset = asset_from_logseq_link(match.group(0))
+
         new_md = new_md.replace(match.group(0), asset_back_to_md(asset))
 
         assets.append(asset)
@@ -454,8 +495,27 @@ def run_build_asset_manifest():
     if result.returncode != 0:
         logger.error(f"rclone sync failed: {result.stderr}")
         raise typer.Exit(1)
-
     logger.info("Asset sync complete")
+
+
+@app.command(name="clear-cache")
+def clear_cache():
+    if ASSET_CACHE_FILE.exists():
+        ASSET_CACHE_FILE.unlink()
+    logger.info("Asset cache cleared.")
+
+
+@app.command(name="process-cache")
+def process_cache():
+    client = create_logseq_client()
+    logger.info("Re-processing all assets into shelve cache...")
+    for page in get_pages(client):
+        if page.og_image and page.og_image.ext.lower() in IMG_EXTS:
+            page.og_image = ensure_asset_dimensions(page.og_image)
+        for asset in page.assets:
+            if asset.ext.lower() in IMG_EXTS:
+                asset = ensure_asset_dimensions(asset)
+    logger.info("All assets processed into cache.")
 
 
 if __name__ == "__main__":
