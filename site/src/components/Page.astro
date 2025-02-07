@@ -6,6 +6,7 @@ import Mug from "./Mug.astro";
 import Project from "./Project.astro";
 import Feed from "./Feed.astro";
 import FeedTree from "./FeedTree.astro";
+import NowPlaying from "./NowPlaying.astro";
 
 const { id, header = true } = Astro.props;
 
@@ -38,7 +39,7 @@ import Layout from "../layouts/Layout.astro";
       </p>
     )
   }
-  <Content components={{ Mug, Project, Feed, FeedTree, Image }} />
+  <Content components={{ Mug, Project, Feed, FeedTree, Image, NowPlaying }} />
 </Layout>
 
 <style is:global>

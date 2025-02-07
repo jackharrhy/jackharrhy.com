@@ -5,3 +5,5 @@ prepare:
   uv run garden.py sync-assets
   uv run garden.py build
 
+lychee:
+  lychee .

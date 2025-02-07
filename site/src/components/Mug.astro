@@ -57,5 +57,9 @@
 </script>
 
 <div class="flex justify-center" transition:name="mug" transition:persist>
-  <canvas id="canvas"></canvas>
+  <canvas
+    id="canvas"
+    class={Astro.url.pathname === "/" ? "my-16" : "my-0"}
+    width={Astro.url.pathname === "/" ? "250" : "100"}
+    height={Astro.url.pathname === "/" ? "180" : "50"}></canvas>
 </div>

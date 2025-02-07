@@ -158,7 +158,7 @@ def ensure_asset_dimensions(asset: Asset) -> Asset:
 
 
 def asset_from_logseq_link(link: str) -> Asset:
-    pattern = r"!\[(?P<name>.+?)\.(?P<ext>.+?)\]\((?P<path>.*?)\)(?:\{:height (?P<height>\d+), :width (?P<width>\d+)\})?"
+    pattern = r"!\[(?P<name>.+?)\.(?P<ext>[^)\s]+?)\]\((?P<path>.*?)\)(?:\{:height (?P<height>\d+), :width (?P<width>\d+)\})?"
     match = re.match(pattern, link)
     if not match:
         raise ValueError(f"Invalid asset link format: {link}")
@@ -201,7 +201,7 @@ def asset_back_to_md(asset: Asset) -> str:
     if asset.ext.lower() in audio_extensions:
         return f"<audio controls src='{asset.url}'></audio>"
 
-    video_extensions = {"mp4", "webm"}
+    video_extensions = {"mp4", "webm", "mov"}
     if asset.ext.lower() in video_extensions:
         return f"<video controls src='{asset.url}'></video>"
 

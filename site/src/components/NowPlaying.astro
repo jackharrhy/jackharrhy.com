@@ -1,0 +1,26 @@
+---
+const { debug = false } = Astro.props;
+const nowPlayingUrl = debug
+  ? "/tools/lastfm/now-playing?debug"
+  : "/tools/lastfm/now-playing";
+---
+
+<div
+  class="now-playing"
+  hx-post={nowPlayingUrl}
+  hx-swap="innerHTML swap:0.5s"
+  hx-trigger="load"
+  transition:persist
+>
+</div>
+
+<style>
+  .now-playing {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .now-playing.htmx-swapping {
+    opacity: 0;
+  }
+</style>

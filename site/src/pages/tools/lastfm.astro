@@ -1,0 +1,15 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import NowPlaying from "../../components/NowPlaying.astro";
+
+export const prerender = false;
+---
+
+<Layout
+  title="Last.fm"
+  description="A tool to display my current song on Last.fm."
+>
+  <h1>Last.fm</h1>
+
+  <NowPlaying debug />
+</Layout>

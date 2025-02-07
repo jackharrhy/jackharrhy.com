@@ -1,0 +1,73 @@
+---
+export const partial = true;
+export const prerender = false;
+
+const API_KEY = import.meta.env.JACKHARRHY_LASTFM_API_KEY;
+const USERNAME = "jackharrhy";
+
+let currentTrack = null;
+let error = null;
+
+// TODO cache this via Astro db, if we've updated in the last 30 seconds, don't fetch again
+
+try {
+  const url = new URL("https://ws.audioscrobbler.com/2.0/");
+  url.search = new URLSearchParams({
+    method: "user.getRecentTracks",
+    user: USERNAME,
+    api_key: API_KEY,
+    format: "json",
+    limit: "1",
+  }).toString();
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const tracks = data.recenttracks.track;
+  if (tracks.length > 0 && tracks[0]["@attr"]?.nowplaying) {
+    currentTrack = tracks[0];
+  }
+} catch (err) {
+  console.error(err);
+  error = "Failed to fetch now playing data";
+}
+
+if (error || !currentTrack) {
+  return new Response(null, { status: 204 });
+}
+---
+
+<div class="p-4 border border-shade-200 rounded-md not-prose">
+  <div class="flex items-center justify-between gap-4">
+    <div class="w-16 h-16 flex-shrink-0">
+      <img
+        src={currentTrack.image[2]["#text"]}
+        alt="Album art"
+        class="w-full h-full border border-shade-200 bg-black"
+      />
+    </div>
+    <p>
+      <span class="text-shade-500">I'm currently listening to </span>
+      <a href={currentTrack.url} class="hover:underline">
+        {currentTrack.name}
+        <span class="text-shade-500"> by </span>
+        {currentTrack.artist["#text"]}
+        {
+          currentTrack.album["#text"] !== currentTrack.name && (
+            <>
+              <span class="text-shade-500"> on </span>
+              {currentTrack.album["#text"]}
+            </>
+          )
+        }
+        <span class="text-shade-500">.</span>
+      </a>
+    </p>
+  </div>
+</div>
+
+{
+  Astro.url.searchParams.has("debug") && (
+    <pre>{JSON.stringify(currentTrack, null, 2)}</pre>
+  )
+}

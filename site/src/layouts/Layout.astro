@@ -30,6 +30,15 @@ const { title, description, noFooter = false, ogImage } = Astro.props;
         src: url("https://excalidraw.com/Cascadia.woff2");
       }
     </style>
+    <script>
+      import * as htmx from "htmx.org";
+      document.addEventListener("astro:page-load", () => {
+        console.log("astro:page-load");
+        htmx.default.process(document.body);
+      });
+      // @ts-ignore
+      window.htmx = htmx;
+    </script>
     <script
       data-goatcounter="https://jackharrhy.goatcounter.com/count"
       async
