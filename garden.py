@@ -47,7 +47,6 @@ settings = Settings()
 
 
 def get_local_image_size(file_path: Path) -> tuple[int, int]:
-    print(file_path)
     if file_path.suffix.lower() == ".svg":
         svg_text = file_path.read_text()
         width_match = re.search(r'width="(\d+)', svg_text)
@@ -59,6 +58,39 @@ def get_local_image_size(file_path: Path) -> tuple[int, int]:
     else:
         with Image.open(file_path) as img:
             return img.width, img.height
+
+
+def get_local_video_size(file_path: Path) -> tuple[int, int]:
+    """
+    Use ffprobe (from the ffmpeg suite) to get the width and height of a video file.
+    """
+
+    command = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=width,height",
+        "-of",
+        "csv=s=x:p=0",
+        str(file_path),
+    ]
+
+    result = subprocess.run(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+    )
+
+    if result.returncode != 0 or not result.stdout:
+        raise ValueError(f"ffprobe error for {file_path}: {result.stderr}")
+
+    dims = result.stdout.strip().split("x")
+
+    if len(dims) != 2:
+        raise ValueError(f"Unexpected ffprobe output for {file_path}: {result.stdout}")
+
+    return int(dims[0]), int(dims[1])
 
 
 def get_r2_client() -> S3Client:
@@ -131,13 +163,19 @@ def return_mdx_component(component: str, properties: dict) -> str:
 
 
 def ensure_asset_dimensions(asset: Asset) -> Asset:
+    """
+    Ensure that the asset has its width and height values.
+    If not available in the cache, compute them using:
+      - SVG parsing for .svg files,
+      - ffprobe for video files (mp4, webm, mov),
+      - And the PIL Image for other image types.
+    """
     if asset.width is not None and asset.height is not None:
         return asset
 
     with shelve.open(str(ASSET_CACHE_FILE)) as db:
         if asset.path in db:
             info = db[asset.path]
-
             if info["width"] is not None and info["height"] is not None:
                 asset.width = info["width"]
                 asset.height = info["height"]
@@ -146,9 +184,22 @@ def ensure_asset_dimensions(asset: Asset) -> Asset:
         local_path = ASSETS_DIR / asset.path
 
         if not local_path.exists():
-            raise ValueError(f"Image not found on disk: {asset.path}")
+            raise ValueError(f"File not found on disk: {asset.path}")
 
-        w, h = get_local_image_size(local_path)
+        ext = asset.ext.lower()
+
+        if ext == "svg":
+            svg_text = local_path.read_text()
+            width_match = re.search(r'width="(\d+)', svg_text)
+            height_match = re.search(r'height="(\d+)', svg_text)
+            if width_match and height_match:
+                w, h = int(width_match.group(1)), int(height_match.group(1))
+            else:
+                raise ValueError(f"No width or height found in SVG: {asset.path}")
+        elif ext in {"mp4", "webm", "mov"}:
+            w, h = get_local_video_size(local_path)
+        else:
+            w, h = get_local_image_size(local_path)
 
         db[asset.path] = {"width": w, "height": h}
         asset.width = w
@@ -201,11 +252,11 @@ def asset_back_to_md(asset: Asset) -> str:
     if asset.ext.lower() in audio_extensions:
         return f"<audio controls src='{asset.url}'></audio>"
 
+    asset = ensure_asset_dimensions(asset)
+
     video_extensions = {"mp4", "webm", "mov"}
     if asset.ext.lower() in video_extensions:
-        return f"<video controls src='{asset.url}'></video>"
-
-    asset = ensure_asset_dimensions(asset)
+        return f"<video controls src='{asset.url}' width='{asset.width}' height='{asset.height}'></video>"
 
     if asset.height is None or asset.width is None:
         raise ValueError(f"Missing dimensions for asset: {asset.path}")
