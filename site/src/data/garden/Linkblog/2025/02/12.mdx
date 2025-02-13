@@ -1,0 +1,78 @@
+---
+name: "Linkblog/2025/02/12"
+description: "Prisma using just TS, banning bots, DOGE's Crypto Bros, Blender Project DogWalk, Tumblr Fediverse, Leaking Gmail from any YouTube account."
+ogImage: "/asset/Screenshot_2025-02-13_at_11.34.34 AM_1739459082036_0.png"
+---
+
+[From Rust to TypeScript: A New Chapter for Prisma ORM](https://www.prisma.io/blog/from-rust-to-typescript-a-new-chapter-for-prisma-orm)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> [...] When we started planning Prisma 2 (now known as Prisma ORM), we had a pretty clear vision: we wanted to build ORMs for as many languages as possible—TypeScript, Go, Python, Scala, Rust, and others. We needed a solution that would make adding support for new languages relatively straightforward. Rust’s performance benefits and systems-level approach made it a natural choice for this core query engine.
+
+> **Why move away from Rust?**
+>
+> Additionally, the core benefit of the query engine—the ability to support multiple clients—is no longer our focus. Prisma ORM is a TypeScript project and while we support our community clients, we won’t be developing them in house.
+
+I've been converted to [drizzle](https://orm.drizzle.team/) for some time now, but I still think back fondly to using Prisma on a [Remix](https://remix.run/) project some time ago.
+
+Sad they abandoned the initial dream of _many languages one central core_, that would be cool, but it does make sense that if you intend to make a ergonomic SQL DSL that sparks joy, embracing the language of choice rather than spreading yourself thin over many is the way to go.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Like [SQLAlchemy](https://www.sqlalchemy.org/), while I have my gripes with it from a complexity perspective, is indeed a _very_ Pythonic ORM, it wouldn't make sense to live anywhere else.
+
+Same for [LINQ](https://learn.microsoft.com/en-us/dotnet/csharp/linq/) in C#.
+
+</div>
+</div>
+[Politely Asking Bots to Report Themselves](https://caolan.uk/notes/2025-02-10_politely_asking_bots_to_report_themselves.cm)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Sneaky `/cgi-bin/robot.py`, which good behaving web crawlers should avoid, as see the line `Disallow: /cgi-bin/` in `/robots.txt`, but if a bot does end up on this page, and visits the link `/cgi-bin/bye.py` found in an `a` tag on that page, you are IP banned!
+
+_The above is abridged techno jargon version of the post, you should probably just go read the post_.
+
+Deep inside, as soon as I saw the link and was told to _not click this link_, every bone in my body yearned to click the link, but since I'd still like to consume Caolan's website on my works IP address, I think its best not to.
+
+</div>
+[The Crypto Grifters Of DOGE](https://cryptadamus.substack.com/p/the-crypto-grifters-of-doge)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Some of the 20-somethings at DOGE (some of which are younger than me which honestly feels crazy that someone like myself has seemingly unfettered access to the upper echelons of US government databases...) have been in previous lives big into the dodgy realms of Crypto.
+
+This is good reporting, but to me, this is _not_ unexpected news.
+
+</div>
+[Announcing Project DogWalk](https://studio.blender.org/blog/announcing-project-dogwalk/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Blender is _dog_ fooding the integration between Blender and Godot, by building a game!
+
+<Image src='/asset/Screenshot_2025-02-13_at_11.34.34 AM_1739459082036_0.png' alt='Screenshot 2025-02-13 at 11.34.34 AM.png' width={1590} height={914} />
+
+I've usually opted not to import the `.blend` in Godot projects, and export to some other format before importing it into the engine, since if you want to have _some_ objects have collision / different textures / functionality, defining that in the Blender world and importing it over is possible but limiting.
+
+But, I assume, the Blender to Godot pipeline will dramatically improve once this project starts heating up.
+
+Also, TIL, Blender [made a game in 2008](https://apricot.blender.org/) using the now defunct Blender Game Engine
+
+<div class="ml-[calc(2*1rem)] mb-8">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/c7RRaEvWqJc?si=LVaSyK14NeHl1IJt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+_It doesn't even look half bad for 2008 gamedev_.
+
+</div>
+</div>
+[Tumblr to join the fediverse after WordPress migration completes](https://techcrunch.com/2025/02/11/tumblr-to-join-the-fediverse-after-wordpress-migration-completes/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Been hearing about this migration from their own infra to WordPress for a while, cool to see that this will mean every Tumblr blog will become something consumable via the Fediverse after the migration.
+
+Hopefully another [break](https://wordpress.org/news/2024/12/holiday-break/) doesn't stop them from releasing this...
+
+</div>
+[Leaking the email of any YouTube user for $10,000](https://brutecat.com/articles/leaking-youtube-emails)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Very cool technical writeup of going from an arbitrary YouTube account in a livestream chat, to their Google account identifier (which you _should not_ be able to do), and then abusing another random Google service to go from Google account identifier to underlying gmail address.
+
+</div>
