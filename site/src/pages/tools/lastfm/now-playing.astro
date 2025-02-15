@@ -10,6 +10,8 @@ let error = null;
 
 // TODO cache this via Astro db, if we've updated in the last 30 seconds, don't fetch again
 
+let data;
+
 try {
   const url = new URL("https://ws.audioscrobbler.com/2.0/");
   url.search = new URLSearchParams({
@@ -21,7 +23,7 @@ try {
   }).toString();
 
   const response = await fetch(url);
-  const data = await response.json();
+  data = await response.json();
 
   const tracks = data.recenttracks.track;
   if (tracks.length > 0 && tracks[0]["@attr"]?.nowplaying) {
@@ -29,6 +31,7 @@ try {
   }
 } catch (err) {
   console.error(err);
+  console.error(data);
   error = "Failed to fetch now playing data";
 }
 
