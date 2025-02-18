@@ -30,6 +30,9 @@ try {
     currentTrack = tracks[0];
   }
 } catch (err) {
+  console.log("api key: ", import.meta.env.JACKHARRHY_LASTFM_API_KEY);
+  // I'm putting the above here to test why the heck this isn't
+  // working in production, TODO ME: _delete this_
   console.error(err);
   console.error(data);
   error = "Failed to fetch now playing data";
