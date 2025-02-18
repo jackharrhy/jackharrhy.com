@@ -353,6 +353,14 @@ def blocks_to_md(
             content, embed_assets = blocks_to_md(client, blocks, indent + 1)
             assets.extend(embed_assets)
 
+        video_match = re.match(
+            r"\{\{video\s+https://www\.youtube\.com/watch\?v=([a-zA-Z0-9_-]+)\}\}",
+            content,
+        )
+        if video_match:
+            video_id = video_match.group(1)
+            content = f'<iframe width="100%" height="400" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+
         if not content:
             content = '<div class="w-full h-4"></div>'
 
