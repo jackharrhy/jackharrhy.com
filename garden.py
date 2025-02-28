@@ -6,7 +6,6 @@ from typing import Generator
 from cloudpathlib import S3Client
 import subprocess
 import shelve
-from PIL import Image
 
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -26,7 +25,7 @@ OUTPUT_DIR = Path("./site/src/data/garden")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 ASSET_CACHE_FILE = Path("asset_cache.shelve")
-IMG_EXTS = {"png", "jpg", "jpeg", "webp", "gif", "svg"}
+IMG_EXTS = {"png", "jpg", "jpeg", "webp", "gif", "svg", "avif"}
 
 app = typer.Typer()
 
@@ -56,8 +55,28 @@ def get_local_image_size(file_path: Path) -> tuple[int, int]:
 
         raise ValueError(f"No width or height found in SVG: {file_path}")
     else:
-        with Image.open(file_path) as img:
-            return img.width, img.height
+        # For GIFs, specify [0] to only get the first frame
+        file_path_str = str(file_path)
+        if file_path.suffix.lower() == ".gif":
+            file_path_str = f"{file_path_str}[0]"
+
+        command = ["convert", file_path_str, "-format", "%wx%h", "info:"]
+
+        result = subprocess.run(
+            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
+
+        if result.returncode != 0 or not result.stdout:
+            raise ValueError(f"ImageMagick error for {file_path}: {result.stderr}")
+
+        dims = result.stdout.strip().split("x")
+
+        if len(dims) != 2:
+            raise ValueError(
+                f"Unexpected ImageMagick output for {file_path}: {result.stdout}"
+            )
+
+        return int(dims[0]), int(dims[1])
 
 
 def get_local_video_size(file_path: Path) -> tuple[int, int]:

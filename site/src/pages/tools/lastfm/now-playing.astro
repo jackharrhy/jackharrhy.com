@@ -2,7 +2,9 @@
 export const partial = true;
 export const prerender = false;
 
-const API_KEY = process.env.JACKHARRHY_LASTFM_API_KEY;
+const API_KEY =
+  process.env.JACKHARRHY_LASTFM_API_KEY ||
+  import.meta.env.JACKHARRHY_LASTFM_API_KEY;
 const USERNAME = "jackharrhy";
 
 let currentTrack = null;
