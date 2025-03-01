@@ -1,0 +1,215 @@
+---
+name: "Linkblog/2025/02/20"
+description: "Dungeon of Quake, Why Odin for Games, britpop.online, Elon asks to deorbit ISS, reactbits.dev, Bluesky Lossy Timelines, OverSSH, Svelte 5 is not Javascript, Deno in 2024, Randy banger SFX, Tiny Minecraft in SDL3 GPU."
+ogImage: "/asset/blocks_1740862910022_0.png"
+---
+
+[jakubtomsu/dungeon-of-quake - Retro FPS game inspired by Quake, using Odin and Raylib](https://github.com/jakubtomsu/dungeon-of-quake/tree/main)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+[Jakub Tomšů's](https://jakubtomsu.github.io/) (now archived) Odin/Raylib _Quake_ esq game, very cool.
+
+Some cool screenshots from its development over on [Jakub's website](https://jakubtomsu.github.io/posts/dungeon-of-quake-alpha/):
+
+<Image src='/asset/dungeon_of_quake_screenshot1_1740855576970_0.png' alt='dungeon_of_quake_screenshot1.png' width={1919} height={1079} />
+
+Also, a _level_ editor:
+
+<Image src='/asset/dqmake_screenshot1_1740855602340_0.png' alt='dqmake_screenshot1.png' width={1038} height={751} />
+
+In which levels, as data, exist simply as ASCII.
+
+```
+#####www#####
+#-----------#
+#-SL-t---t--#
+#-Mw--------#
+#---h k h---#
+w-t-  k  ---w
+w---kkgkk---w
+w---  k  ---w
+#---h k h---#
+#--------ww-#
+#-t------wFe#
+#------- -- #
+#####www#####
+```
+
+^ Like this, this is the games "ARENA" level.
+
+Very cool project, I potentially its character controller would be something good to study, since I'd love to have a quake-like-feel in a game of my own using similar technologies someday...
+
+</div>
+[Jakub Tomšů - Why I use Odin for Game and Engine Development](https://www.youtube.com/watch?v=D9oO4L0vt_U)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/D9oO4L0vt_U"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+More Jakub, hell yeah.
+
+Many points made in this video I resonate heavily with, although I have not [shipped a game](https://store.steampowered.com/app/2754920/Solar_Storm/), unlike Jakub.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Therefore its a second-hand opinion I trust!
+
+</div>
+[Discussion on /r/gameenginedevs](https://www.reddit.com/r/gameenginedevs/comments/1bgb0a0/i_made_a_video_explaining_why_i_like_the_odin/) on this video.
+
+</div>
+[britpop.online](https://britpop.online/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+_Brit brit brit brit brit like brit pop_
+
+<Image src='/asset/BritpopLPs_1740858031323_0.webp' alt='BritpopLPs.webp' width={270} height={281} />
+
+Huge LP drop, picked up one for me and a friend, hyped to spin.
+
+</div>
+[Eric Berger - Elon Musk recommends that the International Space Station be deorbited ASAP](https://arstechnica.com/space/2025/02/elon-musk-recommends-that-the-international-space-station-be-deorbited-asap/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+:(
+
+</div>
+[Announcing Rust 1.85.0 and Rust 2024](https://blog.rust-lang.org/2025/02/20/Rust-1.85.0.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+New Rust _edition_!
+
+I have not dug into it, since I am living in Odin land as of late, but still cool to see another edition be released, the last one was Rust 2021.
+
+</div>
+[reactbits.dev - Hand-picked animated components collection for creative developers](https://www.reactbits.dev/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Some very cool, _very flashy_, components in this collection.
+
+Checkout the [infinite menu component](https://www.reactbits.dev/components/infinite-menu), its _so_ smooth.
+
+</div>
+[Jaz - When Imperfect Systems are Good, Actually: Bluesky's Lossy Timelines](https://jazco.dev/2025/02/19/imperfection/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Often when designing systems, we aim for perfection in things like consistency of data, availability, latency, and more.
+>
+> [...]
+>
+> I recently made some major tradeoffs in the design of [Bluesky’s](https://bsky.app/) Following Feed/Timeline to improve the performance of writes at the cost of consistency in a way that doesn’t negatively affect users but reduced P99s by over 96%.
+
+I've been interested in how Bluesky is built, given, as you can see in the article: _"When you make a post on Bluesky, [...] This process involves looking up all of your followers, then inserting a new row into each of their Timeline tables in reverse chronological order with a reference to your post."_.
+
+Which honestly, in some aspects, feels cursed, but I am also a big fan of SQLite and, well, [that's what each one of these databases is](https://github.com/bluesky-social/atproto/pull/1705).
+
+This post basically discusses trade offs with handling users who follow _many many accounts_, and making potentially some writes just, _not_ hit their timeline, and how most likely, _that is fine_.
+
+Obviously missing someones Bluesky post you might care about might be frustrating (this would only occur if you follow a insane amount of people supposedly), but if it means that they have the following happen to their production database(s) usage:
+
+<Image src='/asset/single_page_fanout_drop_1740858836472_0.png' alt='single_page_fanout_drop.png' width={1513} height={674} />
+
+I get it.
+
+</div>
+[OverSSH - Secure File Transfer for Developers](https://overs.sh/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+```
+$ ssh overs.sh < my-secure-file.txt
+
+Waiting for someone to download the file...
+Download link:
+https://overs.sh/d/eba5349c34
+```
+
+Pipe file to `overs.sh`, get a link, give to other person, and the data will be streamed directly from your SSH session to them over HTTP.
+
+Technically yes the data is accessible in memory while things are in flight, but [Alex is cool](https://alexgaudon.dev/).
+
+</div>
+[hodlbod - Svelte 5 is not Javascript](https://hodlbod.npub.pro/post/1739830562159/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> For the last couple of weeks, I've been dealing with the fallout of upgrading a web application to Svelte 5. [...]
+>
+> I'll try not to complain too much in this post, since I'm grateful for the many years of Svelte 3/4 I've enjoyed. But I don't think I'll be choosing Svelte for any new projects going forward. I hope my reflections here will be useful to others as well.
+
+Seems like, if what the author has to say is true, Svelte 5 is much more _proxy_ based than Svelte 4... that does not spark joy (as someone who has seen what [travesties](https://immerjs.github.io/immer/) [one can do](https://jotai.org/docs/extensions/valtio) [with proxies](https://mobx.js.org/README.html)).
+
+Quite a few points are brought up, which go over my head as someone who has not spent much time with Svelte, but the author ends on:
+
+> Easy things are nice, but as Rich Hickey says, [easy things are not always simple](https://www.infoq.com/presentations/Simple-Made-Easy/). And like Joel Spolsky, I don't like being surprised. Svelte has always been full of magic, but with the latest release I think the cognitive overhead of reciting incantations has finally outweighed the power it confers.
+
+Note: I have used Svelte before, but not very much, so I cannot say with certainty my take is valid at all, its just a post I thought interesting to bring up.
+
+Honestly, I likely still will give Svelte 5, or [SvelteKit](https://svelte.dev/docs/kit/introduction), a go some day, but it will be interesting to see how I find the ergonomics of Svelte 5(+) myself.
+
+</div>
+[deno.com - Deno in 2024](https://deno.com/blog/deno-in-2024)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> [You can now run Node applications with Deno 2](https://deno.com/blog/v2.0#backwards-compatible-forward-thinking), which offers native `package.json` and `node_modules` support, as well as [improved compatibility with CommonJS](https://deno.com/blog/v2.0-release-candidate#improved-commonjs-support). These improvements also unlock the ability to incrementally adopt pieces of Deno’s [all-in-one toolchain](https://docs.deno.com/runtime/reference/cli/).
+
+The big one, this was nice to see.
+
+> This year [we introduced JSR](https://deno.com/blog/jsr_open_beta), a modern, open sourced JavaScript registry, which has native TypeScript support (you can publish modules as TypeScript source), can handle module loading across runtimes and environments, [auto-generates documentation from JSDoc-style comments](https://deno.com/blog/document-javascript-package), and can be used with any npm compatible package manager. [Read more.](https://deno.com/blog/how-we-built-jsr)
+
+JSR is also quite cool, not just something for Deno, but anything.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Publishing modules as just the TypeScript source... so nice...
+
+</div>
+> After 5 years of development, [we stabilized `rusty_v8`](https://deno.com/blog/rusty-v8-stabilized), a Rust crate that provides high-quality, zero-overhead Rust bindings to V8’s C++ API, and which runs at the core of Deno. If you’re interested in creating custom JavaScript runtimes or embedding JavaScript in Rust applications, be sure to explore its API.
+
+Very cool! Bindings are sometimes hard to get right, and to make truly _zero_ overhead, big accomplishment.
+
+</div>
+[Randy - How I make banger SFX with no cost](https://randyprime.beehiiv.com/p/how-i-make-banger-sfx-with-no-cost)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> To kick things off, you can go to [this link](https://sonniss.com/gameaudiogdc?utm_source=randyprime.beehiiv.com&utm_medium=referral&utm_campaign=how-i-make-banger-sfx-with-no-cost) to download 204 GIGABYTES of high quality sound fx that are completely royalty free.
+
+_Big data_.
+
+</div>
+[jsoulier/blocks - Tiny Minecraft clone in C and GLSL using the new SDL3 GPU API](https://github.com/jsoulier/blocks/tree/main)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<Image src='/asset/blocks_1740862910022_0.png' alt='blocks.png' width={1276} height={716} />
+
+SDL3 GPU Minecraft clone, so cool!
+
+SCC reports:
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                 Files     Lines   Blanks  Comments     Code Complexity
+───────────────────────────────────────────────────────────────────────────────
+C                           11      3672      108         0     3564        370
+C Header                    11       470       36         0      434          0
+───────────────────────────────────────────────────────────────────────────────
+Total                       22      4142      144         0     3998        370
+───────────────────────────────────────────────────────────────────────────────
+```
+
+Not a whole lot of code, honestly a codebase to study to _get good_.
+
+Feels like a graphic / engine programmers _hello world_ these days to a certain degree is some Minecraft-esq thing, which honestly, is dope.
+
+</div>
+[Odin SDL3 GPU Tutorial: Part 5 - Texture Sampling, A Wall of Cobblestone](https://www.youtube.com/watch?v=WQYJPlm_7KI)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+More SDL3 GPU tutorial content from nadako, _nice_.
+
+This tutorial was used for the basis of textures in [my current project](https://github.com/fogo-sh/arctic-char), next up for me is to get multiple textures for different models cooked up, maybe [stb/rect_pack](https://pkg.odin-lang.org/vendor/stb/rect_pack/) can come in clutch so I can cook up a big 'ol atlas to shove into VRAM.
+
+</div>
