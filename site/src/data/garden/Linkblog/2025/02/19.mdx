@@ -1,0 +1,62 @@
+---
+name: "Linkblog/2025/02/19"
+description: "SDL3 WebGPU, Wireshark for Docker, GameStop CEO decries woke, glibc bricks games, silly apps sans app store."
+ogImage: "/asset/Screenshot_2025-03-01_at_3.22.15 PM_1740855192464_0.png"
+---
+
+[Kyle Lukaszek - SDL3 WebGPU driver is up and running!](https://x.com/kylelukaszek/status/1832979451203686676)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+For [my game jam game sans engine](https://github.com/fogo-sh/arctic-char) I've been working on, I've been using the [SDL3 GPU API](https://wiki.libsdl.org/SDL3/CategoryGPU) in [Odin](https://odin-lang.org/), which has been a blast, but at the moment, supports Metal, Vulkan, and Direct3D 12, so not web target.
+
+But, Kyle, is cooking up [his own repo with WebGPU support](https://github.com/klukaszek/SDL), with [many of the examples running](https://github.com/klukaszek/SDL3-WebGPU-Examples), and now, a [open pull request against SDL](https://github.com/libsdl-org/SDL/pull/12046) to upstream these changes!
+
+</div>
+[subtrace/subtrace - Wireshark for Docker containers](https://github.com/subtrace/subtrace)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Subtrace is Wireshark for your Docker containers. It lets developers see all incoming and outgoing requests in their backend server so that they can resolve production issues faster.
+
+Good for security hardening and debugging!
+
+</div>
+[Filip Timotija - GameStop CEO decries ‘wokeness and DEI’ as company seeks to sell Canadian and French operations](https://thehill.com/business/5152167-gamestop-ceo-attacks-wokeness/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Spectacular [tweet](https://x.com/ryancohen/status/1891884823465103698) from the Gamestop CEO:
+
+> Email M&A@gamestop.com if you’re interested in buying GameStop Canada or Micromania France. High taxes, Liberalism, Socialism, Progressivism, Wokeness and DEI included at no additional cost if you buy today!
+
+</div>
+[Liam Dawe - The glibc 2.41 update has been causing problems for Linux gaming](https://www.gamingonlinux.com/2025/02/the-glibc-2-41-update-has-been-causing-problems-for-linux-gaming/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> It seems a recent update to glibc with version 2.41 release at the end of January, has been causing all sorts of problems for Linux gamers that have pulled in the update (mostly on rolling-release distributions).
+
+The [underlying bug goes into what's happening here](https://sourceware.org/bugzilla/show_bug.cgi?id=32653):
+
+> We over at Arch Linux have a received a few regression reports about various downstream projects impacted by the "dlopen and dlmopen no longer make the stack executable if a shared library requires it" change that was mentioned in the 2.41 release announcement [...]
+
+[@valigo_gg](https://x.com/valigo_gg) had [this](https://x.com/valigo_gg/status/1892189377830220025) to say:
+
+> Year of Linux desktop will never happen as long as glibc is de-facto standard libc. As far as I know, this regression is wontfix, so many games just won't work anymore. 
+>
+> Imagine being a game dev from 5 years ago and making a native Linux version of your game in a good faith, that's 100% a net-negative money-wise, only for it to stop working in a couple years. Backward compatibility on Linux does not exist as far as regular users concerned, and the only way to make software that works in years to come is to make it for Windows, and hopefully let Valve and Wine teams handle the rest.
+
+This is true :(, even if there is a extremely weird fix here to, I don't know, do a operating system file time created look on the `.so` file to see if its before a certain date and have the old functionality or something, I don't know, I'm not applying logic here, I am a dumb user who wants his games to run.
+
+I was looking at logs from a build of an [AppImage](https://github.com/fogo-sh/arctic-char/pull/10), and I saw that it skipped packaging libc into the thing, which makes sense, rely on system libc, because _system libc can't break, right? right???!?!?!._
+
+</div>
+[@yescynfria - there should be an easier way to release silly little apps to just ur friends without needing the app store](https://x.com/yescynfria/status/1892253164419629298)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Yes yes yes, this would be great, I would love to make silly little apps to send to friends to have on their phones as native applications.
+
+The first reply is just: "it's the web", which I understand, but if only PWAs on iOS could truly feel like fully native apps...
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Even then... maybe I do want full fat Swift UI vibes for my iOS buds... and no, I do _not_ want to go the [Flutter route](https://docs.flutter.dev/ui/widgets/cupertino)...
+
+</div>
+</div>
