@@ -1,0 +1,115 @@
+---
+name: "Linkblog/2025/02/18"
+description: "Slang, Dither on Playdate, LLM use Ethical?, x86 on NES, Terry Games, TF2 Open Source."
+ogImage: "/asset/Screenshot_2025-03-01_at_2.51.53 PM_1740853321818_0.png"
+---
+
+[Slang](https://shader-slang.org/) - The Slang Shading Language and Compiler
+
+<div class="ml-[calc(1*1rem)] mb-8">
+A _Khronos group_ supported high level shader language, with the intent to be converted to any language you want, with a lot of modern niceties like LSP integration and such.
+
+Also, from [this slideshow](https://members.khronos.org/document/dl/33712):
+
+<Image src='/asset/Screenshot_2025-02-28_at_7.55.47 PM_1740785152169_0.png' alt='Screenshot 2025-02-28 at 7.55.47 PM.png' width={2046} height={674} />
+
+_The entire Source 2 HLSL codebase is now Slang_.
+
+That's crazy.
+
+<div class="w-full h-4"></div>
+
+Some chatter on the FNA Creators Club discord points to Slang maybe having some oddities with regards to [SDL3 GPU](https://wiki.libsdl.org/SDL3/CategoryGPU) however.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+[Katelyn Gadd](https://luminance.org/) [mentioned](https://discord.com/channels/476524251441004544/499988953148030979/1344420560016248854) _"yeah iirc slang is opinionated about layout and wants to do it for you"_.
+
+Which is interesting, given I've been writing some SDL3 GPU code, and you have explicit control over each `layout(...)` that slots into a shader, I would assume everything would work like that, but supposedly not?
+
+</div>
+</div>
+[Aras Pranckevičius - Surface-Stable Fractal Dither on Playdate](https://aras-p.info/blog/2025/02/09/Surface-Stable-Fractal-Dither-on-Playdate/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/zhkAIKEHeV0"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+The [new approach to 3D dithering](https://www.youtube.com/watch?v=EzjWBmhO_1E), on the _playdate_.
+
+[Suzanne](https://en.wikipedia.org/wiki/Blender_(software)#Suzanne) on the playdate looking so nice.
+
+Porting [runevision/Dither3D](https://github.com/runevision/Dither3D) to my work in progress 'engine' would be dope.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Hoping to create a space that isn't my linkblog to discuss said engine, will for sure reference it from linkblog entires though once they're created.
+
+</div>
+<div class="w-full h-4"></div>
+
+From [Graphics Programming Weekly - Issue 379](https://www.jendrikillner.com/post/graphics-programming-weekly-issue-379/).
+
+</div>
+[Nicole T. - Can I ethically use LLMs?](https://ntietz.com/blog/can-i-ethically-use-llms/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Nicole brings up some great points on the ethics of LLMs, to summarize,
+
+- _LLMs [...] use a lot of energy._
+
+- _The training data for LLMs has largely been lifted without the consent of the people who generated that data._
+
+- _There's a lot of LLM usage that is just trying to replace people in entire jobs. I mean, it feels like all of it._
+
+All of the above is to be considered, and yet, I use them because they are useful to boosting my productivity and answering questions faster than StackOverflow / GitHub issues / etc.
+
+Maybe the answer is no, but the entire industry is currently revolving around these tools, both from people _making_ things, and people making things that _use_ these tools (like, my current job).
+
+</div>
+[decrazyo/nes86 - x86 emulation on the NES](https://github.com/decrazyo/nes86)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> NES86 is an IBM PC emulator for the NES.
+The goal of this project is to emulate an Intel 8086 processor and supporting PC hardware well enough to run the [Embeddable Linux Kernel Subset (ELKS)](https://github.com/ghaerr/elks), including a shell and utilities. It should be possible to run other x86 software as long as it doesn't require more than a simple serial terminal.
+
+_Woah._
+
+</div>
+[Terry Cavanagh - Out Now: Terry’s Other Games](https://distractionware.com/blog/2025/02/out-now-terrys-other-games/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/0qnv5XR-HlU"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+> Basically, it's a big messy personal collection of stuff I've made over the last twenty years.
+
+Love seeing these sorts of releases, old projects usually scattered around the web being cleaned up and bolted together into one _single_ release making them accessible.
+
+Reminds me of [Edmund McMillen](https://en.wikipedia.org/wiki/Edmund_McMillen)'s '[The Basement Collection](https://store.steampowered.com/app/214790/The_Basement_Collection/)'.
+
+</div>
+[SteamDB - Valve have just updated the Source 1 SDK on GitHub to the latest code based on Team Fortress 2, effectively making TF2 code source available.](https://x.com/SteamDB/status/1891936182650462613)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+As of [this commit](https://github.com/ValveSoftware/source-sdk-2013/commit/0759e2e8e179d5352d81d0d4aaded72c1704b7a9), TF2 is open source, extremely cool to see.
+
+While its not as cool as id Software releasing old engines under the GPL (during the days that John Carmack seemingly made them to do before they were bought out), at least its a company in the modern day _still_ considering making source available years after release a thing.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+idTech5 please, then idTech6, then idTech7, then idTech8, please and thanks ZeniMax Media.
+
+</div>
+</div>
