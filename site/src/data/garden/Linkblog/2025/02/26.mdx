@@ -1,0 +1,68 @@
+---
+name: "Linkblog/2025/02/26"
+description: "Acerola Shaders, DOOM on TypeScript, Claude credit for Three.js 3D, Multi-channel SDF text."
+ogImage: "/asset/ts-doom_1740882010832_0.jpg"
+---
+
+[Acerola - How Game Engines Make Shaders Easy](https://www.youtube.com/watch?v=5y1Oin7CcI4)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/5y1Oin7CcI4"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Amazing (as always) video on graphics programming by Acerola.
+
+Hyped to see them not only using Godot, but already trying to [contribute back to the ecosystem of tooling](https://github.com/GarrettGunnell/Acerola-Compute) to help folks who know how things work in Unity more easily port their stuff over to Godot.
+
+</div>
+[Michigan TypeScript - TypeScript types can run DOOM](https://www.youtube.com/watch?v=0mCsluv5FXA)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/0mCsluv5FXA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Probably one of the craziest technical showcase videos I've seen in a while.
+
+Amazing editing too.
+
+The dedication from the creator to the craft is unmatched.
+
+</div>
+[@mayfer - love when @mrdoob spent a decade making shadows, lighting & other shaders simple one-liners and then claude gets all the credit lol](https://x.com/mayfer/status/1894265694117924878)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+All the people being like, _wow Claude made a full 3D game wowowowow_, when really, (while it is still neat), is just Claude throwing together enough Three.js to piece _some_ semblance of a game together.
+
+No, Claude is _not_ rendering that scene...
+
+</div>
+[Chlumsky/msdfgen - Multi-channel signed distance field generator](https://github.com/Chlumsky/msdfgen)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+I knew the [Valve paper](https://steamcdn-a.akamaihd.net/apps/valve/2007/SIGGRAPH2007_AlphaTestedMagnification.pdf) on SDFs, but wasn't aware about [this amazing master's thesis...](https://github.com/Chlumsky/msdfgen/files/3050967/thesis.pdf)
+
+This is the Valve method:
+
+<Image src='/asset/valve-method_1740881865891_0.png' alt='valve-method.png' width={272} height={272} />
+
+And this is their method:
+
+<Image src='/asset/their-method_1740881882237_0.png' alt='their-method.png' width={272} height={272} />
+
+Obviously the GPU texture is multichannel _nonsense_, but look at the _crisp_ result.
+
+</div>
