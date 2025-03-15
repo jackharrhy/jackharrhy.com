@@ -1,0 +1,198 @@
+---
+name: "Linkblog/2025/03/03"
+description: "k8s Yoke, Bloat Aware Filesystem, Flow wins Oscar, FOIA for schema, C++ creator calls for defence on attacks, Bitcoin bailout, Linux laptop maker called me a zombie, Crysis on a phone, Godot 4.4, TanStack Form, How Flash shaped the industry, Lumon WoeMeter."
+ogImage: "/asset/woe_1742069948347_0.webp"
+---
+
+[Xe Iaso - Yoke is really cool](https://xeiaso.net/blog/2025/yoke-k8s/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> With Yoke, you write your infrastructure definitions in Go or Rust, compile it to WebAssembly, and then you take input and output Kubernetes manifests that get applied to the cluster.
+
+While I am _not_ a Kubernetes user, I know enough about it to be dangerous, and while in some concepts this is _cursed_, it does seem like this has some value, especially here as Xe brings up:
+
+> Think about Yoke flights as functions. They take in input and output Kubernetes resources. One of the big advantages of using WebAssembly here is that you can use the same Kubernetes manifest types that Kubernetes itself uses. This means you don't have to write your own types and you can reuse code aggressively. Here's an example bit of code that creates a Kubernetes [ServiceAccount](https://kubernetes.io/docs/concepts/security/service-accounts/):
+
+```go
+func createServiceAccount(app v1.App) *corev1.ServiceAccount {
+	return &corev1.ServiceAccount{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: corev1.SchemeGroupVersion.Identifier(),
+			Kind:       "ServiceAccount",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      app.Name,
+			Namespace: app.Namespace,
+			Labels:    app.Labels,
+		},
+    AutomountServiceAccountToken: ptr.To(true),
+	}
+}
+```
+
+This is nice, seeing this sort of thing as _actually code_ and not just a sea of YAML is nice.
+
+But honestly, I have no stake in the game, only vibes.
+
+I defer proper criquette to either [Dan](https://danielpower.ca/), [Riley](https://rileyflynn.me/), or [Stephen](https://github.com/STollenaar).
+
+</div>
+[negativa-ai/BLAFS - A Bloat Aware Filesystem for Container Debloating.](https://github.com/negativa-ai/BLAFS)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> BLAFS is a bloat-aware filesystem for container debloating. The design principles of BLAFS are effective, efficient, and easy to use. It detects the files used by the container, and then debloats the container by removing the unused files. The debloated containers are still functional and can run the same workload as the original containers, but with a much smaller size and faster deployment.
+
+Very interesting idea!
+
+As soon as I saw this, I thought of [Capsicum](https://en.wikipedia.org/wiki/Capsicum_(Unix)), a similar idea, but in the concept of permissions and security rather than simply files being ripped out of place.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+One of the only reason I know of Capsicum, is that one of the professors at my University (I dropped out of), was actually one of the [original authors](https://man.freebsd.org/cgi/man.cgi?query=capsicum&sektion=4#end).
+
+</div>
+I mentioned this in the thread [here](https://old.reddit.com/r/programming/comments/1j1w6ar/containers_are_bloated_blafs_can_cut_up_to_90_of/mfsz50a/), and the OP of the post (presumably the authors) responded:
+
+> Yes, a huge reason we are interested in this is for container security hardening. Chainguard is great and all, but it is both expensive and not-general enough.
+
+Having an alternative to Chainguard is cool.
+
+<div class="w-full h-4"></div>
+
+From [/r/programming](https://old.reddit.com/r/programming/comments/1j1w6ar/containers_are_bloated_blafs_can_cut_up_to_90_of/).
+
+</div>
+[‘Flow’ wins best animated feature film Oscar](https://www.reuters.com/lifestyle/flow-wins-best-animated-feature-film-oscar-2025-03-03/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Blender-made Film wins an Oscar! Huge!
+
+Interesting note from [the orange site as well](https://news.ycombinator.com/item?id=43237273):
+
+> Not only was it made with Blender, the final renders were done with Blenders semi-realtime Eevee engine rather than its max-fidelity Cycles engine. That reduced the compute required by orders of magnitude - the director said a render farm wasn't necessary because his local workstation could produce final-quality 4K frames in 0.5-10 seconds.
+
+</div>
+[Matt - Losing a 5-year-long Illinois FOIA lawsuit for database schemas](https://mchap.io/losing-a-5yr-long-illinois-foia-lawsuit-for-database-schemas.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+The partner post to yesterday's [I Went To SQL Injection Court](https://sockpuppet.org/blog/2025/02/09/fixing-illinois-foia/).
+
+> The whole point of this entire thing was to make it easier to request data through FOIA. Ultimately, the goal is to simply send a SQL statement to an agency for them to run, and avoid so much of the usual nonsense. Basically, an API.
+
+The frustrating thing is reading about 'Metalicious', supposedly at one point in the Chicago _had_ a data dictionary place you could go to get database schemas to help people structure their FOIA requests based on actual schema, but that was shuttered.
+
+We have a ['Open data' portal](https://opendata.gov.nl.ca/) here in Newfoundland, but it for sure doesn't seem like its gotten much love since it opened up.
+
+</div>
+[Thomas Claburn - C++ creator calls for help to defend programming language from 'serious attacks'](https://www.theregister.com/2025/03/02/c_creator_calls_for_action/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+As much as I jest about [_RIIR_](https://github.com/ansuz/RIIR), and have been enjoying my time writing [Odin](https://odin-lang.org/) as of late for some low-level game dev, I think pushing C++ to have more built-in ways of handling memory better is good.
+
+> In a February 7 "Note to the C++ Standards Committee" ([WG21](https://isocpp.org/std/the-committee)) in support of his [Profiles](https://github.com/BjarneStroustrup/profiles) memory safety framework, he wrote, "This is clearly not a traditional technical note proposing a new language or library feature. It is a call to urgent action partly in response to unprecedented, serious attacks on C++. I think WG21 needs to do something significant and be seen to do it. Profiles is a framework that can do that."
+>
+> His note continues, "As I have said before, this is also an opportunity because type safety and resource safety (including memory safety) have been key aims of C++ from the very start.
+> "I feel strongly about this. Please don’t be fooled by my relatively calm language."
+
+Nah actually on second thought, rewrite it in Rust.
+
+<div class="w-full h-4"></div>
+
+[From /r/programming](https://old.reddit.com/r/programming/comments/1j27wf6/stroustrup_calls_for_defense_against_attacks_on_c/)
+
+</div>
+[Molly White - President on brink of bailout for bitcoin](https://www.citationneeded.news/issue-78/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> The crypto industry has gotten everything it could have dreamed of in the US after the elections, and yet the market has taken a dramatic turn for the worse. Bitcoin prices have been tanking, dropping more than 25% since the previous all-time high price, which was set on January 20.
+>
+> [...]
+>
+> Most notably, the SEC case against Coinbase was dismissed with prejudice, meaning the SEC cannot refile the case in the future. CEO Brian Armstrong was explicit with his thanks when announcing the dismissal on Twitter: “I have to give credit here to the Trump administration, for winning the election”. He insisted that he believed “we would have won this case in the courts either way”, but noted that Trump’s election “certainly helped accelerate the process”.[23](https://www.citationneeded.news/issue-78/#reference-23) Coinbase has spent $75 million on contributions to crypto-focused super PACs, some [apparently in violation of federal election law](https://www.citationneeded.news/coinbase-campaign-finance-violation/), and contributed $1 million to Trump’s inauguration fund.
+
+I'm curious to know how the math works out here, to the amount these crypto entities donated to the Trump inauguration fund, and how much _value_ they will likely get out of these policies...
+
+Yay for no crypto accountability anymore!
+
+</div>
+[Niccolò Venerandi - This Linux laptop maker called me a Zombie](https://thelibre.news/this-linux-laptop-maker-called-me-a-zombie/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+The same guy who [banned the entire state of Colorado for life](https://www.malibal.com/features/dont-support-the-coreboot-project/) since the principal engineer of System76 chimed into his discussion on Coreboot, called a reviewer a 'zombie'.
+
+Nice.
+
+[Orange site discussion](https://news.ycombinator.com/item?id=43237987).
+
+</div>
+[f4mi - Running Crysis on a... PHONE???](https://www.youtube.com/watch?v=aP0yUqcyY18)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/aP0yUqcyY18"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+"Can it run Crysis?" will _never die_.
+
+I hadn't heard of the [box64](https://box86.org/) / [Winulator](https://winlator.org/) projects before, very cool stuff.
+
+</div>
+[Godot 4.4](https://godotengine.org/releases/4.4/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+New Godot release, with _so many changes_:
+
+Physics rehabbed, using [JoltPhysics](https://github.com/jrouwe/JoltPhysics)
+
+<div class="ml-[calc(2*1rem)] mb-8">
+This release also uses [Manifold](https://github.com/elalish/manifold) for CSG, I like Godot's approach to know when its time to just rely on a well-supported third party library instead of rolling their own implementation.
+
+</div>
+Also, _[Vertex freaking shading](https://github.com/godotengine/godot/pull/83360)_, for that low poly lighting vibes.
+
+</div>
+[TanStack Form](https://tanstack.com/form/latest)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+A new piece of the TanStack [just dropped](https://x.com/tannerlinsley/status/1896595066778743136)!
+
+API on the surface looks very [react-hook-form](https://react-hook-form.com/)-esq, would be nice to try it out to see how it compares.
+
+</div>
+[Jonas Richner - How flash games shaped the video game industry](https://www.flashgamehistory.com/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Flash games were the gateway for many developers in the games industry, and served as an experimental playground for distilling games down to their most pure and engaging elements. The end-of-life of Flash in December 2020 marks the end of one of the most creative periods in the history of gaming.
+
+Beautiful website, with wonderful content on the history of Flash.
+
+<div class="w-full h-4"></div>
+
+By the time I was becoming a developer, Flash was already well on its way out, not straight up deprecated, but it was already during a time folks knew it was generally a bad choice, and you could _do the same stuff in HTML5 so do it in that instead!_.
+
+I do think its sad no one tool took over, be it [Phaser](https://phaser.io/), [PlayCanvas](https://playcanvas.com/), [Construct](https://www.construct.net/en), etc.
+
+All of the above tools are _good_, but none can ever trump the sheer _ubiquity_ of Flash.
+
+<div class="w-full h-4"></div>
+
+Obviously shoutout to [Ruffle](https://ruffle.rs/), the Flash emulator making websites still function in the modern day, especially giving [the Internet Archive a way to still have Flash websites function in the wayback machine](https://mastodon.archive.org/@textfiles/110697893762381822).
+
+</div>
+[make3 - Lumon Industries WoeMeter](https://make3.co/work/woemeter)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<Image src='/asset/woe_1742069948347_0.webp' alt='woe.webp' width={453} height={464} />
+
+>**Project:** Severance Season 2
+>
+> **Requirements:** The story needed we build a machine that measured Woe in a person, one of the Kier Eagan's "Four Tempers": Woe, Frolic, Dread, and Malice. Having been shown only concept renders and only having six weeks until the shoot schedule of the episode we had to streamline the design and feedback process.
+
+Been loving the new season of Severance, this is a sweet breakdown of a prop made for the latest episode!
+
+</div>
