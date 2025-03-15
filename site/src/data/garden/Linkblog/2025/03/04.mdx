@@ -1,0 +1,239 @@
+---
+name: "Linkblog/2025/03/04"
+description: "Real-Time Atlases, Nikki Shadow Drop, Nightmare Bicycle, Eval > Model, IMG_0416, PlantStudio, Lo-Fi Art and Human Tools, Skin Deep - Blendo Wav Tool, Exploiting Cursor to write better code, SpacetimeDB, Trippy."
+ogImage: "/asset/plant-main-window_1742074544195_0.gif"
+---
+
+[FastAtlas: Real-Time Compact Atlases for Texture Space Shading](https://arxiv.org/abs/2502.17712)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Texture-space shading (TSS) methods decouple shading and rasterization, allowing shading to be performed at a different
+framerate and spatial resolution than rasterization. [...] Real-time TSS shading requires texture atlases small enough to be easily stored in GPU memory.
+[...] We propose FastAtlas, a novel atlasing method that runs entirely on the GPU and is fast enough
+to be performed at interactive rates per-frame. [...]
+
+I'll be honest in that I don't _really_ know what is going on in this paper...
+
+But it just looks so cool, and I've also been digging into texture atlases in my own project, so I had to include it.
+
+<Image src='/asset/Screenshot_2025-03-15_at_5.58.46 PM_1742070568694_0.png' alt='Screenshot 2025-03-15 at 5.58.46 PM.png' width={2356} height={1560} />
+
+<div class="w-full h-4"></div>
+
+From [Graphics Programming Weekly - Issue 381](https://www.jendrikillner.com/post/graphics-programming-weekly-issue-381/)
+
+</div>
+[Infinity Nikki: Mysterious Shadow Drop](https://simonschreibt.de/gat/infinity-nikki-shadow/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I f*ckd up. This is how I originally planned this article: It should be short, contain 1-2 videos and express the following:
+>
+> > “Look! In Infinity Nikki the character has a “real” shadow, but the developers fade it out while jumping to make space for a blob shadow (which helps to navigate while jumping/gliding).”
+>
+> <video controls src='/asset/nikki_shadow_disappears_1742070835185_0.mp4' width='1280' height='720'></video> 
+>
+> But the more I looked into the subject, the more observations I made, the more people got involved (to give me advice), and the article grew longer and longer. I’m sorry.
+
+A really interesting dive into blob shadows across different games, both old and new, from a graphics programming perspective.
+
+<div class="w-full h-4"></div>
+
+Also, from [Graphics Programming Weekly - Issue 381](https://www.jendrikillner.com/post/graphics-programming-weekly-issue-381/)
+
+</div>
+[Geoffrey Litt - Avoid the nightmare bicycle](https://www.geoffreylitt.com/2025/03/03/the-nightmare-bicycle.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> In my opinion, one of the most important ideas in product design is to avoid the “nightmare bicycle”.
+> 
+> Imagine a bicycle where the product manager said: “people don’t get math so we can’t have numbered gears. We need labeled buttons for gravel mode, downhill mode, …”
+>
+> This is the hypothetical “nightmare bicycle” that Andrea diSessa imagines in his book [Changing Minds](https://mitpress.mit.edu/9780262541329/changing-minds/).
+
+I do enough tinkering with product at work to be dangerous, mostly I am a developer acting on the whims of someone who's actual job title has 'product' in it, but even I can acknowledge how this sort of thinking can arise from a well-intentioned person, but spread and grow into the state you have a heap of a project which doesn't trust that even somewhat conscious humans are using it.
+
+Balance is key.
+
+</div>
+[Your Eval is More Important Than the Model](https://www.dbreunig.com/2025/01/08/evaluating-llms-as-knowledge-banks.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> In this Cambrian era of LLMs – where new models drop every week – choosing a model for a product, pipeline, or project can be daunting. It’s tempting to throw your hands up and default to whatever OpenAI or Anthropic is offering this week. But if you’re building with AI, I strongly recommend against this “default.” Instead, take a step back and build your eval.
+>
+> [...]
+>
+> Last year, [Hamel Husain wrote an amazing piece on evals](https://hamel.dev/blog/posts/evals/), arguing, “If you streamline your evaluation process, all other activities become easy.” I’ll go a step further: **your eval is the most valuable AI asset you own, not your model or your prompts.**
+
+[The author mentions DSPy in another article of his](https://www.dbreunig.com/2024/12/12/pipelines-prompt-optimization-with-dspy.html), something else I have heard positive things about with regards to structuring evals.
+
+</div>
+[Ben Wallace - IMG_0416](https://ben-mini.com/2024/img-0416)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Between 2009 and 2012, Apple iPhones and iPod Touches included a feature called “Send to YouTube” that allowed users to upload videos directly to YouTube from the Photos app.
+>
+> [...] Apple uses the ‘IMG_XXXX’ naming convention for all images and videos captured on iOS devices, where XXXX is a unique sequence number¹. The first image you take is named “IMG_0001”, the second is “IMG_0002” and so on. During the Send to YouTube era of 2009 and 2012, the title of one’s YouTube video was defaulted to this naming convention. Unwitting content creators would then upload their videos on a public site with a barely-searchable name. To this day, there are millions of these videos.
+>
+> <Image src='/asset/img-yt-search_1742074183449_0.png' alt='img-yt-search.png' width={3020} height={1858} />
+
+Truly candid videos, not in the sense of those not knowing they are being filmed, but not knowing the eventual place this content will end up on.
+
+Its long enough ago as well, that I'd already view this as an interesting snapshot of a point in time.
+
+<div class="w-full h-4"></div>
+
+The reason it was cut in 2012, was _"when Apple severed ties with YouTube by [removing its homegrown app in 2012](https://archive.nytimes.com/bits.blogs.nytimes.com/2012/08/06/apple-to-remove-youtube-app-from-iphone-and-ipad/)."_.
+
+TIL, the YouTube app was homegrown at that point.
+
+<Image src='/asset/old-yt-app-icon_1742074377934_0.jpg' alt='old-yt-app-icon.jpg' width={231} height={175} />
+
+_Classic_.
+
+<div class="w-full h-4"></div>
+
+From Ava's ['cool links IV: healthcare, cool retro software, humanity'](https://blog.avas.space/cool-links-iv/)
+
+</div>
+[Pirijan - Digging Into PlantStudio, a Bit Late](https://pketh.org/plantstudio.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> This aesthetic screenshot of an old windows app has been in my [inspiration space](https://pketh.org/decade-of-inspiration.html) for ~5 years. Until recently, I assumed that it was just a nostalgia bait concept.
+>
+> <Image src='/asset/plant-main-window_1742074544195_0.gif' alt='plant-main-window.gif' width={474} height={403} />
+>
+> The calm, serene life associated with gardening pairs suspiciously well with rose-tinted wistfulness for a simpler time in computing. I’m happy to be wrong though, because software doesn’t get more real than [PlantStudio](https://www.kurtz-fernhout.com/PlantStudio/).
+
+What a lovely piece of software, given the age this was made it gives vaguely similar vibes as [Pivot Animator](https://pivotanimator.net/), but instead of stick figure animations, _procedurally generated plants_.
+
+<div class="w-full h-4"></div>
+
+I should follow Pirijan's tutorial on how to set it up on Mac, so I can add some flowers to this 'garden' of a website as well.
+
+<div class="w-full h-4"></div>
+
+From [ava's link](https://blog.avas.space/cool-links-iv/) to [maya's site](https://maya.land/responses/2025/01/17/plantstudio-botany-simulator.html).
+
+</div>
+[Pirijan - The Lo-Fi Art and Human Tools Era](https://pketh.org/the-human-tools-era.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+(Once I find a new website I like, I do usually do some digging to see if there is other content I might enjoy, and oh yes there was!).
+
+> I spend a lot of time thinking about tools for thinking and creativity, and how they’ve changed. If you’re not used to drawing or writing – and even if you are – the scariest thing in the world is a blank page.
+>
+> [...]
+>
+> The first sentence, or the first brush stroke, is a high anxiety situation. Full of potential, full of unknown pain.
+>
+> So to help with the blank slate problem, software tools added Templates. `File → New` turned into `File → New → Do You Want to Make a Portfolio? Or a Résumé?`. This more recently turned into `File → New → Ask AI to Do It`. These features help some people, but also create new problems.
+>
+> These tools can generate almost effortless outputs. They unburden us from the abrasion of creativity and their generic-by-design results keep us cocooned from the risks of standing out. No one wants to make ‘ugly’ art, or a ‘bad’ website. But struggling and making mistakes is an important part of developing skills and – increasingly important – finding your own voice.
+
+The biggest piece I get out of this post, which I'm breaking direct quotes on here to call out it specifically, is this:
+
+> We don’t talk enough about the many-years-long rite of passage that every creator goes through.
+
+In many creative realms, like game development, or design, I feel like I have no ability to call myself good, _but_, when it comes to structuring a website (probably a bit more from its innards), I feel like I know what I'm talking about, and it took a _while_ to get here.
+
+I do think its _possible_ to find your voice quickly and become 'productive' creatively in a short period of time, but I think _most_ people fall into the camp of folks who worked on their craft over a long period of time, before being looked at as having truly made their own vision and direction in what they seek to make.
+
+</div>
+[Brendon Chung - Skin Deep: Blendo Wav Tool](https://blendogames.com/news/post/2025-03-03-wavtool/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Brendon is back!
+
+His new game, _Skin Deep_, has had a [demo drop](https://store.steampowered.com/app/3483180/Skin_Deep_Demo/), which I have played the one level you can play on it, probably at least five times by now.
+
+Don't take my word on it, see what Dustin Bailey [has to say on the game](https://www.gamesradar.com/games/stealth/i-went-from-i-hope-this-is-good-to-this-might-be-goty-within-5-minutes-of-picking-up-the-steam-next-fest-demo-for-this-ridiculous-stealth-game/):
+
+> I went from "I hope this is good" to "this might be GOTY" within 5 minutes of picking up the Steam Next Fest demo for this ridiculous stealth game
+>
+> Skin Deep is like a slapstick Dishonored and it's suddenly one of my most-anticipated games of 2025.
+
+Brendon talks about the [Blendo Wav Tool](https://github.com/blendogames/BlendoWavTool), yet another piece of open source gamedev technology he's opened sourced, used for the game.
+
+> Skin Deep has a lot of sound effects, a lot of music, and full voice acting (VO). There’s a lot of audio. As a result of this increase in scale, it became challenging to manage this amount of assets – and so, I made this Blendo Wav Tool.
+>
+> To set expectations: this is all very low-tech straightforward stuff. There’s nothing here that can’t be done with [Regex](https://en.wikipedia.org/wiki/Regular_expression) or a [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) script. But having a specific tool for our specific workflow was something hugely helpful.
+
+I love all of the random little programs Brendon has thrown together, if I ever tackle a game project outside the scope of a game jam, I hope to approach things similarly.
+
+</div>
+[GlitchCityLA - Quake BSP Survival Guide | Brendon Chung | Demo Night (part 2 of 12)](https://www.youtube.com/watch?v=rLhbu9kXxVA)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+(Another dive, this time more Brendon fan fair).
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/rLhbu9kXxVA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Some behind the scenes look at Brendon's game [Thirty Flights of Loving](https://en.wikipedia.org/wiki/Thirty_Flights_of_Loving) being shown off at [Glitch City LA](https://glitch.city/) in 2013.
+
+In 2017, he [did another talk on kit bashing](https://www.youtube.com/watch?v=4FFZq5YWT1Y), likely during his time working on [Quadrilateral Cowboy](https://en.wikipedia.org/wiki/Quadrilateral_Cowboy), which actually has a full art book as [a piece of software itself you can grab as DLC on Steam](https://store.steampowered.com/app/489490/Quadrilateral_Cowboy_Art_Book/).
+
+I am Blendo Games stan.
+
+</div>
+[Ricardo Ander-Egg - Exploiting Cursor to write better code](https://ricardoanderegg.com/posts/cursor-ide-better-code-local-documentation/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I have been using the Cursor IDE for some time already and I really like its documentation indexing feature. Recently, I discovered a better way to leverage Cursor’s tools to make better references to official documentation and write better code.
+>
+> Here’s what I’ve been doing: Instead of relying on URL-indexed documentation, I download official docs directly to my machine. Take Caddy, for example. I grabbed their docs from [GitHub](https://github.com/caddyserver/website) (see `src/docs/markdown`), keeping just the markdown files in a local subfolder called `docs`. Now when I’m tweaking my Caddy config, the documentation sits right next to my work.
+>
+> This setup is surprisingly powerful. When I use Cursor’s chat with CMD + Enter, it scans my entire codebase – which now includes my Caddy config plus the official docs. The LLM gives me better, more accurate suggestions because it’s working with authoritative sources.
+
+Very neat approach, maybe this predates the [Agent](https://docs.cursor.com/chat/agent) feature of Cursor though, or would go more hand-in-hand with it.
+
+I would assume there are [Model Context Protocol Servers](https://github.com/modelcontextprotocol/servers) one could use to maybe have bits of this be external to the repo, or maybe having things in-repo is better?
+
+So many approaches.
+
+</div>
+[The Onion - Pete Hegseth Deploys 3,000 U.S. Troops On Beer Run](https://theonion.com/pete-hegseth-deploys-3000-u-s-troops-on-beer-run/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<Image src='/asset/Pete_Hegseth_Deploys_NIB_G_PH_1741107732071_0.webp' alt='Pete_Hegseth_Deploys_NIB_G_PH.webp' width={354} height={211} />
+
+_Hell yeah_
+
+</div>
+[Tyler Cloutier - Introducing SpacetimeDB 1.0](https://spacetimedb.com/blog/introducing-spacetimedb-1-0)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Very hyped to see SpacetimeDB being launched, I want to find a reason to use this project sometime soon.
+
+_However_, ignoring for a moment its under a Business Source License, which means me as a user can ignore that but there can't be a competing hosing provider for SpacetimeDB rather than themselves, it does not look like client interpolation is something SpacetimeDB concerns itself with.
+
+I assumed the reason they'd choose something Rust native with WASM, would mean that aspects of their logic could run both on serverside, and client side, but I had to join the Discord to see a lengthy message from someone with a colorful role (therefore I assume a contributor), saying that, no, SpacetimeDB has nothing baked into it to give you a story for clientside interpolation.
+
+Sad, current project idea I have in my head would really make use of something like that, so a tool like SpacetimeDB leaving that as a _TBD_ is a bit frustrating.
+
+Oh well, maybe skill issue understanding what the role of SpacetimeDB would be in the context of a game, but, 🤷.
+
+</div>
+[r_g_b.html](https://vbuckenham.com/blog/r_g_b-html/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I have a new webpage up! It is called [r_g_b.html](https://vbuckenham.com/r_g_b.html) [warning for flashing colours].
+
+Trippy.
+
+</div>
+[Pierre](https://pierre.co/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+More trippy.
+
+Gotta love when people treat websites like the proper digital canvases they are.
+
+</div>
