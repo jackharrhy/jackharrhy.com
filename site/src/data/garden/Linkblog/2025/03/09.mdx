@@ -1,0 +1,114 @@
+---
+name: "Linkblog/2025/03/09"
+description: "Tom's Blogroll, LocalThunk's Balatro Timeline, Make Good Small Games, What is MCP?, Lynx: Bytedance's React Native, Claude Code good?"
+ogImage: "/asset/mcp-overview_1742087573821_0.png"
+---
+
+[Tom MacWright - Introducing the blogroll](https://macwright.com/2025/03/07/blogroll.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> This website has a [new section: blogroll.opml](https://macwright.com/blogroll.opml)! A blogroll is a list of blogs - a lightweight way of people [recommending other people’s writing on the indieweb](https://indieweb.org/blogroll).
+
+I need to hop on producing a OPML from all the blogs I consume.
+
+<Image src='/asset/Screenshot_2025-03-15_at_9.39.32 PM_1742083777017_0.png' alt='Screenshot 2025-03-15 at 9.39.32 PM.png' width={289} height={141} />
+
+However, I have a _few_ feeds to trim out...
+
+Tom also has it as a fully rendered page you can visit in your browser, but also upload to your feed reader as-is.
+
+> [Ruben Schade](https://rubenerd.com/) figured out a brilliant way to show blogrolls and I copied him. Check out his post on [styling OPML and RSS with XSLT to XHTML](https://rubenerd.com/styling-opml-and-rss-with-xslt/) for how it works.
+
+Very cool!
+
+</div>
+[LocalThunk - The Balatro Timeline](https://localthunk.com/blog/balatro-timeline-3aarh)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Quite the chronicle written up by LocalThunk on the timeline of Balatro's development.
+
+The one bit that stood out to me:
+
+> My partner was learning to code in R at the time, and she asked me “How do you name your variables?” I went on some rant about casing, using descriptive words, underscores, etc. She waits until I am finished and says “I like to call mine **thunk**”. I thought that was just about the funniest thing I had ever heard.
+>
+> The way variables are declared in Lua is (sometimes) with the **local** keyword, thus **local thunk** was born! I wouldn’t choose this name for quite a while yet but this is the moment I looked back on when I was finally ready to create a developer handle online.
+
+The `Local`, in `LocalThunk`, is in _relation to the local keyword in Lua_.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Balatro itself is written in Lua, the scripting language of choice for the [LÖVE framework](https://love2d.org/).
+
+</div>
+```lua
+local thunk = ...
+```
+
+That's hilarious.
+
+</div>
+[farawaytimes - How To Make Good Small Games](https://farawaytimes.blogspot.com/2023/02/how-to-make-good-small-games.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> A lot of people want to make games, but struggle to get started. They install Unity, try to follow a tutorial for three hours, get frustrated, and quit. I've long advocated for simpler tools, encouraging developers to play with Bitsy, Twine, Puzzlescript. Maybe RPG Maker or Ren'Py if they're up for something more involved. [...]
+>
+> But that's only part of the picture. You can tell devs about simpler tools, sure. But what if they don't want to make a Bitsy or a Twine? What if they don't want to scope small? [...]
+>
+> There are only two paths forward from this (besides giving up). The first is to bang your head against an engine for 5+ years until you're able to make your dream game. [..]
+>
+> The second is to change your perspective. Play a bunch of small hobbyist games, on itch or gamejolt or wherever. Find ones you like. Find ones you really like. [...]
+>
+> The second path is the correct one. If you say so outright, people get angry. "I don't want to make tiny, crappy games. I want to make ambitious awesome epic games, like the ones that inspired me as a kid."
+
+Great points, great article.
+
+</div>
+[Norah Sakal - What is Model Context Protocol (MCP)? How it simplifies AI integrations compared to APIs](https://norahsakal.com/blog/mcp-vs-api-model-context-protocol-explained/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Think of MCP like a USB-C port but for AI agents: it offers a uniform method for connecting AI systems to various tools and data sources.
+
+I've struggled to conceptualize MCP, as someone who works at a company which could potentially even make use of it, but this article is great at breaking it down.
+
+<Image src='/asset/mcp-overview_1742087573821_0.png' alt='mcp-overview.png' width={1920} height={1080} />
+
+Their analogy of USB for LLMs honestly works quite well.
+
+</div>
+[Lynx: Unlock Native for More](https://lynxjs.org/blog/lynx-unlock-native-for-more)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Today, we're excited to introduce Lynx, a family of technologies empowering developers to use their existing web skills to create truly native UIs for both mobile and web from a single codebase. Designed for diverse use cases and rich interactivity, Lynx delivers vibrant and engaging UIs for large-scale apps like TikTok, featuring a speedy, versatile rendering engine, performance-driven dual-threaded UI programming, modern Rust-based tooling, and more!
+
+[Bytedance](https://en.wikipedia.org/wiki/ByteDance)'s answer to React Native.
+
+Interesting.
+
+The author of the post is also a former React core member, with mentions of React Native / [Hermes](https://github.com/facebook/hermes) in their bio, _innntteerreesstinggg_.
+
+<div class="w-full h-4"></div>
+
+Obligatory Fireship video:
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/-qjE8JkIVoQ"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+</div>
+[Steve Yegge on Claude Code](https://x.com/Steve_Yegge/status/1898674257808515242)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I've been using Claude Code for a couple of days, and it has been absolutely ruthless in chewing through legacy bugs in my gnarly old code base. It's like a wood chipper fueled by dollars. It can power through shockingly impressive tasks, using nothing but chat. [...]
+>
+> Claude Code's form factor is clunky as hell, it has no multimodal support, and it's hard to juggle with other tools. But it doesn't matter. It might look antiquated but it makes Cursor, Windsurf, Augment and the rest of the lot (yeah, ours too, and Copilot, let's be honest) FEEL antiquated.
+
+Interesting for someone to say that the Cursor / Windsurf approach feels ancient... I want to give Claude Code a shot, but also am spooked out on the idea of seeing a ticking counter for _exactly_ how much I'm spending on it...
+
+From [Simon Willison's Webblog](https://simonwillison.net/2025/Mar/9/steve-yegge/).
+
+</div>
