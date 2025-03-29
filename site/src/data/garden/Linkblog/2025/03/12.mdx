@@ -1,0 +1,169 @@
+---
+name: "Linkblog/2025/03/12"
+description: "How Simon uses LLMs, `typescript-go` Why Go?, Multiplayer Haskell game, Factorio for LLM learning, Andrew Kelley Practical DOD, DuckDB local UI, ISBN visualization competition, Pneumatic 'Unix Philosophy' Game Engine, Tiny CSG, Crocotile 3D room."
+ogImage: "/asset/not-all-cpu-the-same_1743272282105_0.png"
+---
+
+[Simon Willison - Here’s how I use LLMs to help me write code](https://simonwillison.net/2025/Mar/11/using-llms-for-code/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Online discussions about [using Large Language Models to help write code](https://simonwillison.net/tags/ai-assisted-programming/) inevitably produce comments from developers who’s experiences have been disappointing. They often ask what they’re doing wrong—how come some people are reporting such great results when their own experiments have proved lacking?
+>
+> [...]
+>
+> I’ve been getting great results out of LLMs for code for over two years now. Here’s my attempt at transferring some of that experience and intution to you.
+
+Simon's coverage of LLMs, but also contributors, such as the great [`llm`](https://github.com/simonw/llm) CLI tool, have been both plentiful and consistently posted / updated.
+
+Usually his web blog is posting other peoples snippets, which I can say nothing ill about as the writer of this link blog which is _just_ that at the moment, but today we're treated to a full sized Simon himself post!
+
+<div class="w-full h-4"></div>
+
+Here are some of my favorite points brought up in his post:
+
+> **Set reasonable expectations**
+>
+> Ignore the “AGI” hype—LLMs are still fancy autocomplete. All they do is predict a sequence of tokens—but it turns out writing code is mostly about stringing tokens together in the right order, so they can be *extremely* useful for this provided you point them in the right direction.
+>
+> [...]
+>
+> **Context is king**
+>
+> Most of the craft of getting good results out of an LLM comes down to managing its context—the text that is part of your current conversation.
+>
+> [...]
+>
+> **Vibe-coding is a great way to learn**
+>
+> Andrej Karpathy [coined the term](https://simonwillison.net/2025/Feb/6/andrej-karpathy/) vibe-coding just over a month ago, and it has stuck:
+>
+> [...]
+
+</div>
+[microsoft/typescript-go - Why Go? #411](https://github.com/microsoft/typescript-go/discussions/411)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Language choice is always a hot topic! We extensively evaluated many language options, both recently and in prior investigations. We also considered hybrid approaches where certain components could be written in a native language, while keeping core typechecking algorithms in JavaScript. We wrote multiple prototypes experimenting with different data representations in different languages, and did deep investigations into the approaches used by existing native TypeScript parsers like swc, oxc, and esbuild. To be clear, *many languages would be suitable in a ground-up rewrite situation*. Go did the best when considering multiple criteria that are particular to this situation, and it's worth explaining a few of them.
+
+A lot of armchair expert programmers shouting _why not Rust, Rust fast Rust fast why not C#, C# fast C# fast_.
+
+Understand these folks really did consider their options for this, rewrites are _not_ done lightly.
+
+<div class="w-full h-4"></div>
+
+From [Simon Willison's Webblog](https://simonwillison.net/2025/Mar/11/ryan-cavanaugh/#atom-everything)
+
+</div>
+[Alex Chen - Making a multiplayer action game in Haskell](https://gitlab.com/-/snippets/4817016)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Hi everyone, I'd like to show you the Haskell project I've been working on for practically forever (5 years). It's a video game!
+>
+> It's a simple multiplayer action game called Pixelpusher that's meant to be intuitive and frivolous.
+>
+> You're on teams and you fight each other with drones, mostly by trying to smash them into stuff. This [trailer](https://www.youtube.com/watch?v=LlgfU41jvCI) will show you what I mean.
+>
+> It's [open source](https://gitlab.com/awjchen/pixelpusher) and
+I've also made it available for free on [Steam](https://store.steampowered.com/app/2495130/Pixelpusher/).
+
+While I am a functional enjoyer, I think other languages / paradigms are better for gamedev personally.
+
+_But_, it is always nice to see people who do make this technical choice not just write a fnacy medium post, or build an advanced ECS engine, without actually _shipping_ anything.
+
+Here, Alex has not only _shipped_, but shipped something that doesn't look like a university undergraduates final semester gamedev project they were required to make for marks without any love (which it seems that's the bulk of these 'look I made a game using lambda calculus wow):
+
+<Image src='/asset/alex-chan-haskell-game_1743271408152_0.jpg' alt='alex-chan-haskell-game.jpg' width={600} height={337} />
+
+</div>
+[Jack Hopkins - Factorio Learning Environment](https://jackhopkins.github.io/factorio-learning-environment/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Large Language Models (LLMs) are rapidly saturating existing benchmarks, necessitating new open-ended evaluations. We introduce the **Factorio Learning Environment (FLE)**, based on the game of Factorio, that tests agents in long-term planning, program synthesis, and resource optimization.
+
+<Image src='/asset/Screenshot_2025-03-29_at_3.35.51 PM_1743271554425_0.png' alt='Screenshot 2025-03-29 at 3.35.51 PM.png' width={1518} height={1224} />
+
+Who needs to play Factorio when an LLM can do it for you?
+
+</div>
+[Andrew Kelley - Practical Data Oriented Design](https://www.youtube.com/watch?v=IroPQ150F6c)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Great talk by the creator of [Zig](https://ziglang.org/), Andrew Kelley, on data oriented design.
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/IroPQ150F6c"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+A lot of discussion on the memory layout of structs, and approaches you can take to better optimize for modern day CPUs.
+
+He references ['Andre Weissflog's - Handles are the better pointers'](https://floooh.github.io/2018/06/17/handles-vs-pointers.html) article, which I've heard reference to in the [Odin](https://odin-lang.org/) circles I've been hanging around (Andrew actually does reference Odin in this talk funny enough).
+
+He also references [this graphic](http://ithare.com/infographics-operation-costs-in-cpu-clock-cycles/):
+
+<Image src='/asset/not-all-cpu-the-same_1743272282105_0.png' alt='not-all-cpu-the-same.png' width={483} height={414} />
+
+Notice the x scale, its _logarithmic_, the difference between a L1 read, a L3 read, and a Main RAM read, is quite visual here.
+
+One thing brought up in his talk, is that sometimes, memoization of an expression that needs math to compute, might just be cheaper to recompute when you need it than store, since yes you'd save the computation, but only potentially wrecked by an expensive memory read.
+
+</div>
+[Jeff Raymakers and Gabor Szarnyas - The DuckDB Local UI](https://duckdb.org/2025/03/12/duckdb-ui.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> TL;DR: The DuckDB team and MotherDuck are excited to announce the release of a local UI for DuckDB shipped as part of the `ui` extension.
+
+<Image src='/asset/duckdb-ui_1743272410598_0.png' alt='duckdb-ui.png' width={3456} height={1986} />
+
+DuckDB is shipping with a UI! This is really nice.
+
+Such a great tool, a piece of technology like this shipping with a GUI view on top of it is great too, no need to potentially export this into some other tool to extract insights from it, just do `duckdb -ui`.
+
+</div>
+[Anna’s Blog - Winners of the $10,000 ISBN visualization bounty](https://annas-archive.org/blog/all-isbns-winners.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> A few months ago we announced a [$10,000 bounty](https://annas-archive.org/blog/all-isbns.html) to make the best possible visualization of our data showing the ISBN space. We emphasized showing which files we have/haven’t archived already, and we later a dataset describing how many libraries hold ISBNs (a measure of rarity).
+
+Very cool competition, check out the first place!:
+
+<video controls src='/asset/phiresky-zoom_1743272971099_0.mp4' width='1224' height='820'></video>
+
+</div>
+[git.erysdren.me/erysdren/pneumatic - PNEUMATIC GAME ENGINE](https://git.erysdren.me/erysdren/pneumatic/src/branch/main/IDEAS.md)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> "everything is a file" but as a game development environment. top-level virtual filesystem, where VM (lua) scripts are the equivalent of userland processes and device drivers are files to read and write data from. maybe there's a dedicated protocol for such, like 9P. so you can send typed data across pipes to and from engine components, as well as device and input drivers. or something, idunno.
+
+Very interesting concept.
+
+</div>
+[laleksic/tiny_csg - C++ library that generates meshes from brush-based level data](https://github.com/laleksic/tiny_csg)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Very nice to see a seemingly suckless CSG impl.
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/bU-jOUQH5xI"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+</div>
+[@bananajeff.bsky.social‬ - Livingroom progress ✨](https://bsky.app/profile/bananajeff.bsky.social/post/3l6q63gm2t62m)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<Image src='/asset/Screenshot_2025-03-29_at_4.01.43 PM_1743273107618_0.png' alt='Screenshot 2025-03-29 at 4.01.43 PM.png' width={1506} height={1014} />
+
+Very cool room made using [Crocotile 3D](https://crocotile3d.com/).
+
+</div>
