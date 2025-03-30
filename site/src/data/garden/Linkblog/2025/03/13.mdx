@@ -1,0 +1,62 @@
+---
+name: "Linkblog/2025/03/13"
+description: "Floats to RGBA, Future is Niri, C Plus Prolog."
+ogImage: "/asset/niri_1743365833973_0.png"
+---
+
+[Encoding floats to RGBA - the final?](http://aras-p.info/blog/2009/07/30/encoding-floats-to-rgba-the-final/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+I was watching [Karl's Dev Stream](https://youtu.be/P0n3oIQGRI4?t=1501) while it was live, and he started digging into how his lighting system in his game worked.
+
+Honestly I had no idea how one would do lighting in a low level graphics context before watching this stream, I asked Karl some questions and he basically switched from working on his game / showing it off to sort of giving what felt like a 1-1 lesson on how to go about doing it!
+
+<div class="w-full h-4"></div>
+
+Karl referenced the article, _Encoding floats to RGBA_, as a trick to store the depth pass of a camera positioned at the sun (to calculate what is visible, vs. what _isn't_.), into a RGBA texture, to _later_ be used in the fragment shader of a pixel being rendered in the ground, doing another sort of pass from the perspective of the sun, and asking '_did the sun see something before it saw me, if so, I am not in the viewport of the sun, if I _am_ equal to or greater, then the sun _can_ see me, therefore I should be bright'.
+
+</div>
+[Ersei - The Future is Niri](https://ersei.net/en/blog/niri)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> The worst *"street-cred"* I have is that I've been using [tiling window managers](https://en.wikipedia.org/wiki/Tiling_window_manager) for thirty-five percent of my life: five years with [Sway](https://github.com/swaywm/sway) and two with [i3](https://github.com/i3/i3). [...]
+
+Ersei discuses using tiling window managers, and brings up [niri](https://github.com/YaLTeR/niri):
+
+<video controls src='/asset/niri-demo_1743364905778_0.mp4' width='960' height='540'></video>
+
+A very neat approach to sizing windows in a tiling WM context.
+
+Many moons ago, I was a [herbstluftwm](https://herbstluftwm.org/) enjoyer, so I know how productive and enjoyable a tiling WM can see, nice to see there is still space here to invent different approaches!
+
+The current window setup in [Playbit](https://playb.it/) is actually the same idea as niri, so it seems like its not just one thing currently pulling this off.
+
+</div>
+[needleful/c_plus_prolog - C Plus Prolog](https://github.com/needleful/c_plus_prolog)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Prolog is the only good programming language. I should know, [my website](https://needleful.net/) is [written in Prolog](https://github.com/needleful/nng).
+>
+> Unfortunately, C is the only useful programming language.
+>
+> Scientists have been trying to find an answer to this problem for nearly 50 years. Some make their [C more like Prolog](https://doc.rust-lang.org/book/ch19-06-macros.html). Others make their [Prolog more like C](https://prescheme.org/).
+>
+> I offer a new solution: simply add Prolog and C together. I call it, “C Plus Prolog”, or “C+P” for short.
+>
+> ```c
+> :- include(stdio).
+>
+> int func main
+> { 
+>	puts("Hello, world!");
+>	return 0
+>}.
+> ```
+
+Amazing.
+
+<div class="w-full h-4"></div>
+
+The [creators website](https://needleful.net/), is also itself [written in Prolog](https://github.com/needleful/nng), truly dedicated.
+
+</div>
