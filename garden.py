@@ -156,11 +156,32 @@ def create_logseq_client(
     )
 
 
-def query_logseq(client: httpx.Client, query: str) -> dict:
+def query_logseq(client: httpx.Client, query: str = "(property public true)") -> dict:
     logger.debug(f"Querying Logseq with: {query}")
     response = client.post("/api", json={"method": "logseq.db.q", "args": [query]})
     response.raise_for_status()
     return response.json()
+
+
+def get_page_of_block(client: httpx.Client, block_uuid: str) -> str:
+    query = f"""
+        [:find ?pageName
+         :where
+         [?b :block/uuid #uuid "{block_uuid}"]
+         [?b :block/page ?p]
+         [?p :block/name ?pageName]]
+    """
+
+    response = client.post(
+        "/api", json={"method": "logseq.db.datascriptQuery", "args": [query]}
+    )
+    response.raise_for_status()
+    result = response.json()
+
+    if result and len(result) > 0:
+        return result[0][0]
+    else:
+        raise ValueError(f"No page found for block {block_uuid}")
 
 
 def get_page(client: httpx.Client, page_name: str) -> list[dict]:
@@ -172,6 +193,14 @@ def get_page(client: httpx.Client, page_name: str) -> list[dict]:
     if not blocks[0]["properties"]["public"]:
         raise ValueError(f"Page {page_name} is not public")
     return blocks
+
+
+def get_block(client: httpx.Client, block_id: str) -> dict:
+    response = client.post(
+        "/api", json={"method": "logseq.Editor.getBlock", "args": [block_id]}
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 def return_mdx_component(component: str, properties: dict) -> str:
@@ -314,7 +343,9 @@ def excalidraw_to_md(filename: str) -> tuple[str, Asset]:
 
 
 def blocks_to_md(
-    client: httpx.Client, blocks: list[dict], indent: int = 0
+    client: httpx.Client,
+    blocks: list[dict],
+    indent: int = 0,
 ) -> tuple[str, list[Asset]]:
     assets: list[Asset] = []
 
@@ -393,6 +424,18 @@ def blocks_to_md(
 
         content = re.sub(r"\[\[Garden/([^\]]+)\]\]", r"[[\1]]", content)
 
+        block_ref_match = re.search(
+            r"\[\s*(.+?)\s*\]\s*\(\(\(([0-9a-f-]+)\)\)\)", content
+        )
+        if block_ref_match:
+            _link_text = block_ref_match.group(1)
+            uuid = block_ref_match.group(2)
+
+            page_name = get_page_of_block(client, uuid)
+            page_name = page_name.removeprefix("garden")
+
+            content = content.replace(f"(({uuid}))", page_name)
+
         md += f"{content}\n\n"
 
         if "children" in block and len(block["children"]) > 0:
@@ -426,8 +469,7 @@ def search_md_for_assets(md: str) -> tuple[str, list[Asset]]:
 
 
 def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
-    query = "(property public true)"
-    result = query_logseq(client, query)
+    result = query_logseq(client)
 
     logger.info(f"Found {len(result)} pages")
 
