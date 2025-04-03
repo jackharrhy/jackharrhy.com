@@ -1,0 +1,44 @@
+---
+name: "Linkblog/2025/03/23"
+description: "Haiku heart Nvidia (porting Nvidia GPU driver), (Critical) Notes on MCP."
+ogImage: "/asset/haiku-heart-nvidia_1743639952466_0.png"
+---
+
+[Haiku heart Nvidia (porting Nvidia GPU driver)](https://discuss.haiku-os.org/t/haiku-nvidia-porting-nvidia-gpu-driver/16520)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> As many people already knows, Nvidia published their kernel driver under MIT license: [GitHub - NVIDIA/open-gpu-kernel-modules: NVIDIA Linux open GPU kernel module source 223](https://github.com/NVIDIA/open-gpu-kernel-modules) (I will call it NVRM). This driver is very portable and its platform-independent part can be compiled for Haiku with minor effort (but it need to implement OS-specific binding code to be actually useful). This is very valuable for Haiku because Linux kernel GPU drivers are very hard to port and it heavily depends on Linux kernel internals. Unfortunately userland OpenGL/Vulkan driver source code is not published. But as part of Mesa 3D project, new Vulkan driver “NVK” is being developed and is functional already. Mesa NVK driver is using Nouveau as kernel driver, so it can’t be directly used with NVRM kernel driver. NVK source code provides platform abstraction that allows to implement support of other kernel drivers such as NVRM.
+>
+> I finally managed to make initial port NVRM kernel driver to Haiku and added initial NVRM API support to Mesa NVK Vulkan driver, so NVRM and NVK can work together. Some simple Vulkan tests are working.
+
+Absolute madman getting the open source Linux kernel modules running in [Haiku](https://www.haiku-os.org/).
+
+<div class="w-full h-4"></div>
+
+From [phoronix](https://www.phoronix.com/news/NVIDIA-Haiku-OS-NVRM).
+
+</div>
+[Tao of Mac - Notes on MCP](https://taoofmac.com/space/notes/2025/03/22/1900)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I’ve been playing with [Anthropic’s MCP](https://docs.anthropic.com/en/docs/agents-and-tools/mcp?utm_source=taoofmac.com&utm_medium=web&utm_campaign=unsolicited_traffic&utm_content=external_link) for a little while now, and I have a few gripes. I understand it is undergoing a kind of [Cambrian explosion](https://www.reddit.com/r/mcp?utm_source=taoofmac.com&utm_medium=web&utm_campaign=unsolicited_traffic&utm_content=external_link) right now, but I am not very impressed with it. Maybe it’s echoes of [TRON](https://www.imdb.com/title/tt0084827?utm_source=taoofmac.com&utm_medium=web&utm_campaign=unsolicited_traffic&utm_content=external_link), but I can’t bring myself to like it.
+
+I've been meaning to look into MCP as of late, as it seems interesting.
+
+This is an interesting take though, a critique on its complexity.
+
+Most of what I've seen has just been _wow look, MCP!_, actually getting some negative feedback on it is good to consume.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Basically, not saying I think MCP servers aren't _cool_ anymore, just that I like a new piece of tech not just being hyped without detractors speaking up.
+
+</div>
+> The design seems to assume you are either running a bunch of servers locally (as subprocesses, which, again, raises a few interesting security issues) or talking to something with enough compute power to run a stateful server, and isn’t really a good fit for the way we use APIs today, considering many are usually run in stateless hosting environments like AWS Lambda or Cloudflare Workers.
+
+This is interesting, I assumed MCP would still make sense in a backend stateless environment, but if this is the case, I think MCP servers might be _quite_ useless for my use case I think I'd use them for...
+
+I still don't know if I conceptualize them correctly...
+
+Oh well.
+
+</div>
