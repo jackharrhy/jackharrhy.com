@@ -1,0 +1,130 @@
+---
+name: "Linkblog/2025/03/26"
+description: "DDA Algorithm, Golang on the PS2, Astro Bot director: "It's okay to make a small game", Next.js horrible middleware vulnerability, Chatbots spark the next mental health crsis?, You should know this before choosing Next.js."
+ogImage: "/asset/Screenshot_2025-04-03_at_8.46.49 PM_1743722231737_0.png"
+---
+
+[Aaron Cruz - The DDA Algorithm, explained interactively](https://aaaa.sh/creatures/dda-algorithm-interactive/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I've written a number of voxel raytracers, and all of them (all the good ones, at least) use the [Digital Differential Analyzer Algorithm](https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm)) for raycasting.
+>
+> [...]
+>
+> It's one of those geometric algorithms that's hard to wrap your head around, at least for me. But recently, I ran into some issues with a raytracer, and I decided to try to fully understand it. And I made this blog post, for others like me.
+
+<Image src='/asset/Screenshot_2025-04-03_at_8.46.49 PM_1743722231737_0.png' alt='Screenshot 2025-04-03 at 8.46.49 PM.png' width={474} height={500} />
+
+Love these very interactive explainers of algorithms with fancy sliders and dials and such.
+
+</div>
+[Ricardo - Golang on the PlayStation 2](https://rgsilva.com/blog/ps2-go-part-1/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I always wanted to do some weird stuff with consoles. I’m not sure why, but making devices do unexpected things is always an interesting topic for me. And the same applies to the [PlayStation 2](https://en.wikipedia.org/wiki/PlayStation_2), the 2000 console released by Sony.
+>
+> Also, Sony, don’t sue me for this lol
+>
+> Let’s get straight into it: I want to run code into consoles (more on *why* this in a future post). Normally this is done in low(er) level languages, but nowadays we have better and easier to work with languages such as [Go](https://go.dev/). So I was wondering.. why not?
+
+Go on the _PS2_, nice.
+
+</div>
+[Chris Kerr - 'It's okay to make a small game:' Astro Bot director Nicolas Doucet says tiny ideas contain huge potential](https://www.gamedeveloper.com/design/-it-s-okay-to-make-a-small-game-astro-bot-director-nicolas-doucet-says-tiny-ideas-contain-huge-potential)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Team Asobi studio director Nicolas Doucet has some advice for GDC 2025 attendees lucky enough to find a spot in his packed out 'The making of Astro Bot' session: "It's okay to make a small game."
+
+Nice to hear a big game maker, talking about small games.
+
+I want to see more things like [Grow Home](https://en.wikipedia.org/wiki/Grow_Home) from big publishers.
+
+Or, teams that can make _busy_ indie games, like [Celeste](https://en.wikipedia.org/wiki/Celeste_(video_game)), spending a week on an _amazing_ jam to produce [Celeste 64](https://en.wikipedia.org/wiki/Celeste_64:_Fragments_of_the_Mountain).
+
+Small games good.
+
+</div>
+[Rachid Allam - Next.js and the corrupt middleware: the authorizing artifact](https://zhero-web-sec.github.io/research-and-things/nextjs-and-the-corrupt-middleware)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Recently, Yasser Allam, known by the pseudonym inzo_, and I, decided to team up for some research. We discussed potential targets and chose to begin by focusing on [Next.js](https://github.com/vercel/next.js) (*130K stars on github, currently downloaded + 9,4 million times per week*), a framework I know quite well and with which I already have fond memories, [...]
+>
+> It didn’t take long before we uncovered a great discovery in the middleware. The impact is considerable, with all versions affected, and no preconditions for exploitability — as we’ll demonstrate shortly
+
+A great discovery you say? Lets see it:
+
+> When a next.js application uses a middleware, the runMiddleware function is used, the latter - beyond its main utility - retrieves the value of the x-middleware-subrequest header and uses it to know if the middleware should be applied or not. The header value is split to create a list using the column character (:) as a separator and then checks if this list contains the middlewareInfo.name value.
+
+_Yiiikkkeessssss_!
+
+So, if you have authentication in a middleware, which could maybe raise an exception / make the choice not to call the next layer in the middleware, you know, how a _lot_ of folks might approach authorization, especially those who are doing the _right_ thing by breaking it out into something they can build once and apply in the same way across the application...
+
+The article, after explaining this, gives examples of what else is possible with this initial issue, and how one even figures out the name of middlewares in the first place to exploit this.
+
+Anyways, wow.
+
+It was _quickly_ patched, but this is a _huge_ yikes.
+
+</div>
+[Casey Newton - How chatbots could spark the next big mental health crisis](https://www.platformer.news/openai-chatgpt-mental-health-well-being/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> New research from OpenAI shows that heavy chatbot usage is correlated with loneliness and reduced socialization. Will AI companies learn from social networks' mistakes?
+
+I've heard of folks using AI as a replacement for a therapist.
+
+This does... not... spark... _**any**_... _joy_.
+
+</div>
+[Eduardo Bouças - You should know this before choosing Next.js](https://eduardoboucas.com/posts/2025-03-25-you-should-know-this-before-choosing-nextjs/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+I didn't _mean_ to choose this article to be in the same linkblog as a massive Next.js venerability, but here we are.
+
+> My goal is not to stop anyone from using Next.js, but to lay out as much information as possible so developers and businesses can make an informed decision about their technology stack.
+>
+> [...]
+>
+> Let me lead with a declaration of interest:
+>
+> - I work at [Netlify](https://www.netlify.com/) and have done so for over four years
+> - Netlify is a frontend cloud platform that supports Next.js and other web frameworks as part of its product offering
+> - Netlify and Vercel are direct competitors
+>
+> It's important for me to establish this for a few reasons.
+>
+> My job involves building the infrastructure and tooling needed to support the full feature set of Next.js on Netlify, which has exposed me to the internals of the framework in a way that most people won't see. Over the years, I have seen concerning patterns of tight coupling between the open-source framework and the infrastructure of the company that builds it.
+
+Eduardo comes from an interesting perspective, as someone who works with Next.js outside of Vercel, likely attempting to bring the same functionality you get on Vercel's hosting platform outside of Vercel.
+
+> Last weekend, Vercel disclosed a critical security vulnerability with Next.js. This type of issue is normal, but the way Vercel chose to handle it was so poor, reckless and disrespectful to the community that it has exacerbated my concerns about the governance of the project.
+
+Oh wow so this is directly related to the earlier article!
+
+> ### [Fact #1: No adapters](https://eduardoboucas.com/posts/2025-03-25-you-should-know-this-before-choosing-nextjs/#fact-1-no-adapters)
+>
+> Most modern web development frameworks use the concept of adapters to configure the output of the framework to a specific deployment target: [Remix](https://remix.run/docs/en/main/discussion/runtimes), [Astro](https://docs.astro.build/en/reference/adapter-reference/), [Nuxt](https://nitro.build/deploy/custom-presets), [SvelteKit](https://kit.svelte.dev/docs/adapters) and [Gatsby](https://www.gatsbyjs.com/docs/how-to/previews-deploys-hosting/adapters/) are just a few examples. This pattern allows developers to keep the core of their applications untouched, and simply swap the adapter if they decide to start deploying to a different provider.
+
+This is true, basically everything else gives you full examples of how to run it outside of a cloud platform, but _also_ how to integrate very well for other cloud platforms.
+
+But what about the [Build Output API](https://vercel.com/docs/build-output-api)? Even I know about that.
+
+> Vercel's alternative to this was the Build Output API, a documented specification for the output format of frameworks who wish to deploy to Vercel.
+>
+> This is not an adapter interface for Next.js, and in fact has nothing to do with Next.js. The [announcement blog post](https://vercel.com/blog/build-output-api) said that Next.js supports this format, but as of today that isn’t true.
+>
+> [...]
+>
+> Next.js 15.0.0 was [released in October 2024](https://nextjs.org/blog/next-15) without support for the Build Output API.
+>
+> [...]
+>
+> This means that any hosting providers other than Vercel must build on top of undocumented APIs that can introduce unannounced breaking changes in minor or patch releases. (And they have.)
+
+_Yikes..._, I did not know this until reading this article.
+
+This is... interesting.
+
+I could continue just talking about each point brought up in this article, if this interests you, [go give it a read](https://eduardoboucas.com/posts/2025-03-25-you-should-know-this-before-choosing-nextjs/#fact-1-no-adapters).
+
+</div>
