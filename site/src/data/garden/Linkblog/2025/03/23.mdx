@@ -1,10 +1,10 @@
 ---
 name: "Linkblog/2025/03/23"
-description: "Haiku heart Nvidia (porting Nvidia GPU driver), (Critical) Notes on MCP."
+description: "Haiku ❤️ Nvidia (porting Nvidia GPU driver), (Critical) Notes on MCP."
 ogImage: "/asset/haiku-heart-nvidia_1743639952466_0.png"
 ---
 
-[Haiku heart Nvidia (porting Nvidia GPU driver)](https://discuss.haiku-os.org/t/haiku-nvidia-porting-nvidia-gpu-driver/16520)
+[Haiku ❤️ Nvidia (porting Nvidia GPU driver)](https://discuss.haiku-os.org/t/haiku-nvidia-porting-nvidia-gpu-driver/16520)
 
 <div class="ml-[calc(1*1rem)] mb-8">
 > As many people already knows, Nvidia published their kernel driver under MIT license: [GitHub - NVIDIA/open-gpu-kernel-modules: NVIDIA Linux open GPU kernel module source 223](https://github.com/NVIDIA/open-gpu-kernel-modules) (I will call it NVRM). This driver is very portable and its platform-independent part can be compiled for Haiku with minor effort (but it need to implement OS-specific binding code to be actually useful). This is very valuable for Haiku because Linux kernel GPU drivers are very hard to port and it heavily depends on Linux kernel internals. Unfortunately userland OpenGL/Vulkan driver source code is not published. But as part of Mesa 3D project, new Vulkan driver “NVK” is being developed and is functional already. Mesa NVK driver is using Nouveau as kernel driver, so it can’t be directly used with NVRM kernel driver. NVK source code provides platform abstraction that allows to implement support of other kernel drivers such as NVRM.
