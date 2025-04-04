@@ -487,28 +487,36 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
         name = name.removeprefix("Garden/")
 
+        filename = (
+            name.replace("?", "")
+            .replace(" ", "-")
+            .replace("&", "and")
+            .replace(".", "-")
+            .replace(":", "-")
+        )
+
         yield Page(
             name=name,
             description=first_block["properties"].get("description", None),
             og_image=asset_from_logseq_link(page[0]["properties"]["ogImage"])
             if page[0]["properties"].get("ogImage")
             else None,
-            filename=name,
+            filename=filename,
             markdown=md,
             assets=list(set(assets + more_assets)),
         )
 
 
 def export_page(page: Page):
-    path = OUTPUT_DIR / f"{page.name}.mdx"
+    path = OUTPUT_DIR / f"{page.filename}.mdx"
     path.parent.mkdir(parents=True, exist_ok=True)
 
     logger.info(f"Exporting {page.name} to {path}")
 
     content = "---\n"
-    content += f'name: "{page.name}"\n'
+    content += f'name: "{page.name.replace('"', '\\"')}"' + "\n"
     if page.description:
-        content += f'description: "{page.description}"\n'
+        content += f'description: "{page.description.replace('"', '\\"')}"' + "\n"
     if page.og_image:
         content += f'ogImage: "{page.og_image.url}"\n'
     content += "---\n\n"
