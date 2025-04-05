@@ -1,0 +1,186 @@
+---
+name: "Linkblog/2025/03/21"
+description: "Not all AI-assisted programming is vibe coding (but vibe coding rocks), N64 High-Res Textures Homebrew Demo, Why Windows 95 setup wasn't miniature version of Win 95?, o1-pro $$$, Google Live Kernal Updates, CMake 4.0, Lua Bytecode, Godot GLTF import scripting, Every Font is Free."
+---
+
+[Simon Willison - Not all AI-assisted programming is vibe coding (but vibe coding rocks)](https://simonwillison.net/2025/Mar/19/vibe-coding)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> **Vibe coding** is having a moment. The term [was coined by Andrej Karpathy](https://twitter.com/karpathy/status/1886192184808149383) just a few weeks ago (on February 6th) and has since been featured [in the New York Times](https://www.nytimes.com/2025/02/27/technology/personaltech/vibecoding-ai-software-programming.html), [Ars Technica](https://arstechnica.com/ai/2025/03/is-vibe-coding-with-ai-gnarly-or-reckless-maybe-some-of-both/), [the Guardian](https://www.theguardian.com/technology/2025/mar/16/ai-software-coding-programmer-expertise-jobs-threat) and countless online discussions.
+>
+> [...]
+>
+> The job of a software developer is not (just) to churn out code and features. We need to create code that demonstrably works, and can be understood by other humans (and machines), and that will support continued development in the future.
+>
+> [...]
+>
+> We also *need* to read the code. My golden rule for production-quality AI-assisted programming is that I won’t commit any code to my repository if I couldn’t explain exactly what it does to somebody else.
+>
+> If an LLM wrote the code for you, and you then reviewed it, tested it thoroughly and made sure you could explain how it works to someone else that’s not vibe coding, it’s software development. The usage of an LLM to support that activity is immaterial.
+
+If you read this link blog, you know I'm a fan of Simon.
+
+I really like this post, he then follows up with this:
+
+> I don’t want “vibe coding” to become a negative term that’s synonymous with irresponsible AI-assisted programming either. This weird new shape of programming has so much to offer the world!
+>
+> I believe **everyone deserves the ability** to automate tedious tasks in their lives with computers. You shouldn’t need a computer science degree or programming bootcamp in order to get computers to do extremely specific tasks for you.
+>
+> If vibe coding grants millions of new people the ability to build their own custom tools, I could not be happier about it.
+
+As much as I like programming from a creative endeavour perspective, and am honestly pissed off when people reach for LLMs when solving LLM problems / building applications they state "they made it themselves", I am of the same opinion of Simon in that breaking down the barriers to programming is a good thing.
+
+I've had discussions with friends who's opinion I do respect, and it seems we disagree on this point to a certain degree, especially when it comes to considering the difference between AI generated imagery / videos, vs. vibe coding, so I know this isn't how all software developers feel about this, but I also take the opinion one can't just ignore that this is something regular people, _and_ us folk who know the software, can add into our tool belt.
+
+I'm also not a fan of people attempting to one shot something, see it fail, and be like _"look! it didn't work! the technology is useless!".
+
+Yeah! It's not perfect, we have job security (still) because we can do what LLMs can't, and maybe when we are using something that's acting as an 'agent', we need to hand-hold it a bit and give it specific directions and restore checkpoints if it starts going a bit haywire, but potentially, it permits us to build things we otherwise wouldn't spend the time building.
+
+What I think is especially useful, is building ones own _personal_ tools, stuff you aren't planning on making available to the world, and just want to make use of for your own interest.
+
+<div class="w-full h-4"></div>
+
+Anyways, Simon's writing is good, he goes into a lot of detail on what he views as _responsible_ vibe coding, especially considering you think of the security issues that could arise from deploying a vibe coded application to the internet.
+
+As always, good read.
+
+</div>
+[HailToDodongo - Tiny3D - High-Res Textures [N64 Homebrew]](https://www.youtube.com/watch?v=rNEo0aQkGnU)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/rNEo0aQkGnU"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+I love seeing what people are doing with the N64 these days, a lot of insight has been gained on how to crank a console from the 90s to the _max_.
+
+A really good video that's similar to this one is ["How I implemented MegaTextures [...]" by James Lambert](https://www.youtube.com/watch?v=Sf036fO-ZUk).
+
+</div>
+[Raymond Chen - Why didn’t Windows 95 setup use a miniature version of Windows 95 as its fallback GUI?](https://devblogs.microsoft.com/oldnewthing/20250318-00/?p=110975)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> One of the reactions to my discussion of [why Windows 95 setup used three operating systems](https://devblogs.microsoft.com/oldnewthing/20241112-00/?p=110507) (and oh there were many) was my explanation that a miniature version of Windows 3.1 was used to get MS-DOS customers upgrading to Windows 95. But why not use a miniature version of Windows 95?
+>
+> A technical reason is that the miniature version of Windows 3.1 compressed to only 441,906 bytes, or just under a third of the capacity of a single floppy disk. A miniature version of Windows 95 wouldn’t fit on a single floppy, so the user would be spending a lot of time in ugly text mode doing floppy swapping. Using a miniature Windows 3.1 gets the user out of text mode quickly. And the code to deal with floppy swapping would have to be written as an MS-DOS program, which is not a lot of fun. *I don’t want to be here any more than you do.*¹
+
+Another really interesting dive into some of the choices in the earlier days of Microsoft Windows.
+
+</div>
+[OpenAI - o1-pro](https://platform.openai.com/docs/models/o1-pro)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> A version of o1 with more compute for better responses
+
+As always, [what Simon has to say](https://simonwillison.net/2025/Mar/19/o1-pro/) about the new model release
+
+> OpenAI have a new most-expensive model: o1-pro can now be accessed through their API at a hefty $150/million tokens for input and $600/million tokens for output. That's 10x the price of their o1 and o1-preview models and a full 1,000x times more expensive than their cheapest model, gpt-4o-mini!
+
+If people actually are paying for these outrageously priced models... maybe the plan to dangle the hope of LLMs in-front of people for free / "cheap" _was_ the right call, if people are actually shelving out this sort of cash for "better" LLMs.
+
+</div>
+[Michael Larabel - Google Developing "Live Update Orchestrator" As New Means Of Live Linux Kernel Updates](https://www.phoronix.com/news/Google-Live-Update-Orchestrator)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> While there is Kpatch, Ksplice, and other live patching solutions already in use for patching a running Linux kernel for deploying security updates without downtime, Google engineers are developing the Live Update Orchestrator as a new means of transitioning to a new updated kernel with minimal downtime.
+>
+> > "Live Update is a specialized reboot process where selected devices are kept operational across a kernel transition. For these devices, DMA and interrupt activity may continue uninterrupted during the kernel reboot."
+>  - Pasha Tatashin, Google.
+
+I can't imagine part of my job being upstreaming changes to the Linux kernel to make my workflow possible.
+
+It is Google though... in some aspects unfathomable in terms of the usual sort of software engineering most other entities can accomplish.
+
+And even then... fuck up so much!
+
+</div>
+[Billal Rahman - Britain Issues Travel Warning for US](https://www.newsweek.com/britain-issues-travel-warning-us-deportations-2047878)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> The United Kingdom has updated its travel advice for British citizens planning to visit the United States, warning of potential arrest or detention if travelers fail to comply with entry requirements.
+>
+> It comes amid President [Donald Trump](https://www.newsweek.com/topic/donald-trump)'s large-scale crackdown on illegal immigration.
+>
+> "You should comply with all entry, visa and other conditions of entry. The authorities in the U.S. set and enforce entry rules strictly. You may be liable to arrest or detention if you break the rules," the guidance reads.
+
+I'm [not usually a proud Brit](https://en.wikipedia.org/wiki/Brexit), but in this moment, I am.
+
+</div>
+[cmake.org - CMake 4.0 Release Notes](https://cmake.org/cmake/help/latest/release/4.0.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+CMake 4.0!
+
+Big number means big changes.
+
+I have no idea what those changes might be.
+
+</div>
+[luac.nl - Lua Bytecode Explorer ](https://www.luac.nl/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Put in Lua, get Lua bytecode.
+
+<Image src='/asset/Screenshot_2025-04-05_at_8.58.06 PM_1743895694554_0.png' alt='Screenshot 2025-04-05 at 8.58.06 PM.png' width={1700} height={1010} />
+
+Seen on [gamedev.city](https://gamedev.city/s/g6orbb/luac_nl_lua_bytecode_explorer).
+
+</div>
+[@tracefree.bsky.social - GLTFDocumentExtension in #Godot is extremely powerful for fully customizing the import process](https://bsky.app/profile/tracefree.bsky.social/post/3lkv7n47l6s24)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+I've only done a little bit of 3D in Godot to the point I had to import models, and while it _mostly_ worked, I did reach the point of adding special strings to things in Blender to basically hint to Godot how to import them, but it felt a bit limiting to how far you could go with this.
+
+But checkout [this gist](https://gist.github.com/tracefree/6aa741570adf13cd6717cd258ef3da66), there's stuff built into Godot to let you _script_ the import process!
+
+```gdscript
+extends GLTFDocumentExtension
+
+func _import_preflight(state: GLTFState, extensions: PackedStringArray) -> Error:
+	if not state.json.has(&"animations"):
+		return FAILED
+	
+	for animation in state.json[&"animations"]:
+		if animation.has(&"extras") and animation[&"extras"].has(&"HitboxActive"):
+			return OK
+	
+	return FAILED
+
+
+func _import_post(state: GLTFState, root: Node) -> Error:
+	var anim_player := root.find_child(&"AnimationPlayer") as AnimationPlayer
+	for anim_dict in state.json[&"animations"]:
+	    # ...
+
+	return OK
+```
+
+Very cool.
+
+</div>
+[Ok so... - Every Font is Free](https://www.youtube.com/watch?v=J06tluN7rtE)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/J06tluN7rtE"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+5 minute watch, go watch it.
+
+Very good watch.
+
+If you like fonts, watch.
+
+</div>
