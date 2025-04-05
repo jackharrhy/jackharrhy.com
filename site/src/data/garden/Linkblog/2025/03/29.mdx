@@ -1,0 +1,58 @@
+---
+name: "Linkblog/2025/03/29"
+description: "Typed Japanese, Bunnyhopping from Programmer's Perspective (Quake / Source Engine movement dive)."
+ogImage: "/asset/typed-nihon_1743897172805_0.png"
+---
+
+[typedgrammar/typed-japanese - 🌸 Learn Japanese grammar with TypeScript](https://github.com/typedgrammar/typed-japanese)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> 🌸 Learn Japanese grammar with TypeScript
+>
+> <Image src='/asset/typed-nihon_1743897172805_0.png' alt='typed-nihon.png' width={1730} height={646} />
+
+とてもクールです !!!
+
+</div>
+[Adrian Biagioli - Bunnyhopping from the Programmer's Perspective](https://adrianb.io/2015/02/14/bunnyhop.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> "Bunnyhopping" is an exploit of a very popular bug in games like *Quake III Arena*, *Half-Life*, and *Counter-Strike*. Bunnyhopping, or *bhopping* for short, allows a player to exceed the game-defined speed limit. It has created entirely new methods of play and allows very exciting, fast-paced emergent gameplay. As a decidedly skill-based mechanic, competitive players love bhopping because it is so hard to master. Thus, it may be useful to you as a game developer to "implement" bunnyhopping into your game. The purpose of this article is to define what bunnyhopping is, why it is important to consider as a game developer, and how to implement it mathematically into your FPS movement code. All code examples are open-source and free to use, as always.
+
+I love Source Engine / Quake style movement, I've spent many hours on CSGO Surf / Bhop servers.
+
+This is honestly my special interest, and what's _cool_, is you can dive into the source code for implementation / _genealogy_ for the different approaches as well!
+
+- [Quake's `pmove.c`](https://github.com/id-Software/Quake/blob/master/QW/client/pmove.c)
+
+- [Quake II's `pmove.c`](https://github.com/id-Software/Quake2/blob/master/qcommon/pmove.c).
+
+- [Quake III Areana's `bg_pmove.c`](https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/bg_pmove.c)
+
+- [GoldSrc's `pm_shared.c`](https://github.com/ValveSoftware/halflife/blob/b1b5cf5892918535619b2937bb927e46cb097ba1/pm_shared/pm_shared.c#L2954)
+
+- [Source Engines's `gamemovement.cpp`.](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/shared/gamemovement.cpp)
+
+<div class="w-full h-4"></div>
+
+I gave [ChatGPT](https://chatgpt.com/share/67ed5518-d2f8-800f-9a2c-57aff65a27d4), [Claude](https://claude.site/artifacts/6ea5d8ce-d037-4a66-857b-90740eccfa41), [Grok](https://grok.com/share/bGVnYWN5_eb8b454d-92f3-40fc-b221-47296a6e4007), & [Gemini](https://g.co/gemini/share/cca8490d4995) the above links, and asked them:
+
+<div class="ml-[calc(2*1rem)] mb-8">
+_Summarize the differences / similarities between these player movement codes: [...]_
+
+_They all come from the same lineage, so give details of Quake, then move onto the others, show where the changes are._
+
+_Use very simple psuedocode to describe them, keep it high level._
+
+</div>
+Then, once they gave my their response:
+
+<div class="ml-[calc(2*1rem)] mb-8">
+_Source has really cool surf mechanics, how would I backport that to Quake II?_
+
+</div>
+One of [my current projects](https://github.com/jackharrhy/quake-experiments/tree/main/minimal-quake2-base), I _think_, might end up being a heavily modded game built on Quake II that has movement at its core.
+
+I'll hopefully return to this idea in the future, we'll see.
+
+</div>
