@@ -1,0 +1,110 @@
+---
+name: "Linkblog/2025/03/31"
+description: "raylib4PlayStation2, Skin Deep on Steam Deck, Dennis's Thoughts on ECS, Self-contained Python scripts with `uv`, PostgreSQL MCP Server, There is no Vibe Engineering, Armin leaving Sentry."
+ogImage: "/asset/skindeep_steamdeck_1743897680183_0.jpg"
+---
+
+[@psxdev - [...] raylib4PlayStation2 preview with shapes an text(raylib on top plus ps2gl with little changes without glut, plus vanilla ps2dev toolchain](https://x.com/psxdev/status/1906701723848081410)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<video controls src='/asset/raylib4ps2_1743897417369_0.mp4' width='1280' height='720'></video>
+
+[Raylib](https://www.raylib.com/) on the PS2, neat.
+
+</div>
+[Brendon Chung - Skin Deep: Steam Verified](https://blendogames.com/news/post/2025-03-31-skindeepsteamdeck/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Skin Deep is now officially [Steam Deck Verified](https://www.steamdeck.com/en/verified)! ✔️
+>
+> What does this mean? Basically, it means the game has been confirmed to play well on the Steam Deck.
+>
+> <Image src='/asset/skindeep_steamdeck_1743897680183_0.jpg' alt='skindeep_steamdeck.jpg' width={1200} height={407} />
+
+I am _so_ hyped for [Skin Deep](https://blendogames.com/skindeep/), I've already played through the entire demo on my own Steam Deck, so I can confirm, it runs great!
+
+</div>
+[Dennis Gustafsson - Thoughts on ECS](https://blog.voxagon.se/2025/03/28/thoughts-on-ecs.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> I mentioned in my year summary that I have a lot to say about ECS, and got several requests to write more about it, so I’ll do an attempt to write up my thoughts here.
+
+Dennis goes onto talk about ECS, and bring up many points I've seen others discuss before, but the second section of the article is what I find the most interesting, his answer to what he views as a more "Sensible ECS" setup.
+
+> I’d argue that a large portion of what ECS brings to be table can be implemented in a much simpler way, that is equally data-oriented, but does not require the complex, dynamic database that ECS really is. If your game does not require dynamic composition at run-time, you can simply create your entity types statically using composition in the following manner:
+>```c
+>struct Monster
+>{
+>   Transform transform;
+>   Velocity velocity;
+>   Collider collider;
+>   PathFinding pathFinding;
+>};
+>```
+>
+> There is no need for inheritance here, just include whatever components that make sense for what you are implementing. Note that all data for a monster is layed out linearly in memory instead of being scattered.
+
+I like this approach.
+
+Another idea, which isn't really ECS, is just to be content with a _big_ `Entity` struct, that other things can extend, but to only one layer, and you are much more fine with overloading that said big `Entity` struct with whatever you might need.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+[Jonathan blow discusses this in this clip](https://www.youtube.com/watch?v=VWC9RT5u8gQ).
+
+</div>
+</div>
+[Self-contained Python scripts with   `uv`](https://blog.dusktreader.dev/2025/03/29/self-contained-python-scripts-with-uv/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+[`uv`](https://docs.astral.sh/uv/), lets you write this:
+
+```py
+# /// script
+# dependencies = ["ipython", "httpx", "loguru"]
+# ///
+import httpx
+import IPython
+from loguru import logger
+
+...
+```
+
+And then simply run `uv run whatetver.py`, it will fetch the packages this file needs before it runs, and run it in its own little self-managed virtual environment.
+
+[Astral](https://astral.sh/) keeps hitting the mark, I am so hyped for their answer to Python typing.
+
+</div>
+[stuzero/pg-mcp - PostgreSQL Model Context Protocol (PG-MCP) Server](https://github.com/stuzero/pg-mcp-server)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> PG-MCP is a server implementation of the [Model Context Protocol](https://modelcontextprotocol.io/) for PostgreSQL databases. It provides a comprehensive API for AI agents to discover, connect to, query, and understand PostgreSQL databases through MCP's resource-oriented architecture.
+
+YAMCPS - Yet another MCP server.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Also known as yam clicks per second.
+
+</div>
+</div>
+[Sergey Tselovalnikov - There is no Vibe Engineering](https://serce.me/posts/2025-31-03-there-is-no-vibe-engineering)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> [...] While AI undeniably impacts the way we write code, it hasn't fundamentally changed our role as engineers. [...]
+
+I can't really summarize this article, its a _good_ read I wouldn't want to paraphrase.
+
+The authors own conclusions I'll leave here as-is:
+
+> Vibe Coding as a practice is here to stay. It works, and it solves real-world problems – getting you from zero to a working prototype in hours. Yet, at the moment, it isn’t suitable for building production-grade software.
+>
+> It is possible that there’ll be a future where software is built from vibe-coded blocks, but the work of designing software able to evolve and scale doesn’t go away. That’s not vibe engineering – that’s just engineering, even if the coding part of it will look a bit different.
+
+</div>
+[Armin Ronacher - I'm Leaving Sentry](https://lucumr.pocoo.org/2025/3/31/leaving/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Every ending marks a new beginning, and today, is the beginning of a new chapter for me. Ten years ago I took a leap into the unknown, today I take another. After a decade of working on [Sentry](https://sentry.io/) I move on to start something new.
+
+Armin has been at Sentry for as long as I can remember, hopefully his next endeavour is great!
+
+</div>
