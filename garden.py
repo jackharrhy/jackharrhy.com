@@ -97,6 +97,8 @@ def get_local_video_size(file_path: Path) -> tuple[int, int]:
         str(file_path),
     ]
 
+    # ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 /Users/jacks/Desktop/test.mp4
+
     result = subprocess.run(
         command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
     )
@@ -234,7 +236,9 @@ def ensure_asset_dimensions(asset: Asset) -> Asset:
         if not local_path.exists():
             raise ValueError(f"File not found on disk: {asset.path}")
 
-        ext = asset.ext.lower()
+        logger.info(f"Getting dimensions for {asset.path}")
+
+        ext = asset.ext.lower().split(".")[-1]
 
         if ext == "svg":
             svg_text = local_path.read_text()
