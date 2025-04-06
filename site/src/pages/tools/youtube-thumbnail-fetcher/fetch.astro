@@ -1,0 +1,46 @@
+---
+export const partial = true;
+export const prerender = false;
+
+if (Astro.request.method !== "POST") {
+  return new Response("Invalid request method, must be POST", {
+    status: 404,
+  });
+}
+
+const formData = await Astro.request.formData();
+const url = formData.get("url");
+
+if (!url) {
+  return new Response("Missing URL parameter", {
+    status: 400,
+  });
+}
+
+function extractVideoId(url: string) {
+  const urlString = url.toString();
+
+  // Handle standard youtube.com/watch?v= format and other formats
+  const match = urlString.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/
+  );
+
+  if (match && match[1]) {
+    return match[1];
+  }
+
+  return null;
+}
+
+const videoId = extractVideoId(url.toString());
+
+if (!videoId) {
+  return new Response("Could not extract video ID from the provided URL", {
+    status: 400,
+  });
+}
+
+const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+---
+
+<img src={thumbnailUrl} alt="YouTube video thumbnail" />

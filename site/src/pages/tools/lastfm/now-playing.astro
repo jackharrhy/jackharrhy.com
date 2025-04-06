@@ -12,6 +12,8 @@ let error = null;
 
 // TODO cache this via Astro db, if we've updated in the last 30 seconds, don't fetch again
 
+const debug = Astro.url.searchParams.has("debug");
+
 let data;
 
 try {
@@ -38,6 +40,14 @@ try {
 }
 
 if (error || !currentTrack) {
+  if (debug) {
+    return new Response(
+      "Either ran into an error, or no track is currently playing.",
+      {
+        status: 200,
+      }
+    );
+  }
   return new Response(null, { status: 204 });
 }
 ---
@@ -71,8 +81,4 @@ if (error || !currentTrack) {
   </div>
 </div>
 
-{
-  Astro.url.searchParams.has("debug") && (
-    <pre>{JSON.stringify(currentTrack, null, 2)}</pre>
-  )
-}
+{debug && <pre>{JSON.stringify(currentTrack, null, 2)}</pre>}
