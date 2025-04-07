@@ -1,0 +1,374 @@
+---
+name: "Linkblog/2025/04/06"
+description: "Eddy Burback hates his phone, Switch pre-orders paused for US, VSCode LLM pricing, Gemini Pro Preview good pricing, Casey on Switch 2, Open AI o3 / o4-mini planned, Meta Llama 4 herd, AI Quake II, `Bun.redis`, VSCode C/C++ Extension blocked on Cursor & others, Unix Magic Poster, SM64 shader analysis, Ludwig & Micheal travel japan, Noclip Dwarf Fortress, Hopper RSS feed reader Discord bot, Gumroad Open Source but DOGE?, IRS 'hackathon'."
+ogImage: "/asset/hopper_1743982348418_0.webp"
+---
+
+[Eddy Burback - I hate my phone so I got rid of it](https://www.youtube.com/watch?v=nnsyGSTKlw0)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/nnsyGSTKlw0"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Eddy's videos are a great watch, from [eating at every Rainforest Cafe in the US](https://www.youtube.com/watch?v=vA-bjpKvIw8), to [ghost kitchens](https://www.youtube.com/watch?v=KkIkymh5Ayg), and as of recent on his channel with his brother, [covering the 2000s "spy kid" craze](https://www.youtube.com/watch?v=Sz0Szo1UKRE).
+
+This latest piece of content of his though, he goes a month without using his cell phone, both to see if it finds him [doomscrolling](https://en.wikipedia.org/wiki/Doomscrolling) less, and also if he can still live a life / organize hangouts with his friends / etc.
+
+<div class="w-full h-4"></div>
+
+I've personally uninstalled Instagram, TikTok, Twitter, and as of not long ago, YouTube itself (due to shorts), since I find I am a massive hunk of metal that is magnetized to algorithmic short form vertical video slop screens.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+I would pay _money_ to have a YouTube app w/out shorts, no shorts on home screen, no shorts button, just give me long form content.
+
+</div>
+My saving graces are [Miniflix](https://miniflux.app/) for RSS, and [Bluesky](https://bsky.app/), and while I have many feeds, and am starting to follow lots on Bluesky, with Miniflux I can get to inbox zero with Miniflux, and Bluesky defaults to a chronological list of posts, so eventually I'll scroll to a section thats a familiar, and I _close the app_.
+
+Its not that I don't _want_ to use social media, I just want applications that aren't running A/B tests to min-max my screen time.
+
+</div>
+[Tamoor Hussain - Statement from Nintendo](https://bsky.app/profile/tamoorh.com/post/3llyn7ib2rc2r)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Statement from Nintendo: Statement from Nintendo: Pre-orders for Nintendo Switch 2 in the U.S. will not start April 9, 2025 in order to assess the potential impact of tariffs and evolving market conditions. Nintendo will update timing at a later date. The launch date of June 5, 2025 is unchanged.
+
+Nintendo fans just need to [take their medicine](https://www.usatoday.com/videos/news/politics/2025/04/07/president-trump-calls-tariffs-medicine-stock-market-plunges/82972053007/), and they will feel allllll better.
+
+</div>
+[Thomas Dohmke - Vibe coding with GitHub Copilot: Agent mode and MCP support rolling out to all VS Code users](https://github.blog/news-insights/product-news/github-copilot-agent-mode-activated/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+As always, Microsoft is lagging behind and taking features Cursor already has and back-porting them to VSCode / Copilot.
+
+> In keeping with our commitment to offer multi-model choice, we’re making Anthropic Claude 3.5, 3.7 Sonnet, 3.7 Sonnet Thinking, Google Gemini 2.0 Flash, and OpenAI o3-mini generally available via premium requests, included in all paid Copilot tiers.
+
+Also... Now _any_ request that hits Claude / Gemini is a 'premium' request?
+
+Not sure if that was the case before, and it was just locked behind configuration, but as far as I know, ~~that isn't the case for Cursor.~~
+
+Actually [it is](https://docs.cursor.com/settings/models), "500 fast premium requests per month", so if you pay for Pro and stay under the threshold, you wouldn't see the usage.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+3.7 is considered premium, but so is 3.5... I would have assumed at least 3.5 would be non-free, but I guess that isn't the case.
+
+</div>
+My work pays for Cursor... and I be vibe coding using my work account, so sorry `$dayjob` if my personal project vibe coding is racking up the company Cursor bill, but I will continue to use it unless told otherwise.
+
+<div class="w-full h-4"></div>
+
+So maybe Copilot is copying Cursor on pricing as well then, ha.
+
+<div class="w-full h-4"></div>
+
+Discussion on the [orange site](https://news.ycombinator.com/item?id=43596289).
+
+<div class="ml-[calc(2*1rem)] mb-8">
+People mostly seem frustrated, nice.
+
+</div>
+</div>
+[Simon Willison - Gemini 2.5 Pro Preview pricing.](https://simonwillison.net/2025/Apr/4/gemini-25-pro-pricing/#atom-everything)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+>**[Gemini 2.5 Pro Preview pricing](https://ai.google.dev/gemini-api/docs/pricing#gemini-2.5-pro-preview)** ([via](https://twitter.com/OfficialLoganK/status/1908175318709330215)) Google's Gemini 2.5 Pro is currently the top model [on LM Arena](https://lmarena.ai/?leaderboard) and, from [my own testing](https://simonwillison.net/2025/Mar/25/gemini/), a superb model for OCR, audio transcription and long-context coding.
+>
+> You can now pay for it!
+>
+> The new `gemini-2.5-pro-preview-03-25` model ID is priced like this:
+> - Prompts less than 200,00 tokens: $1.25/million tokens for input, $10/million for output
+> - Prompts more than 200,000 tokens (up to the 1,048,576 max): $2.50/million for input, $15/million for output
+>
+> This is priced at around the same level as Gemini 1.5 Pro ($1.25/$5 for input/output below 128,000 tokens, $2.50/$10 above 128,000 tokens), is cheaper than GPT-4o for shorter prompts ($2.50/$10) and is cheaper than Claude 3.7 Sonnet ($3/$15).
+
+Competition on cost is nice to see.
+
+</div>
+[CaseyNeistat - the very WORST Nintendo Switch 2 review.](https://www.youtube.com/watch?v=AjKGToaFDvA)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/AjKGToaFDvA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+New Casey Neistat video!, his upload schedule has lessened a lot over the last year, which honestly I am here for, I find when he has a break this long, he sometimes just randomly starts to become a daily poster again.
+
+His review of the Switch 2 is so... candid, he speaks to MKBHD who's [review is the exact style you'd expect from him](https://www.youtube.com/watch?v=K3CR6RiWS2U), while Casey is just kinda... there hanging out.
+
+</div>
+[Sam Altman - change of plans](https://x.com/sama/status/1908167621624856998)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> change of plans: we are going to release o3 and o4-mini after all, probably in a couple of weeks, and then do GPT-5 in a few months.
+>
+> there are a bunch of reasons for this, but the most exciting one is that we are going to be able to make GPT-5 much better than we originally though. we also found it harder than we thought it was going to be to smoothly integrate everything. and we want to make sure we have enough capacity to support what we expect to be unprecedented demand.
+
+More reasoning modules coming their way from the big O.
+
+I bet they will also be, _ludicrously_ expensive, as well!
+
+<div class="w-full h-4"></div>
+
+From [Simon Willison's Webblog](https://simonwillison.net/2025/Apr/4/sam-altman/#atom-everything).
+
+</div>
+[Meta - The Llama 4 herd: The beginning of a new era of natively multimodal AI innovation](https://ai.meta.com/blog/llama-4-multimodal-intelligence/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+More LLM news more LLM news.
+
+Scout, Maverick, and _Behemoth_.
+
+> These models are our best yet thanks to distillation from Llama 4 Behemoth, a 288 billion active parameter model with 16 experts that is our most powerful yet and among the world’s smartest LLMs. Llama 4 Behemoth outperforms GPT-4.5, Claude Sonnet 3.7, and Gemini 2.0 Pro on several STEM benchmarks. Llama 4 Behemoth is still training, and we’re excited to share more details about it even while it’s still in flight.
+
+This also seems cool on paper, but there's some [news coming out that these benchmarks might be a bit misleading](https://techcrunch.com/2025/04/06/metas-benchmarks-for-its-new-ai-models-are-a-bit-misleading/).
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Time will tell I guess.
+
+</div>
+<div class="w-full h-4"></div>
+
+Due to the open source nature of Llama, you can [already run it on Groq](https://groq.com/llama-4-now-live-on-groq-build-fast-at-the-lowest-cost-without-compromise/).
+
+This will likely make the Llama models the most cost-effective, as it will be a race to the bottom from different providers, competition in who _hosts_ rather than companies like OpenAI / Anthropic being the holders to the keys of their models, while I am not fan of Meta, I am a fan of their approach.
+
+</div>
+[Ashley Belanger - Judge calls out OpenAI’s “straw man” argument in New York Times copyright suit](https://arstechnica.com/tech-policy/2025/04/judge-doesnt-buy-openai-argument-nyts-own-reporting-weakens-copyright-suit/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> OpenAI loses bid to dismiss NYT claim that ChatGPT contributes to users’ infringement.
+
+As much as I am a LLM user and somewhat enjoyer, I would actually like to see them get destroyed in court over this.
+
+Mostly because I think it'd be nice to write in the book of ethics what they are doing is bad, because I don't think they will evaporate over night, but folks should understand them for what they are: markov-chain based plagiarism.
+
+</div>
+[Eir Nolsøe, Louis Goss - BuTrump’s tariffs will tip America into recession, warns JP Morgan](https://www.telegraph.co.uk/business/2025/04/05/trumps-tariffs-tip-america-into-recession-warns-jp-morgan/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Water is wet, who knew.
+
+</div>
+[Tom Warren - Microsoft has created an AI-generated version of Quake](https://www.theverge.com/news/644117/microsoft-quake-ii-ai-generated-tech-demo-muse-ai-model-copilot)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Microsoft’s Muse AI model is now available as an AI-generated Quake II tech demo.
+
+Ew!
+
+The same trick possible in the Minecraft AI demo, where you can look down and back up again, is possible here as well.
+
+There's more _consistency_ in this one than the Minecraft one, but my assumption is its because its only trained on Quake II's base1 / Outer Base.
+
+</div>
+[Jared Summer - In the next version of Bun](https://x.com/jarredsumner/status/1908849253440795034)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> `Bun.redis` is Bun's builtin Redis client
+>
+> <Image src='/asset/bun-redis_1743953523168_0.jpeg' alt='bun-redis.jpeg' width={940} height={758} />
+
+More things built into Bun, that some argue should be packages / plugins, but I am personally here for it to be baked into the runtime.
+
+As expected, [its fast](https://x.com/jarredsumner/status/1909114006343991359):
+
+<Image src='/asset/bun-redis-fast_1744040467486_0.jpeg' alt='bun-redis-fast.jpeg' width={986} height={644} />
+
+</div>
+[Invariant labs - MCP Security Notification: Tool Poisoning Attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+This is a bit click bait-y, but a good point to be brought up:
+_Vet your MCP servers_, they might ask your main runtime to do all sorts of things, like reading secrets from the host system and passing it into a property not (necessarily) exposed to the user.
+
+</div>
+[getcursor/cursor - Has the VSCode C/C++ Extension been blocked?](https://github.com/getcursor/cursor/issues/2976)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Looks like Microsoft is locking down more extensions so things like Cursor / Windsurf / etc. can't make use of them.
+
+Confirmed on my own system:
+
+<Image src='/asset/Screenshot_2025-04-06_at_7.58.49 PM_1743982231255_0.png' alt='Screenshot 2025-04-06 at 7.58.49 PM.png' width={1342} height={528} />
+
+Biased as a Cursor user, but I hope people find workarounds for this.
+
+</div>
+[Annotated Unix Magic Poster](https://unixmagic.net/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<Image src='/asset/unix-magic-poster_1744040760674_0.webp' alt='unix-magic-poster.webp' width={403} height={613} />
+
+I want this poster on my wall so bad, its so good.
+
+The website goes into each reference on it, there are _much_ more than I expected.
+
+<div class="w-full h-4"></div>
+
+[Discussion on lobste.rs](https://lobste.rs/s/m2fjzg/annotated_unix_magic_poster).
+
+</div>
+[Kaze Emanuar - I analyzed every Shader in Mario 64, Here's how they work](https://www.youtube.com/watch?v=YJJC6FJKu58)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/YJJC6FJKu58"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Another crazy dive from Kaze into the inner workings of SM64.
+
+</div>
+[Chris Lau and Minori Konishi - How far can you go without a map and smartphone in Japan? US gamer Ludwig Ahgren tries to find out](https://edition.cnn.com/2025/04/05/travel/gamer-ludwig-ahgren-travel-japan-no-smartphone-map-intl-hnk/index.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> No map. No smartphones. No expressways. Just two motorbikes and some basic Japanese.
+>
+> These are the rules American game streamer Ludwig Ahgren and his YouTuber buddy Michael Reeves have imposed on themselves as they embark on a journey to traverse Japan on motorbikes.
+
+I watched this entire series as it was coming out, honestly one of my favourite pieces of content to come out of those who I view only really as live streamers / content creators.
+
+</div>
+[Noclip - How Dwarf Fortress Coming to Steam Changed Everything - (Series Episode 3)](https://www.youtube.com/watch?v=TX65XCk2-6U)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/TX65XCk2-6U"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Part 3 of a great series on Dwarf Fortress, just this episode on its own is fantastic though, covering how the brothers behind Dwarf Fortress finally managed to capitalize on the game from a monetary perspective after working on it for decades.
+
+</div>
+[@Ahmad_Al_Dahle - Introducing our first set of Llama 4 models!](https://x.com/ahmad_al_dahle/status/1908595680828154198)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> 📌 The Llama series have been re-designed to use state of the art mixture-of-experts (MoE) architecture and natively trained with multimodality. We’re dropping Llama 4 Scout & Llama 4 Maverick, and previewing Llama 4 Behemoth.
+
+Mixture of experts seems to be an important part of the new Llama models, interesting.
+
+<div class="w-full h-4"></div>
+
+From [Simon Willision's Weblog](https://simonwillison.net/2025/Apr/5/llama-4/#atom-everything).
+
+</div>
+[it's jepi🧑‍💻 - The Reality of Software Engineering in 2025](https://www.youtube.com/watch?v=Zhl3V2wHYkA)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/Zhl3V2wHYkA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Another great Jepi video!
+
+I like his optimism about the state of the industry, even though he himself is someone who has been affected by it negatively.
+
+<div class="w-full h-4"></div>
+
+I also paused the video at this point:
+
+<Image src='/asset/Screenshot_2025-04-06_at_8.12.48 PM_1743979377653_0.png' alt='Screenshot 2025-04-06 at 8.12.48 PM.png' width={330} height={307} />
+
+I know Jepi is in Montreal, but I actually passed by this very same big 'ol ring back in September of last year, cool to see something familiar.
+
+</div>
+[TV Girl and George Clanton - Fauxllennium (Japanese Deluxe Edition)](https://old.reddit.com/r/indieheads/comments/1jr30mb/fresh_album_tv_girl_and_george_clanton/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Loved this album, and this deluxe edition adds another 7 more songs!
+
+There's also a [song featuring Magdalena Bay](https://open.spotify.com/track/5TBvQZLNHpCvYLiO98FjEg?si=db6c47e34e1e4f51)...
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5TBvQZLNHpCvYLiO98FjEg?utm_source=generator" width="100%" height="250" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+I'm seeing Magdalena Bay live _again_ next month in Toronto, [Imaginal Disk](https://en.wikipedia.org/wiki/Imaginal_Disk) was just too good not to see live just once.
+
+</div>
+[nint8835/hopper - RSS feed reader bot for Discord](https://github.com/nint8835/hopper)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+This is an extremely meta entry, also, hello Riley!
+
+The [other day](/linkblog/2025/03/15), I talked about [An RSS Bot in a Group Chat Is Our Era's Best Salon](https://maya.land/responses/2025/03/14/blogs-plus-groupchats-salon.html), now the topic of an RSS bot had already came up before, but Riley read that linkblog entry, and followed up in our Discord with this message:
+
+<Image src='/asset/Screenshot_2025-04-06_at_8.46.57 PM_1743982087070_0.png' alt='Screenshot 2025-04-06 at 8.46.57 PM.png' width={1880} height={332} />
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Shopkeeper, referenced here, is also [another project](http://github.com/nint8835/shopkeeper) local to our server, basically craigslist for Discord, even with its own web interface that plays well with a channel in the server itself.
+
+</div>
+The last few days, I saw some activity in our `#bot-spam` channel:
+
+<Image src='/asset/Screenshot_2025-04-06_at_8.42.34 PM_1743982080807_0.png' alt='Screenshot 2025-04-06 at 8.42.34 PM.png' width={1756} height={712} />
+
+Riley has cooked [Hopper!](https://github.com/nint8835/hopper), more personal infrastructure _let's go_.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Hopper, as in [Minecraft's Hopper](https://minecraft.wiki/w/Hopper).
+
+<Image src='/asset/hopper_1743982348418_0.webp' alt='hopper.webp' width={300} height={300} />
+
+</div>
+<div class="w-full h-4"></div>
+
+The very same channel that general server notifications are sent to, `#moby-dick` (in reference to Whales, i.e. Docker), you can see the same deploys for this website, alongside Riley deploying Hoper to his [k8s cluster](https://github.com/nint8835/ops).
+
+<Image src='/asset/Screenshot_2025-04-06_at_8.42.04 PM_1743982258605_0.png' alt='Screenshot 2025-04-06 at 8.42.04 PM.png' width={1244} height={792} />
+
+</div>
+[Ernie Smith - Gunkroad](https://tedium.co/2025/04/06/gumroad-open-source-doge-drama/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> The creator-economy service Gumroad decided to open-source its platform at a suspiciously convenient time. (And even “open source” might be stretching it.)
+
+Gumroad is [open source](https://github.com/antiwork/gumroad)!, but with a [licence that makes you pay in if you actually are a big business making real money](https://github.com/antiwork/gumroad/blob/cbe43b8326a8a767fd0d5203daa2c553a0fb6af1/LICENSE.md).
+
+Weird, but cool, but what else is new about Gumroad at the moment?
+> But if that’s all Gumroad was doing, I wouldn’t feel compelled to say anything. The reason I’m speaking up [is because of this *Wired* story,](https://www.wired.com/story/doge-department-of-veterans-affairs-ai/) released on the very same day Gumroad announced its “open source” license, which may have had the effect of minimizing the story’s viral impact. So I guess maybe a guy with a blog and a distaste for Gumroad’s name can give it a second stab.
+
+Wow! Yikes!
+
+</div>
+[Wes Davis - DOGE plans now reportedly include an IRS ‘hackathon’](https://www.theverge.com/news/644327/musk-doge-irs-hackathon-taxpayer-data-transfer-cloud)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> DOGE’s hackathon plan includes pulling together “dozens” of IRS engineers in DC to build the API, writes *Wired*. Among the third-party providers the department has reportedly discussed involving is Palantir, a company [known for its vast data collection](https://www.bloomberg.com/features/2018-palantir-peter-thiel/?sref=M8H6LjUF) and government surveillance and analysis work. DOGE is aiming to finish the API work in 30 days, a timeline one IRS employee told *Wired* is “not technically possible” and would “cripple” the IRS.
+
+Hackathon to _fix_ the IRS?
+
+The software developer inside my is screaming.
+
+<Image src='/asset/Screenshot_2025-04-07_at_1.22.49 PM_1744041181324_0.png' alt='Screenshot 2025-04-07 at 1.22.49 PM.png' width={1334} height={1358} />
+
+([Seen on /r/pics](https://old.reddit.com/r/pics/comments/1jsczrr/nyc_software_devs_against_doge/))
+
+</div>
