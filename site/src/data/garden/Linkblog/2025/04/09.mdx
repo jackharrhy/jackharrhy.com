@@ -1,0 +1,219 @@
+---
+name: "Linkblog/2025/04/09"
+description: "Tailscale Series C, Backported Portal 2 maps to Portal's Prototype (Narbacular Drop deep dive from me), Firebase Studio, Blender Vulkan Backend Maturing, Tyler McVicker HL3 documentary, Crypto crime is legal, Anthropic $$$ plan, Quake + Peggle = Queggle."
+ogImage: "/asset/portalrunner-nardrop-thumbnail_1744255939700_0.jpg"
+---
+
+[Avery Pennarun - Building the New Internet, together — our Series C and what's next](https://tailscale.com/blog/series-c)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+Yay for Tailscale!
+
+They genuinely make a really cool piece of tech.
+
+I _really_ don't want this to be [another Hashicorp](https://en.wikipedia.org/wiki/HashiCorp#Acquisition_by_IBM)!!!
+
+</div>
+[PortalRunner - I Backported Portal 2 to Portal’s Prototype](https://www.youtube.com/watch?v=de_SGq34uPI)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/de_SGq34uPI"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Great video, PortalRunner backports [Portal 2](https://en.wikipedia.org/wiki/Portal_2) maps to [Narbacular Drop](https://en.wikipedia.org/wiki/Narbacular_Drop), the precursor game to [Portal](https://en.wikipedia.org/wiki/Portal_(video_game)).
+
+<div class="w-full h-4"></div>
+
+After watching this video, I was curious to know what tools were used to make Narbacular Drop, going in with the _assumption_ that it _must_ be something Source / GoldSrc / Quake based, right?
+
+Why else would you have a PAK-esq format, have `func_button`, work with a format that `.map` can compile to, etc.?
+
+I searched around, and found the entry for [Narbacular Drop on Valve's developer wiki](https://developer.valvesoftware.com/wiki/Narbacular_Drop).
+
+<div class="ml-[calc(2*1rem)] mb-8">
+It states:
+
+> The official level creation kit is designed for [Hammer 3.4](https://developer.valvesoftware.com/wiki/Valve_Hammer_Editor_(GoldSrc)).
+
+Hammer 3.4, is not the [Source engine Hammer](https://developer.valvesoftware.com/wiki/Valve_Hammer_Editor), but the Valve Hammer Editor previously known as Worldcraft, made for GoldSrc.
+
+So its using a Valve map editor, cool, but this page didn't actually tell me what engine it was using, so I continued on.
+
+<div class="w-full h-4"></div>
+
+Funny enough, [the tool PortalRunner made](https://github.com/p2r3/vmf2cmf) in his video that sparked this investigation, is listed on the Valve wiki page.
+
+<div class="ml-[calc(3*1rem)] mb-8">
+It uses Bun, nice.
+
+</div>
+</div>
+I then ran into another page for the Narbacular Drop, [on the Combine Overwiki](https://combineoverwiki.net/wiki/Narbacular_Drop).
+
+<div class="ml-[calc(2*1rem)] mb-8">
+This one actually referenced its _engine_, the "Sketcher Engine", we're getting somewhere!
+
+</div>
+I then searched for the Sketcher Engine, and didn't find _much_, but I did spot a [Hacker News conversation thread / _argument_](https://news.ycombinator.com/item?id=38871586) in which the engine was mentioned:
+
+<div class="ml-[calc(2*1rem)] mb-8">
+> Narbacular Drop is the result of making a 3D game engine (the way everyone had to at DigiPen before they changed things such that now apparently nobody does this anymore, sadly), learning about [portal rendering](https://en.wikipedia.org/wiki/Portal_rendering) in the process, [...]
+
+Oh wow! a custom engine!
+
+I mean... it makes _sense_, this was a game development course at a University in the mid 2000s, this is a much more sensible time for _doing it yourself_ isn't just a thing to do for learning, but also for getting your hands dirty in the days before commonplace engines became truly standard.
+
+</div>
+So, my question was answered, but I did do one last search, and landed on the holy grail, [the games "Technical Design Document"](https://gamescrye.com/wp-content/uploads/2023/02/Narbacular-Drop-GDD.pdf), a 38 page dive into a _lot_ of nitty-gritty details into the plan for the game / reasoning / specs / etc.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Reading through this, the first funny thing that jumped out to me was this:
+
+> FMOD could suddenly change their licensing and we'd have to make time to create a robust sound system.
+
+I didn't know [FMOD](https://en.wikipedia.org/wiki/FMOD) has been a spooky thing from a licensing thing for this long.
+
+<div class="ml-[calc(3*1rem)] mb-8">
+Looks like it came out in 1995, so it was already 10 years old at this point.
+
+</div>
+Worldcraft is mentioned here:
+
+> Worldcraft has been the standard in editing levels for games using Id Software's engines (Doom, Quake, Half-Life) for over decade. The outstanding feature is that classes of objects and new data structures can easily be created and placed in Worldcraft. This feature allows Worldcraft to be used for nearly any game so long as the classes are customized.
+
+The 'coding guidelines' is funny (they use C++):
+
+> - Precompute whenever even remotely possible.
+> - Measures must be taken to prevent copy paste errors.
+> - Measures must be taken to prevent copy paste errors.
+> - **The STL is evil (most of the time).**
+> - Unnecessarily virtual functions should be rewritten to remove virtual requirements.
+> - Sloppy code must be marked for recoding later.
+> - Unreadable code earns you a free punch in the face.
+> - Measures must be taken to prevent copy paste errors.
+
+They even ballpark how much video memory they need in _bytes_:
+
+> Total:
+> - Assuming 640x480 32bit resolution: 27,935,620 Bytes
+> - Assuming 1024x768 32bit resolution: 33,686,404 Bytes
+
+<div class="w-full h-4"></div>
+
+At the end of it, each project member is listed, lets see what they're up to today / if they have an active online presence:
+
+<div class="ml-[calc(3*1rem)] mb-8">
+Jeep Barnett, has [quite the personal site](https://www.jeepbarnett.com/), with basically all of his projects documented, a gallery filled with photos both about himself, but also a lot of Portal fan art.
+
+<div class="ml-[calc(4*1rem)] mb-8">
+He's also gotten _[really](https://www.youtube.com/watch?v=ensEOg9n31k) [into](https://www.timecodedlyrics.com/)_ [learning](https://www.youtube.com/watch?v=lx5AEI96l3U) [Korean](https://www.thisisgame.com/webzine/news/nboard/263/?n=126176).
+
+He was at Valve until 2021.
+
+</div>
+Dave Kircher looks to [still be at Valve](https://www.mobygames.com/person/228037/david-kircher/).
+
+<div class="ml-[calc(4*1rem)] mb-8">
+His [personal website](https://dave.kircher.org/) simply states:
+
+> Originally this site was to help me get a job, but since I'm working for Valve, I'm not really in a rush to flesh it out.
+
+Yeah.
+
+</div>
+Garret Rickey is [also still at Valve](https://www.mobygames.com/person/228048/garret-rickey/).
+
+<div class="ml-[calc(4*1rem)] mb-8">
+He took part in IGN's series on game developers interacting with speedrunners, on you guessed, it, [Portal](https://www.youtube.com/watch?v=E_Z9lvWbfFU).
+
+Jeep is also in this as well, alongside [Eric Wolpaw](https://en.wikipedia.org/wiki/Erik_Wolpaw).
+
+</div>
+[Kim Swift](https://en.wikipedia.org/wiki/Kim_Swift) left Valve in 2009, and has done all sorts of things since.
+
+</div>
+</div>
+That was a _really_ fun dive, cool to see a student project have this much of an affect on Valve / the gaming industry.
+
+The first Portal was the title that made me get a Steam account in 2010, a huge influence for me personally.
+
+</div>
+[Google - Firebase Studio](https://firebase.studio/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+There's more details on the [docs page](https://firebase.google.com/docs/studio).
+
+> Firebase Studio is an agentic cloud-based development environment that helps you build and ship production-quality full-stack AI apps, including APIs, backends, frontends, mobile, and more. Firebase Studio unifies [Project IDX](https://firebase.google.com/docs/studio/idx-is-firebase-studio) with specialized AI agents and assistance from Gemini in Firebase to provide a collaborative workspace accessible from anywhere, containing everything you need to develop an application. You can import your existing projects or start something new with templates supporting variety of languages and frameworks.
+
+This looks to be a rebrand of [Project IDX](https://idx.dev/) bringing it into the Firebase world.
+
+</div>
+[Michael Larabel - Blender Is Looking For Help Testing Its Maturing Vulkan Backend](https://www.phoronix.com/news/Blender-Vulkan-Help-Testing)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> With the recent release of [Blender 4.4](https://www.phoronix.com/news/Blender-4.4-Released) it brought many improvements to its Vulkan back-end but is still being treated as experimental. But [they hope to make their Vulkan renderer production-ready this year](https://www.phoronix.com/news/Blender-Vulkan-Exciting-2025) and in order to do that they need more help from the community in testing it.
+
+</div>
+[Tyler McVicker - Half-Life 3 - The Rise, Fall & Rebirth](https://www.youtube.com/watch?v=-rs7LHtODh4)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/-rs7LHtODh4"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+More Valve pandering, this time from mr [FKA VNN](https://www.youtube.com/watch?v=J82HbvwxBxs) himself.
+
+There's a [partner video by Bringus Studios](https://www.youtube.com/watch?v=2eWlN_uiMIc):
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/2eWlN_uiMIc"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Also an amazing watch, a _Valve_ Steambox.
+
+</div>
+[Molly White - Crypto crime is legal](https://www.citationneeded.news/issue-81/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> A Monday night memo from Deputy Attorney General Todd Blanche, citing Trump’s crypto executive orders, has dismantled the Department of Justice’s National Cryptocurrency Enforcement Team (NCET) and directed the agency’s Market Integrity and Major Frauds Unit to “cease cryptocurrency enforcement”.
+
+.-.
+
+</div>
+[Anthropic - Introducing the Max Plan](https://www.anthropic.com/news/max-plan)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Today we're introducing the Max plan—designed for those who collaborate with Claude extensively and need expanded access for their most important work.
+
+Anthropic joining OpenAI with having a _big 'ol_ pricing tier.
+
+</div>
+[@erysdren.bsky.social‬ - Quake + Peggle = Queggle](https://bsky.app/profile/erysdren.bsky.social/post/3lmb7jcp3ec2g)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<video controls src='/asset/Queggle_1744232995889_0.mp4' width='960' height='720'></video>
+
+Amazing.
+
+You can access it _right now_ by [joining erysdren's Patreon](https://www.patreon.com/posts/quake-peggle-126313124).
+
+</div>
