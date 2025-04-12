@@ -1,0 +1,213 @@
+---
+name: "Linkblog/2025/04/11"
+description: "Bickle - Gut Feeling, Python Template Strings, Tofu Engine, a love letter to level editor icons, the armchair of great blogging, Jane Remover Interview, twilight of creativity, Xbox 360 BadUpdate."
+ogImage: "/asset/hammer_icons_1744458755989_0.png"
+---
+
+[Bickle - Gut Feeling](https://bickle.bandcamp.com/album/gut-feeling)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+New Bickle album, its _good_...
+
+</div>
+[Joe Marshall - Lisp Programs Don't Have Parentheses](https://funcall.blogspot.com/2025/04/lisp-programs-dont-have-parentheses.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> Lisp programs don't have parentheses — they are made of nested linked lists. The parentheses only exist in the printed representation — the ASCII serialization — of a Lisp program. They tell the Lisp reader where the nested lists begin and end. Parenthesis are the contour lines in the topographic map of your Lisp program.
+
+A lot of the memes about Lisp are on its usage and _abuse_ of parenthesis, but as Joe points out, that's basically the easiest way you can represent a nested link list in an ASCII text file, its just representing a construct for us to consume.
+
+</div>
+[PEP 750 – Template Strings](https://peps.python.org/pep-0750/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+```py
+template: Template = t"Hello {name}"
+```
+
+Python is getting template strings!
+
+A friend asked the honestly good question, what above would be different from say, `f"Hello {name}"`?
+
+The above expression, say if name was `"John"`, would resolve to `"Hello John"`, but the _template_ becomes basically a unresolved object, its not just stringified right away, its left in a state interpreted later on.
+
+JavaScript has had this with ['Tagged templates'](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) for some time now, one of the best examples of this is what [Drizzle](https://orm.drizzle.team) uses that feautre for: [_Magical   `sql`   operator 🪄_](https://orm.drizzle.team/docs/sql):
+
+```js
+import { sql } from 'drizzle-orm' 
+
+const id = 69;
+await db.execute(sql`select * from ${usersTable} where ${usersTable.id} = ${id}`)
+```
+
+Will generate the following SQL:
+
+```sql
+select * from "users" where "users"."id" = $1; --> [69]
+```
+
+If the above was just string interpolation, you'd have SQL injection fun if `id` was user controlled, but as you can see by the generated SQL, that field is correctly broken out into a parameter thats passed in separately.
+
+<div class="w-full h-4"></div>
+
+So while template strings in Python might not be super useful to regular users of the language, it will hopefully give library authors interesting ways to expose interfaces to users, I'd love to see a [SQLAlchemy Core](https://docs.sqlalchemy.org/en/20/core/) interface built using this, since I like aspects of SQLAlchemy but I would rather just have my hands directly on my dear SQL syntax please.
+
+</div>
+[Tofu Engine](https://tofuengine.github.io/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+>**Tofu Engine** is a *free and open* self-contained game-engine suitable for small-to-mid 2D projects.
+>
+> It is entirely **self-contained**, as no additional runtime modules/libraries required (system-wide libraries excluded). Everything is bundled in the engine executable.
+
+Very cool engine!, here's a selection of its features I find really cool:
+
+> - Fully scripted in Lua.
+> - Array of predefined common/famous resolutions (e.g. C64, Capcom’s arcades, Nintendo DS, Sony PSP, etc…).
+> - Predefined library of 8/16/32/64 colors palettes.
+> - SNES’ Mode7-like transforms, with scan-line based ([HDMA](https://wiki.superfamicom.org/grog's-guide-to-dma-and-hdma-on-the-snes)) changes.
+> - Library of “retro-feel” post-effects (LCD, CRT, color-blindness, etc…).
+
+<div class="w-full h-4"></div>
+
+Setting up a project is done via a cute little `.toml` file:
+
+```toml
+[display]
+title=Hello, Tofu!
+width=320
+height=240
+scale=0
+fullscreen=false
+[keyboard]
+exit-key-enabled=true
+```
+
+And then a lil `main.lua`:
+
+```lua
+local Class = require("tofu.core.class")
+local Canvas = require("tofu.graphics.canvas")
+local Display = require("tofu.graphics.display")
+local Font = require("tofu.graphics.font")
+
+local Main = Class.define()
+
+local MESSAGE <const> = "Hello, Tofu!"
+
+function Main:__ctor().
+  local palette = Palette.default("pico-8")
+  Display.palette(palette)
+  ...
+end
+
+function Main:render(_)
+  local canvas = Canvas.default()
+  ...
+  self.font:write(canvas, x, y, MESSAGE)
+end
+
+return Main
+```
+
+You can see the full example on the ['getting started' page](https://tofuengine.github.io/guides/getting-started/).
+
+To me, this feels like a retro [LÖVE](https://love2d.org/), very nice.
+
+<div class="w-full h-4"></div>
+
+> [...] **multi-platform** through *cross-compilation* (Windows, Linux and [Raspberry-Pi](https://www.raspberrypi.org/) systems are supported – macOS isn’t currently on the radar [...]
+
+Sadly I won't be able to give it a go since my daily driver right now is a Macbook.
+
+</div>
+[erysdren - a love letter to level editor icons](https://erysdren.me/blog/2025-04-11/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> i want to show you some cool art from the late 90s and early 00s. this art was only ever intended to be seen by the developers at a select few games companies, and thus may contain obscure in-jokes and references that nobody outside of the company is likely to understand.
+
+Classic Hammer entity icons.
+
+<Image src='/asset/hammer_icons_1744458755989_0.png' alt='hammer_icons.png' width={512} height={512} />
+
+</div>
+[ava - the armchair of great blogging](https://blog.avas.space/the-armchair-of-great-blogging/)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> This is the Armchair of Great Blogging.
+
+You should go see the armchair of great blogging... so cozy.
+
+I need me an armchair of great linkblogging.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+And maybe one day blogging but for now I just linblog... soon...
+
+</div>
+</div>
+[Anthony Fantano - J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-J-JANE REMOVER INTERVIEW](https://www.youtube.com/watch?v=tFxEHWDmZLQ)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/tFxEHWDmZLQ"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+This is a great candid interview between Anthony and Jane, great watch.
+
+Jane dropping the Dariacore name was funny to me, but, _TIL_, she _coined_ the [Dariacore](https://en.wikipedia.org/wiki/Hyperpop#Dariacore) term _in_ 2021 with her album called [Dariacore](https://en.wikipedia.org/wiki/Dariacore_(album)), wow.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+I have a lil playlist of some Dariacore type tracks, [daria](https://open.spotify.com/playlist/66ZuJtlG0CKFLw3pSf0yjw), it needs _growing_.
+
+</div>
+Also Jane is still rocking [FL](https://en.wikipedia.org/wiki/FL_Studio) for all of this... respect.
+
+<div class="ml-[calc(2*1rem)] mb-8">
+Also [_Sony Vegas_](https://en.wikipedia.org/wiki/Vegas_Pro) for video editing, truly of a better era.
+
+</div>
+<div class="w-full h-4"></div>
+
+Mr [@snakesandrews](https://x.com/snakesandrews) AKA the Horse Race Tests ring leader, [has been bumping Psychoboost](https://x.com/snakesandrews/status/1910683867305869636).
+
+</div>
+[zeerooth - The ultimate twilight of creativity](https://tearoom.earth/gemfeed/2025-03-28-the-ultimate-twilight-of-creativity.html)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+> A quite absurd thought has been on my mind for quite some time. It’s a fact that since the dawn of Anthropocene, humanity has accumulated so many stories, books, music and later films, games, animations, videos, that a single person couldn’t possibly consume all that media over their lifetime even if they wanted, much less remember all of it.
+>
+> [...] if you can think of a story, there is a big chance that it, or something similar at least, has already been told
+>
+> [...] The only realistic impact you can really make as an individual is on yourself and people around you, so just make shit for the fun of it. Not for seeking validation, chasing after ideals, or some extrinsic motives.
+
+<div class="w-full h-4"></div>
+
+Found on [Andreas's Linkdump No 50](https://82mhz.net/posts/2025/04/linkdump-no-50/).
+
+</div>
+[MattKC Bytes - How does BadUpdate take control of the Xbox 360? (A Technical Analysis)](https://www.youtube.com/watch?v=WsMmmwYhshI)
+
+<div class="ml-[calc(1*1rem)] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/WsMmmwYhshI"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+I wasn't aware of just _how_ well protected the Xbox 360 has been from software based attacks until now, and it looks like the battle still isn't won as its not a homebrew / mod that persists across reboots.
+
+MattKC goes into _depth_ covering [grimdoomer/Xbox360BadUpdate](https://github.com/grimdoomer/Xbox360BadUpdate), in which is covered by one the authors of the exploit in his own [part 1](https://icode4.coffee/?p=1047) / [part 2](https://icode4.coffee/?p=1081) on the topic.
+
+Good watch as always from Matt!
+
+</div>
