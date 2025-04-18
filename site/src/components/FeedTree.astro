@@ -1,17 +1,9 @@
 ---
-import { getLinkblogPostsAsTree } from "../feeds";
+import { getPostsAsTree } from "../feeds";
 
 const { source } = Astro.props;
 
-const getItems = async () => {
-  if (source === "linkblog") {
-    return await getLinkblogPostsAsTree();
-  } else {
-    throw new Error("unknown source");
-  }
-};
-
-const tree = await getItems();
+const tree = await getPostsAsTree(source);
 ---
 
 <a class="no-underline" href={import.meta.env.SITE + "/" + source + "/rss.xml"}

@@ -8,9 +8,20 @@ interface Props {
   description?: string;
   noFooter?: boolean;
   ogImage?: string;
+  width?: string;
+  mainClass?: string;
+  invert?: boolean;
 }
 
-const { title, description, noFooter = false, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  noFooter = false,
+  ogImage,
+  width,
+  mainClass,
+  invert = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -61,8 +72,22 @@ const { title, description, noFooter = false, ogImage } = Astro.props;
       title="Posts - jackharrhy.dev"
     />
     <link
-      rel="webmention"
-      href="https://webmention.io/jackharrhy.dev/webmention"
+      rel="alternate"
+      type="application/rss+xml"
+      href="https://jackharrhy.dev/devblog/rss.xml"
+      title="Devblog - jackharrhy.dev"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="https://piclog.blue/user-feed.php?id=43"
+      title="Crusty JPEG posts on piclog.blue"
+    />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      href="https://status.cafe/users/jack.atom"
+      title="Updates on status.cafe"
     />
     <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
     <meta
@@ -75,10 +100,19 @@ const { title, description, noFooter = false, ogImage } = Astro.props;
   </head>
   <body class="flex flex-col items-center h-full justify-between">
     <div
-      class="prose prose-md md:prose-lg lg:prose-xl prose-orange prose-li:my-0 prose-p:mt-0 prose-p:mb-4 max-w-[60ch] w-full"
+      class:list={[
+        "prose max-w-none prose-orange prose-md md:prose-lg lg:prose-xl prose-li:my-0 prose-p:mt-0 prose-p:mb-4 w-full",
+        !width && "!max-w-[65ch]",
+        width && width,
+        invert && "prose-invert",
+      ]}
     >
       <header
-        class="relative not-prose px-8 py-10 pt-12 flex justify-between leading-none"
+        class:list={[
+          "relative not-prose px-8 py-10 pt-12 flex justify-between leading-none",
+          width && "max-w-[60ch] mx-auto",
+          invert && "text-[#374151]",
+        ]}
       >
         {
           title && (
@@ -95,7 +129,7 @@ const { title, description, noFooter = false, ogImage } = Astro.props;
           <a href="/now" class="hover:underline">Now</a>
         </div>
       </header>
-      <main class="pb-8 px-8 mx-auto">
+      <main class:list={["pb-8 px-8 mx-auto w-full", mainClass]}>
         <slot />
       </main>
     </div>

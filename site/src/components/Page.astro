@@ -20,6 +20,25 @@ if (!entry) {
   throw new Error(`Page not found: ${id}`);
 }
 
+const customLayout = entry.data.customLayout;
+
+let width = undefined;
+let centerHeader = false;
+let mainClass = undefined;
+let noFooter = !header;
+let invert = false;
+
+switch (customLayout) {
+  case "quake":
+    const bgImageClassName = "bg-[url(/asset/sfloor4_2_1744678724080_0.png)]";
+    width = "max-w-full";
+    centerHeader = true;
+    mainClass = `${bgImageClassName} prose-lg font-mono py-8 [&_div>p]:relative [&_div>p]:pl-4 [&_div>p]:before:content-['•'] [&_div>p]:before:absolute [&_div>p]:before:left-0 [&_div>p]:before:top-0.5`;
+    noFooter = true;
+    invert = true;
+    break;
+}
+
 const { Content } = await render(entry);
 
 import Layout from "../layouts/Layout.astro";
@@ -28,10 +47,17 @@ import Layout from "../layouts/Layout.astro";
 <Layout
   title={entry.data.name === "Home" ? undefined : entry.data.name}
   description={entry.data.description}
-  noFooter={!header}
+  noFooter={noFooter}
   ogImage={entry.data.ogImage}
+  width={width}
+  mainClass={mainClass}
+  invert={invert}
 >
-  {header && <h1>{entry.data.name}</h1>}
+  {
+    header && (
+      <h1 class:list={[centerHeader && "text-center"]}>{entry.data.name}</h1>
+    )
+  }
   {
     entry.data.description && (
       <p class="not-prose text-2xl font-medium mb-10">
@@ -41,9 +67,3 @@ import Layout from "../layouts/Layout.astro";
   }
   <Content components={{ Mug, Project, Feed, FeedTree, Image, NowPlaying }} />
 </Layout>
-
-<style is:global>
-  indent {
-    margin-left: calc(attr(level) * 1rem);
-  }
-</style>

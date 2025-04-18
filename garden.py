@@ -139,6 +139,7 @@ class Asset(BaseModel):
 class Page(BaseModel):
     name: str
     description: str | None
+    custom_layout: str | None
     og_image: Asset | None
 
     filename: str
@@ -165,13 +166,12 @@ def query_logseq(client: httpx.Client, query: str = "(property public true)") ->
     return response.json()
 
 
-def get_page_of_block(client: httpx.Client, block_uuid: str) -> str:
+def get_block_link(client: httpx.Client, block_uuid: str) -> str:
+    logger.debug(f"Getting page of block {block_uuid}")
     query = f"""
-        [:find ?pageName
-         :where
-         [?b :block/uuid #uuid "{block_uuid}"]
-         [?b :block/page ?p]
-         [?p :block/name ?pageName]]
+[:find (pull ?b [* {{:block/page [:block/name]}}])
+ :where
+ [?b :block/uuid #uuid "{block_uuid}"]]
     """
 
     response = client.post(
@@ -181,7 +181,15 @@ def get_page_of_block(client: httpx.Client, block_uuid: str) -> str:
     result = response.json()
 
     if result and len(result) > 0:
-        return result[0][0]
+        block = result[0][0]
+
+        slug = block.get("properties", {}).get("slug", None)
+        page_name = block["page"]["name"].removeprefix("garden")
+
+        if slug:
+            return f"{page_name}#{slug}"
+        else:
+            return page_name
     else:
         raise ValueError(f"No page found for block {block_uuid}")
 
@@ -349,17 +357,19 @@ def excalidraw_to_md(filename: str) -> tuple[str, Asset]:
 def blocks_to_md(
     client: httpx.Client,
     blocks: list[dict],
-    indent: int = 0,
+    level: int = 0,
 ) -> tuple[str, list[Asset]]:
     assets: list[Asset] = []
 
-    if indent == 0:
+    if level == 0:
         md = ""
     else:
-        md = f'<div class="ml-[calc({indent}*1rem)] mb-8">\n'
+        md = '<div class="ml-[2rem] mb-8">\n'
 
     for block in blocks:
         content = block["content"]
+
+        slug = None
 
         if block.get("properties") and block["properties"]:
             properties = block["properties"]
@@ -380,12 +390,19 @@ def blocks_to_md(
                 properties.get("heading") is not None and len(properties) == 1
             )
 
-            is_just_an_id = properties.get("id") is not None and len(properties) == 1
+            has_an_id = properties.get("id") is not None
+            is_just_an_id = has_an_id and len(properties) == 1
 
-            if is_just_an_id:
-                content = re.sub(r"\s*id::\s*[a-f0-9-]+$", "", content)
+            if has_an_id:
+                content = re.sub(r"\s*id::\s*[a-f0-9-]+($|\n)", "", content)
 
-            if not is_just_a_heading and not is_just_an_id:
+            has_a_slug = properties.get("slug") is not None
+
+            if has_a_slug:
+                content = re.sub(r"\s*slug::\s*[a-z0-9-]+($|\n)", "", content)
+                slug = properties.get("slug")
+
+            if not is_just_a_heading and not is_just_an_id and not has_a_slug:
                 continue
 
         excalidraw_match = re.match(
@@ -404,7 +421,7 @@ def blocks_to_md(
         if embed_match:
             page_name = embed_match.group(1)
             blocks = get_page(client, page_name)
-            content, embed_assets = blocks_to_md(client, blocks, indent + 1)
+            content, embed_assets = blocks_to_md(client, blocks, level + 1)
             assets.extend(embed_assets)
 
         video_match = re.match(
@@ -435,19 +452,21 @@ def blocks_to_md(
             _link_text = block_ref_match.group(1)
             uuid = block_ref_match.group(2)
 
-            page_name = get_page_of_block(client, uuid)
-            page_name = page_name.removeprefix("garden")
+            block_link = get_block_link(client, uuid)
 
-            content = content.replace(f"(({uuid}))", page_name)
+            content = content.replace(f"(({uuid}))", block_link)
+
+        if slug:
+            content = f'<a name="{slug}"></a>\n{content}'
 
         md += f"{content}\n\n"
 
         if "children" in block and len(block["children"]) > 0:
-            inner_md, inner_assets = blocks_to_md(client, block["children"], indent + 1)
+            inner_md, inner_assets = blocks_to_md(client, block["children"], level + 1)
             md += inner_md
             assets.extend(inner_assets)
 
-    if indent > 0:
+    if level > 0:
         md += "</div>\n"
 
     return md, assets
@@ -502,6 +521,7 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
         yield Page(
             name=name,
             description=first_block["properties"].get("description", None),
+            custom_layout=first_block["properties"].get("customLayout", None),
             og_image=asset_from_logseq_link(page[0]["properties"]["ogImage"])
             if page[0]["properties"].get("ogImage")
             else None,
@@ -521,6 +541,8 @@ def export_page(page: Page):
     content += f'name: "{page.name.replace('"', '\\"')}"' + "\n"
     if page.description:
         content += f'description: "{page.description.replace('"', '\\"')}"' + "\n"
+    if page.custom_layout:
+        content += f'customLayout: "{page.custom_layout}"' + "\n"
     if page.og_image:
         content += f'ogImage: "{page.og_image.url}"\n'
     content += "---\n\n"
@@ -551,6 +573,7 @@ def run_build(page_name: str | None = None):
             Page(
                 name=page_name,
                 description=page[0]["properties"].get("description", None),
+                custom_layout=page[0]["properties"].get("customLayout", None),
                 og_image=asset_from_logseq_link(page[0]["properties"]["ogImage"])
                 if page[0]["properties"].get("ogImage")
                 else None,

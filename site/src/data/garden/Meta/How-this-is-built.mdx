@@ -4,7 +4,7 @@ name: "Meta/How this is built"
 
 This site starts from a Logseq graph, its actually the Logseq graph I've been using since ~2022, but every page in that graph denoted with `public:: true` is part of this website.
 
-<div class="ml-[calc(1*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 <Image src='/asset/graph_1738337031270_0.png' alt='graph.png' width={2138} height={1336} />
 
 _My graph as it stands as of Jan 31st, 2025_
@@ -18,7 +18,7 @@ The structure returned by `getPageBlocksTree` is pretty nice to work with, I map
 
 Where things get interested, is if the block has properties on it, such as this example from [[projects]]:
 
-<div class="ml-[calc(1*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 ```
 component:: Project
 image:: <Image src='/asset/_jaharrhy_1738274907463_0.webp' alt='_jaharrhy.webp' width={167} height={149} />
@@ -30,7 +30,7 @@ description:: My labnet garden, giving old web vibes.
 </div>
 I have some code, that turns the above into this:
 
-<div class="ml-[calc(1*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 ```jsx
 <Project image="/asset/_jaharrhy_1738274907463_0.webp" link="https://www.cs.mun.ca/~jaharrhy/" name="~jaharrhy" description="My labnet garden, giving old web vibes." />
 ```
@@ -40,12 +40,12 @@ During this I also make note of `<Image src='/asset/_jaharrhy_1738274907463_0.we
 
 I also support embedding:
 
-<div class="ml-[calc(1*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 Images, using the above method of regular expressions.
 
 Excalidraw drawings.
 
-<div class="ml-[calc(2*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 Logseq has native support for doing a `/draw` slash command, giving me an embedded Excalidraw UI in Logseq.
 
 I simply export these to SVG, saving a reference to this in an `<img ... />` tag and adding another asset to the asset manifest.
@@ -53,7 +53,7 @@ I simply export these to SVG, saving a reference to this in an `<img ... />` tag
 </div>
 Embedding pages _in_ pages.
 
-<div class="ml-[calc(2*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 Doing `{{embed [[Example]]}}` will embed the document visually in Logseq, I can just find these and call my already in use `get_page` to get the content of any page, and spit out its markdown directly into the document.
 
 _I plan on the ability to embed blocks, i.e. sections of documents from places into other places._
@@ -63,7 +63,7 @@ Still need to figure out exactly how to denote that something is a reference vis
 </div>
 Raw HTML
 
-<div class="ml-[calc(2*1rem)] mb-8">
+<div class="ml-[2rem] mb-8">
 `@@html ... @@` in Logseq will render raw HTML I can see in the editor, I just strip these from the output so my parser in the Astro side kicks in.
 
 </div>
