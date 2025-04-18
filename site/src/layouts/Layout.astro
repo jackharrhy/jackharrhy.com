@@ -11,6 +11,7 @@ interface Props {
   width?: string;
   mainClass?: string;
   invert?: boolean;
+  mobileFriendly?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   width,
   mainClass,
   invert = false,
+  mobileFriendly = true,
 } = Astro.props;
 ---
 
@@ -28,7 +30,7 @@ const {
 <html lang="en" class="bg-paper font-serif h-full">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    {mobileFriendly && <meta name="viewport" content="width=device-width" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <style>
@@ -151,3 +153,14 @@ const {
     height: 100%;
   }
 </style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const links = document.querySelectorAll("a");
+    links.forEach((link) => {
+      if (link.getAttribute("href") === "/quake") {
+        link.setAttribute("data-astro-reload", "");
+      }
+    });
+  });
+</script>

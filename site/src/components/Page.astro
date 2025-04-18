@@ -27,6 +27,7 @@ let centerHeader = false;
 let mainClass = undefined;
 let noFooter = !header;
 let invert = false;
+let mobileFriendly = true;
 
 switch (customLayout) {
   case "quake":
@@ -36,6 +37,7 @@ switch (customLayout) {
     mainClass = `${bgImageClassName} prose-lg font-mono py-8 [&_div>p]:relative [&_div>p]:pl-4 [&_div>p]:before:content-['•'] [&_div>p]:before:absolute [&_div>p]:before:left-0 [&_div>p]:before:top-0.5`;
     noFooter = true;
     invert = true;
+    mobileFriendly = false;
     break;
 }
 
@@ -52,6 +54,7 @@ import Layout from "../layouts/Layout.astro";
   width={width}
   mainClass={mainClass}
   invert={invert}
+  mobileFriendly={mobileFriendly}
 >
   {
     header && (
