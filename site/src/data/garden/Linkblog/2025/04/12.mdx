@@ -1,0 +1,233 @@
+---
+name: "Linkblog/2025/04/12"
+description: "Disc Master (Old NTV cam), Elon Cloud, FOOTSTEPPR, daydreaming with lua, enemy surfing, Skin Deep Soundtrack, CrazyCattle3D, Bare JS Runtime, Horse Race Tests, Tidbyt without the company, Anubis works."
+ogImage: "/asset/batcam-april-17th-1999_1745086531578_0.jpg"
+---
+
+[textfiles.com - Disc Master](https://discmaster.textfiles.com/)
+
+<div class="ml-[2rem] mb-8">
+I saw mention of the [DiscMaster Jam](https://itch.io/jam/discmaster-jam) while browsing the interwebs, and saw mention of the Internet Archive, so I took interest in the underlying tool the jam was based around, and discovered the _Disk Master_!
+
+> **Experimental** website to browse and search vintage computer files from [archive.org](https://archive.org/)
+
+I've liked finding old CDs / DVDs of images / scripts / documents / etc. on the Internet Archive before discovering this, but to find a dedicated interface for _only_ searching _across all_ of this content, is _very cool_.
+
+<div class="w-full h-4"></div>
+
+I put in some search queries for where I'm from, putting in `Newfoundland` resulted in a lot of maps / flags:
+
+<Image src='/asset/Screenshot_2025-04-19_at_3.30.43 PM_1745085661949_0.png' alt='Screenshot 2025-04-19 at 3.30.43 PM.png' width={1918} height={1058} />
+
+And I put in the city I'm from, St. John's, and saw a [bunch of results](https://discmaster.textfiles.com/search?q=St.+John%27s) for a text file called `St. John's-OZFM Cam`.
+
+[Visiting one of these files](https://discmaster.textfiles.com/view/5723/Beginning%20Mac%20Programming.bin/pc/Open%20Me%20for%20REALbasic%203/REALbasic%203.2/Made%20with%20REALbasic%E2%84%A2/Cubies%20Winners/Internet/iCamMaster/WebCams/WorldCams/North%20America/Canada/St.%20John's-OZFM%20Cam), showed me its _very_ small contents:
+
+```
+http://www.ntv.ca/station/batcam.jpg
+4
+UserID
+Pass
+```
+
+Its a [NTV](https://en.wikipedia.org/wiki/CJON-DT) URL, to a webcam!
+
+NTV still [maintains webcams available on their website](https://ntvplus.ca/pages/webcams) to this day.
+
+<div class="ml-[2rem] mb-8">
+I've written some code around this to [make them accessible via a Discord bot](https://github.com/jackharrhy/Xavier/blob/master/commands/cam.py), which was sort of a rip off of a previous project my friend [Josh](https://joshmurphy.ca/) worked on (sorry Josh).
+
+Another friend [Riley](https://rileyflynn.me/), has a [project](https://github.com/nint8835/ntv-webcam-scraper) that has been scraping the webcams to create a timelapse of them over time, so when we get snowfalls, it can spit out a GIF showing the progression over time of the build up.
+
+</div>
+Now, it hasn't maintained being located on `/station/batcam.jpg` all these years, which isn't surprising, but it was still really cool to see how old this has been on the internet for!
+
+And of course, armed with the old URL, I can yet again reach for another piece of the Internet Archive's tools, the _[Wayback Machine](https://web.archive.org/)_, to see if there were any old captures of this site.
+
+And there is!:
+
+<Image src='/asset/batcam-april-17th-1999_1745086531578_0.jpg' alt='batcam-april-17th-1999.jpg' width={320} height={240} />
+
+This [capture](https://web.archive.org/web/19990417192146/http://www.ntv.ca:80/station/batcam.jpg) is from Apr 17th, _1999_!, I had no idea it had been a thing for this long.
+
+The [next capture](https://web.archive.org/web/19991004002052/http://www.ntv.ca/station/batcam.jpg) however, (the only other one before 2000), is a very dark picture taken of what I _think_ is looking out to the [Narrows](https://en.wikipedia.org/wiki/The_Narrows,_St._John%27s).
+
+<Image src='/asset/batcam_1744426569742_0.jpg' alt='batcam.jpg' width={320} height={240} />
+
+This one is dated...
+
+<Image src='/asset/Screenshot_2025-04-12_at_12.26.24 AM_1744426599458_0.png' alt='Screenshot 2025-04-12 at 12.26.24 AM.png' width={232} height={124} />
+
+...the day I was born.
+
+Wow!
+
+Honestly kinda a weird moment to have a piece of digital content you consider _cool_ to be taken during you know, potentially the time period you started existing.
+
+<div class="w-full h-4"></div>
+
+Thank you [archive-tan](https://bsky.app/profile/kentishizzie.com/post/3lmlc45sj3223), very cool.
+
+<Image src='/asset/archive-tan_1744457704653_0.jpg' alt='archive-tan.jpg' width={432} height={331} />
+
+</div>
+[Joe Wilkins - Elon Musk Reportedly Doing Something Horrid to Power His AI Data Center](https://futurism.com/elon-musk-memphis-illegal-generators)
+
+<div class="ml-[2rem] mb-8">
+I don't even really care about the article I just saw this picture in it:
+
+<Image src='/asset/elon-cloud_1744464047642_0.webp' alt='elon-cloud.webp' width={1200} height={630} />
+
+Cloud Musk, giving [Koffing](https://www.pokemon.com/us/pokedex/koffing).
+
+Thanks for linking in [Riley](https://rileyflynn.me/).
+
+</div>
+[Increpare - FOOTSTEPPR](https://games.increpare.com/footsteppr/index.html)
+
+<div class="ml-[2rem] mb-8">
+> [FOOTSTEPPR, generate footstep sounds for your games](https://bsky.app/profile/increpare.bsky.social/post/3lmkpkngknc2i)
+>
+> <video controls src='/asset/bluesky_increpare_3lmkpkngknc2i_1744480753660_0.mp4' width='960' height='720'></video>
+
+A tool from the powerhouse that is _Increpare_.
+
+</div>
+[Ian Sly - daydreaming with lua](https://ivysly.com/blog/daydreaming-with-lua.html)
+
+<div class="ml-[2rem] mb-8">
+> i think many programmers are conquerors. they want to bend reality to their will. to this end, making a software is an intense power fantasy, one where the programmer is given a problem and full control over a system to solve that problem, leveraging the unimaginable algorithmic power of the machine to obliterate tasks that would have taken human computers lifetimes of effort.
+
+Yeah.
+
+Ian made [Your Only Move Is HUSTLE](https://store.steampowered.com/app/2212330/Your_Only_Move_Is_HUSTLE/), a game which has done _quite well_ from them, hence when they give insight into what technology they enjoy using / what they dislike, I feel like I take them more seriously than someone who has a lot of opinions about this stuff but has shipped, like, a _hello world_ game _maybe_ on Steam probably on Itch.io.
+
+<div class="ml-[2rem] mb-8">
+I mean, I am that person, I have opinions, but I don't think of myself of someone to be listened to in this space _at all_.
+
+</div>
+> at the beginning of 2024 i made a resolution to ditch Godot. I had used it for 6 years or so, and for much of that time i held so much optimism for it and its future. but years of big and little issues wore me down, and finally i decided it was time to move on. i was done with doing things the Godot Way.
+
+So Ian was a Godot user, but wanted to reach outside the Godot world.
+
+I have also used Godot, and not _loved it_, and felt confined within its walls.
+
+> instead i was going to build my own engine in FNA, a fork of XNA similar to Monogame, which uses the C# programming language. i really did try to do this, and i spent several months on the foundation for a 2d engine, but what i found is that C# and FNA became a sort of creative prison for me.
+
+While I haven't touched it, [FNA](https://fna-xna.github.io/) always seemed very cool, I hang around their Discord mostly because of all the [SDL3 GPU](https://wiki.libsdl.org/SDL3/CategoryGPU) chatter, but I guess depending on what type of programmer you are, you might still feel constrained by an existing structure being defined you have to work your system around.
+
+<div class="ml-[2rem] mb-8">
+I think eventually you do just have to potentially find something you find _good enough_, and learn to work around it, or even contribute to it to make it more into your vision, or more malleable.
+
+</div>
+> C# is not made for artists, it is made for businesses. [...]
+
+This is a take that I think I mostly agree with, I honestly have never spent _much_ time with C#, I think of all of the Java / Kotlin / OOP-heavy world, C# would be my most _preferred_ language, but I'm still pretty [_eh_ on OOP](https://www.manning.com/books/data-oriented-programming).
+
+> the fact is, i wanted to try [LÖVE](https://love2d.org/) long before i was ever interested in FNA. but something scared me about Lua, [...] but i knew, deeply, even before my doomed tryst with C#, LÖVE was what was missing in my heart.
+
+Oh intersting, LÖVE being the choice, its interesting to see somebody go from Godot, to FNA, to _LÖVE_.
+
+In a way I think some would view this as a regression, but I do really see here how this is sort of a pathway to remove the chains of existing _structures_, while still reaching for something with ease of access / use / community / etc.
+
+<div class="ml-[2rem] mb-8">
+I think more people see that you can _ship_ with LÖVE, thanks to the success of Balatro.
+
+</div>
+Ian has already finished [two](https://ivysly.com/games/grippy.html) [games](https://ivysly.com/games/famulus.html) using Lua, and [working on another one](https://bsky.app/profile/love-framework.bsky.social/post/3lmihnipshc2o):
+
+<video controls src='/asset/bluesky-ivy-new-lua-love-game_1745090849062_0.mp4' width='840' height='720'></video>
+
+</div>
+[‪@teamtrigear.com‬ - enemy surfing!](https://bsky.app/profile/teamtrigear.com/post/3lmkclwyuoc2y)
+
+<div class="ml-[2rem] mb-8">
+Just posting this because of how _cool_ this animation looks
+
+<video controls src='/asset/bluesky_teamtrigear-com_3lmkclwyuoc2y_1744481340884_0.mp4' width='1280' height='720'></video>
+
+</div>
+[Ghoulnoise - Skin Deep (Original Soundtrack)](https://ghoulnoise.bandcamp.com/album/skin-deep-original-soundtrack)
+
+<div class="ml-[2rem] mb-8">
+Skin Deep's soundtrack can now be purchased on Bandcamp!
+
+</div>
+[Anna Mayberry - CrazyCattle3D](https://4nn4t4t.itch.io/crazycattle3d)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/qYF-efFnx9A"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+> A battle royale rage game about sheep; will you have what it takes to survive?
+
+The [soundtrack on Bandcamp](https://crazycattle3d.bandcamp.com/album/crazycattle3d-ost).
+
+</div>
+[Bare - Actually Run JavaScript Everywhere](https://bare.pears.com/)
+
+<div class="ml-[2rem] mb-8">
+> Actually Run Javascript Everywhere
+
+An _interesting_ new player in the runtime space.
+
+> Want to require() an ESM module? Bare supports both ESM and CommonJS modules using the same module resolution algorithm. ESM modules can use CommonJS modules and vice versa.
+
+This is nice to see, seems to be similar to what Bun offers.
+
+> At its core, Bare is minimal—no bloated standard library, no assumptions about how you’ll build. Instead, it gives you the freedom to compose your environment from a growing ecosystem of modules. Each module is small, purposeful, and designed to work seamlessly within the Bare runtime. No hidden dependencies, no unnecessary overhead—just building blocks you control.
+
+While this feels like a little _jab_ at Bun, which has gone the route of putting a lot of busy stuff into the runtime itself, which I'm personally a fan of, but I could see there being a want for a more lightweight option thats more modular to take place in the space.
+
+However, [`pears`](https://pears.com/), the company behind this, is big into the _P2P_ space, which I respect, but the corner of P2P that is either really close to Crypto, or more of a Crypto entity waving the flag of P2P to _not_ call themselves a Crypto entity.
+
+We'll see if this holds relevance, or is another [Turbopack](https://nextjs.org/docs/app/api-reference/turbopack) flop in that its sold as this big huge thing that will be really cool, _but_, its only _really_ useful for the folks building it, they just wanted to package it up into a form others could look at it, and it could have its own marketing site.
+
+Anyways, more ideas and competition is code, but Crypto is slop.
+
+</div>
+[@snakesandrews - Horse Race Tests](https://x.com/snakesandrews/status/1909999756639965666)
+
+<div class="ml-[2rem] mb-8">
+> e1m2t2
+>
+> <video controls src='/asset/e1m2t2_1744483246779_0.mp4' width='640' height='480'></video>
+
+Horse Race Tests.
+
+That is all.
+
+</div>
+[Tom MacWright - Tidbyt without the company](https://macwright.com/2025/04/12/tidbyt-second-life)
+
+<div class="ml-[2rem] mb-8">
+> Remember the Tidbyt? It’s a super low-resolution, internet-connected, wood-paneled display that I [wrote a review of it back in 2022](https://macwright.com/2022/03/11/tidbyt-review). It’s been on my shelf for years now, showing the time, weather, warning me when the UV is going to be high. In 2023 I [used it as an excuse to learn some Rust, to render custom graphics](https://macwright.com/2023/10/29/tidbyt-rs). It’s a toy, a distraction, [a worry stone](https://ethanmarcotte.com/wrote/let-a-website-be-a-worry-stone/) for me to work on when I need something open-ended and low-stakes.
+>
+> Anyway, the company that made the Tidbyt is no more. They [got acquihired by Modal](https://web.archive.org/web/20250326194916/https://tidbyt.com/blogs/tidbyt/tidbyt-is-joining-modal), a company that makes serverless AI compute hosting. So, they aren’t making devices right now, and the blog post promises that their cloud services will keep working.
+
+Sad that Tidbyt company no more, but I can't hold a grudge against a company for getting the bag, at least they are giving tools into the hands of people like Tom to carry on the torch (which they basically already did before, there was no reason to use their cloud hosted stuff if you didn't want to, it was just convenient).
+
+Tom is actually writing a replacement for [pixlet](https://github.com/tidbyt/pixlet), [Indiepixel](https://github.com/tmcw/indiepixel), which is another take on a little tool to interface with a Tidbyt:
+
+> Pixlet was very convenient, but is an oddball for a tech stack: implemented in Go for people to consume in Starlark. Starlark is a niche language. It'd be nice to support a mainstream language.
+>
+> This is a WIP implementation of the same concepts as pixlet in Python.
+
+</div>
+[Xe Iaso - Anubis works](https://xeiaso.net/notes/2025/anubis-works/)
+
+<div class="ml-[2rem] mb-8">
+> <Image src='/asset/dominos-un_1745093993387_0.jpeg' alt='dominos-un.jpeg' width={725} height={500} />
+>
+> That meme is not an understatement, [Anubis](https://anubis.techaro.lol/) has been deployed by the United Nations.
+
+Xe is truly winning, their AI detection / limiting / blocking tool, Anubis, is really starting to take off and be used by so many different sites.
+
+</div>
