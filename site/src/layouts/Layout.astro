@@ -91,10 +91,14 @@ const {
       href="https://status.cafe/users/jack.atom"
       title="Updates on status.cafe"
     />
-    <title>{title ? `${title} · Jack Harrhy` : "Jack Harrhy"}</title>
+    <title>
+      {title ? `${title.replaceAll("/", " / ")} · Jack Harrhy` : "Jack Harrhy"}
+    </title>
     <meta
       property="og:title"
-      content={title ? `${title} · Jack Harrhy` : "Jack Harrhy"}
+      content={title
+        ? `${title.replaceAll("/", " / ")} · Jack Harrhy`
+        : "Jack Harrhy"}
     />
     {description && <meta property="og:description" content={description} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
