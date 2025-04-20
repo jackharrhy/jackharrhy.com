@@ -28,6 +28,7 @@ let mainClass = undefined;
 let noFooter = !header;
 let invert = false;
 let mobileFriendly = true;
+let titlePartOfBreadcrumbs = false;
 
 switch (customLayout) {
   case "quake":
@@ -41,9 +42,46 @@ switch (customLayout) {
     break;
 }
 
+if (id.startsWith("devblog/") || id.startsWith("linkblog/")) {
+  titlePartOfBreadcrumbs = true;
+}
+
 const { Content } = await render(entry);
 
+const idSegments = entry.id.split("/");
+const nameSegments = entry.data.name.split("/");
+const hasBreadcrumbs = nameSegments.length > 1;
+
+let breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
+
+if (breadcrumbs && titlePartOfBreadcrumbs) {
+  breadcrumbs = nameSegments;
+}
+
+const pageTitle = hasBreadcrumbs
+  ? nameSegments[nameSegments.length - 1]
+  : entry.data.name;
+
+const breadcrumbPaths = await Promise.all(
+  breadcrumbs.map(async (_, index) => {
+    const segmentIndex = Math.min(index, idSegments.length - 1);
+    const path =
+      `${idSegments.slice(0, segmentIndex + 1).join("/")}`.toLowerCase();
+    const hasEntry = await getEntry("garden", path);
+    const willLink = hasEntry && path !== id;
+    return {
+      name: breadcrumbs[index],
+      path: willLink ? `/${path}` : undefined,
+    };
+  })
+);
+
 import Layout from "../layouts/Layout.astro";
+
+const title =
+  titlePartOfBreadcrumbs && entry.data.description
+    ? entry.data.description
+    : pageTitle;
 ---
 
 <Layout
@@ -54,15 +92,42 @@ import Layout from "../layouts/Layout.astro";
   width={width}
   mainClass={mainClass}
   invert={invert}
-  mobileFriendly={mobileFriendly}
 >
   {
     header && (
-      <h1 class:list={[centerHeader && "text-center"]}>{entry.data.name}</h1>
+      <>
+        {hasBreadcrumbs && (
+          <div class="not-prose text-xl mb-2 font-medium">
+            {breadcrumbPaths.map((breadcrumb, index) => (
+              <>
+                {breadcrumb.path ? (
+                  <a href={breadcrumb.path} class="hover:underline">
+                    {breadcrumb.name}
+                  </a>
+                ) : (
+                  <span>{breadcrumb.name}</span>
+                )}
+                {index < breadcrumbPaths.length - 1 && (
+                  <span class="mx-2">/</span>
+                )}
+              </>
+            ))}
+          </div>
+        )}
+        <h1
+          class:list={[
+            centerHeader && "text-center",
+            hasBreadcrumbs && "pt-4",
+            title.length > 120 && "!text-3xl",
+          ]}
+        >
+          {title}
+        </h1>
+      </>
     )
   }
   {
-    entry.data.description && (
+    entry.data.description && !titlePartOfBreadcrumbs && (
       <p class="not-prose text-2xl font-medium mb-10">
         {entry.data.description}
       </p>

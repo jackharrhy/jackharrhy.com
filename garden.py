@@ -97,16 +97,14 @@ def get_local_video_size(file_path: Path) -> tuple[int, int]:
         str(file_path),
     ]
 
-    # ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 /Users/jacks/Desktop/test.mp4
-
     result = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
     )
 
     if result.returncode != 0 or not result.stdout:
         raise ValueError(f"ffprobe error for {file_path}: {result.stderr}")
 
-    dims = result.stdout.strip().split("x")
+    dims = [d for d in result.stdout.strip().split("x") if d]
 
     if len(dims) != 2:
         raise ValueError(f"Unexpected ffprobe output for {file_path}: {result.stdout}")
@@ -185,6 +183,7 @@ def get_block_link(client: httpx.Client, block_uuid: str) -> str:
 
         slug = block.get("properties", {}).get("slug", None)
         page_name = block["page"]["name"].removeprefix("garden")
+        page_name = slugify(page_name)
 
         if slug:
             return f"{page_name}#{slug}"
@@ -491,6 +490,22 @@ def search_md_for_assets(md: str) -> tuple[str, list[Asset]]:
     return new_md, assets
 
 
+def slugify(name: str) -> str:
+    name = (
+        name.replace("?", "")
+        .replace(" ", "-")
+        .replace("&", "and")
+        .replace(".", "-")
+        .replace(":", "-")
+        .replace("'", "")
+    )
+
+    while "--" in name:
+        name = name.replace("--", "-")
+
+    return name
+
+
 def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
     result = query_logseq(client)
 
@@ -510,13 +525,7 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
         name = name.removeprefix("Garden/")
 
-        filename = (
-            name.replace("?", "")
-            .replace(" ", "-")
-            .replace("&", "and")
-            .replace(".", "-")
-            .replace(":", "-")
-        )
+        filename = slugify(name)
 
         yield Page(
             name=name,

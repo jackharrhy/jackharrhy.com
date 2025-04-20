@@ -5,7 +5,7 @@ const { variant, image, link, name, description, date } = Astro.props;
 <a
   href={link}
   target="_blank"
-  class={`not-prose no-underline w-[12rem] ${variant === "block" ? "flex" : "inline-flex"} flex-col text-black p-1 ${variant === "small" ? "text-[0.8rem]" : "text-[1.1rem]"}`}
+  class={`not-prose hover:underline w-[12rem] ${variant === "block" ? "flex" : "inline-flex"} flex-col text-black p-1 ${variant === "small" ? "text-[0.8rem]" : "text-[1.1rem]"}`}
 >
   {
     image && (
