@@ -107,7 +107,7 @@ const {
   <body class="flex flex-col items-center h-full justify-between">
     <div
       class:list={[
-        "prose max-w-none prose-orange prose-md md:prose-lg lg:prose-xl prose-li:my-0 prose-p:mt-0 prose-p:mb-4 w-full",
+        "flex flex-col prose max-w-none prose-orange prose-md md:prose-lg lg:prose-xl prose-li:my-0 prose-p:mt-0 prose-p:mb-4 w-full min-h-full",
         !width && "!max-w-[65ch]",
         width && width,
         invert && "prose-invert",
@@ -115,7 +115,7 @@ const {
     >
       <header
         class:list={[
-          "relative not-prose px-8 py-10 pt-12 flex justify-between leading-none",
+          "relative w-full not-prose px-8 py-10 pt-12 flex justify-between leading-none",
           width && "max-w-[65ch] mx-auto",
           invert && "text-[#374151]",
         ]}
@@ -135,17 +135,17 @@ const {
           <a href="/now" class="hover:underline">Now</a>
         </div>
       </header>
-      <main class:list={["pb-8 px-8 mx-auto w-full", mainClass]}>
+      <main class:list={["pb-6 px-8 mx-auto w-full flex-1", mainClass]}>
         <slot />
       </main>
+      {
+        !noFooter && (
+          <footer class="flex items-center gap-4 justify-center text-sm text-base-500 w-full pb-8">
+            <span>Made with 🫖</span>
+          </footer>
+        )
+      }
     </div>
-    {
-      !noFooter && (
-        <footer class="flex items-center gap-4 justify-center text-sm text-base-500 w-full py-4">
-          <span>Made with 🫖</span>
-        </footer>
-      )
-    }
   </body>
 </html>
 

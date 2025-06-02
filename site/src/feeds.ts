@@ -2,6 +2,7 @@ import { getCollection } from "astro:content";
 
 export const projectNameToBetterName = {
   "quakeless-ii": "Quakeless II",
+  narrows: "narrows",
 };
 
 export const deslugify = (slug: string) => {

@@ -1,3 +1,4 @@
+#!/usr/bin/env -S uv run --script
 import time
 import re
 import shutil
@@ -7,11 +8,14 @@ from cloudpathlib import S3Client
 import subprocess
 import shelve
 
+from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import typer
 from loguru import logger
 import httpx
+
+load_dotenv()
 
 API_BASE = "http://127.0.0.1:12315"
 API_TOKEN = "abc123"
@@ -36,6 +40,8 @@ class Settings(BaseSettings):
     r2_bucket: str
 
     cloudflare_account_id: str
+
+    raindrop_token: str | None = None
 
     model_config = SettingsConfigDict(
         env_prefix="garden_", env_file=".env", env_file_encoding="utf-8"
@@ -525,6 +531,9 @@ def get_pages(client: httpx.Client) -> Generator[Page, None, None]:
 
         name = name.removeprefix("Garden/")
 
+        if name and len(name) > 0:
+            name = name[0].upper() + name[1:]
+
         filename = slugify(name)
 
         yield Page(
@@ -688,6 +697,76 @@ def process_cache():
             if asset.ext.lower() in IMG_EXTS:
                 asset = ensure_asset_dimensions(asset)
     logger.info("All assets processed into cache.")
+
+
+def create_raindrop_client(
+    base_url: str = "https://api.raindrop.io/rest/v1",
+    token: str | None = settings.raindrop_token,
+) -> httpx.Client:
+    if not token:
+        raise ValueError("RAINDROP_TOKEN is not set")
+
+    return httpx.Client(
+        base_url=base_url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+    )
+
+
+@app.command(name="linkblog-from-raindrop")
+def linkblog_from_raindrop():
+    client = create_raindrop_client()
+    response = client.get("/collections")
+
+    collections = response.json()["items"]
+    logseq_collection = next(
+        (c for c in collections if c["title"] == "Logseq To Import"), None
+    )
+    if not logseq_collection:
+        logger.error("Could not find 'Logseq To Import' collection")
+        raise typer.Exit(1)
+
+    items = []
+    page = 0
+    response = client.get(f"/raindrops/{logseq_collection['_id']}?perpage=50").json()
+    total_count = response["count"]
+
+    while len(items) < total_count:
+        items.extend(response["items"])
+        page += 1
+        response = client.get(
+            f"/raindrops/{logseq_collection['_id']}?perpage=50&page={page}"
+        ).json()
+
+    print(f"There are {len(items)} items")
+
+    from datetime import datetime
+    from collections import defaultdict
+
+    raindrops_by_date = defaultdict(list)
+    for item in items:
+        created_at = datetime.fromisoformat(item["created"].replace("Z", "+00:00"))
+        date_bucket = created_at.strftime("%Y-%m-%d")
+        raindrops_by_date[date_bucket].append(item)
+
+    staging_dir = Path("tmp/linkblog")
+    staging_dir.mkdir(parents=True, exist_ok=True)
+
+    for date, raindrops in raindrops_by_date.items():
+        logseq_page = """public:: false
+description::
+og-image::\n"""
+
+        for raindrop in raindrops:
+            logseq_page += f"""- [{raindrop["title"]}]({raindrop["link"]}){"\n    - > ".join(raindrop["excerpt"].split("\n"))}
+    - ...\n"""
+
+        logseq_filename = Path(f"Garden%2FLinkblog%2F{date.replace('-', '%2F')}.md")
+
+        logseq_page_path = staging_dir / logseq_filename
+        logseq_page_path.write_text(logseq_page)
 
 
 if __name__ == "__main__":

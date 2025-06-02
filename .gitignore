@@ -16,3 +16,5 @@ logseq
 *.shelve
 *.shelve-shm
 *-wal
+
+tmp/

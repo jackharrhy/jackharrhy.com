@@ -25,6 +25,7 @@ const customLayout = entry.data.customLayout;
 let width = undefined;
 let centerHeader = false;
 let mainClass = undefined;
+let noHeader = !header;
 let noFooter = !header;
 let invert = false;
 let mobileFriendly = true;
@@ -39,6 +40,13 @@ switch (customLayout) {
     noFooter = true;
     invert = true;
     mobileFriendly = false;
+    break;
+  case "terminal":
+    width = "max-w-full";
+    noHeader = true;
+    mainClass = "bg-black prose-lg font-mono py-8 flex-1";
+    invert = true;
+    noFooter = true;
     break;
 }
 
@@ -94,7 +102,7 @@ const title =
   invert={invert}
 >
   {
-    header && (
+    !noHeader && (
       <>
         {hasBreadcrumbs && (
           <div class="not-prose text-xl mb-2 font-medium">

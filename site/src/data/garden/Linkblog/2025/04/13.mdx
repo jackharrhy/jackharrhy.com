@@ -1,0 +1,122 @@
+---
+name: "Linkblog/2025/04/13"
+description: "Fixing a 30 year old gameboy game's 16 player mode, contraption, Stevens - a hackable AI assistant using Val.town, WebTUI, CSS `mix-blend-mode`, Shadertoys ported to Rust GPU, Ye Olde Blogroll, Erlang's not about lightweight process and message passing."
+ogImage: "/asset/Screenshot_2025-06-02_at_11.55.49 AM_1748874383859_0.png"
+---
+
+[Zarithya - How I Fixed the Legendary 16-Player Game Boy Game](https://www.youtube.com/watch?v=d9dVVRv70aA)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/d9dVVRv70aA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Quite the watch!
+
+I don't want to spoil too much of the video by explaining its findings, but its both a interesting historical avant-garde software piece, and a hardware deep dive with some interesting learnings.
+
+<div class="w-full h-4"></div>
+
+This is the more technical half of [this video](https://www.youtube.com/watch?v=y2AG-gAuS-U), which I watched in full after Zarithya's video, another great watch.
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/y2AG-gAuS-U"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+</div>
+[@crlglassesdaily - hi guys thoughr you should see this](https://x.com/crlglassesdaily/status/1911305954060103966)
+
+<div class="ml-[2rem] mb-8">
+> <video controls src='/asset/eastern-edge-robotics_1744595251012_0.mp4' width='1280' height='720'></video>
+
+How my personal projects look like to my family.
+
+</div>
+[Geoffrey Litt - Stevens: a hackable AI assistant using a single SQLite table and a handful of cron jobs](https://www.geoffreylitt.com/2025/04/12/how-i-made-a-useful-ai-assistant-with-one-sqlite-table-and-a-handful-of-cron-jobs.html)
+
+<div class="ml-[2rem] mb-8">
+> There’s a lot of hype these days around patterns for building with AI. Agents, memory, RAG, assistants—so many buzzwords! But the reality is, **you don’t need fancy techniques or libraries to build useful personal tools with LLMs.**
+
+This is quite a simple but nice usage of an AI chatbot, whats almost just as cool about it though is how _simple_ it is.
+
+> Every morning it sends a brief to me and my wife via Telegram, including our calendar schedules for the day, a preview of the weather forecast, any postal mail or packages we’re expected to receive, and any reminders we’ve asked it to keep track of. All written up nice and formally, just like you’d expect from a proper butler.
+
+For one, the primary interface being a Telegram chat between Geoffrey and his wife (I also have a chat between myself and my partner with a bot, for us its a bot I created to [find houses in the area we want in our price range](https://github.com/jackharrhy/get-house-pls), so I can attest this is a good method to make a programming project quickly accessible to yourself and family / friends)
+
+> Let’s break down the simple architecture behind Stevens. The whole thing is hosted on [Val.town](https://www.val.town/), a lovely platform that offers SQLite storage, HTTP request handling, scheduled cron jobs, and inbound/outbound email: a perfect set of capabilities for this project.
+
+I love Val.town, and not just because [Tom](https://macwright.com/) works there currently, this is a neat usage of it.
+
+> First, how does Stevens know what goes in the morning brief? The key is the butler’s notebook, a log of everything that Stevens knows. There’s an admin view where we can see the notebook contents—let’s peek and see what’s in there:
+>
+> <Image src='/asset/notebook_1748875236136_0.png' alt='notebook.png' width={1742} height={1808} />
+
+Now this is cool, I've always thought the idea of 'memory' to an LLM was a big black magic, especially with the idea that simply 'using' the LLM will make it remember stuff.
+
+I find a random ChatGPT session isn't something I want to magically be remembered into the system, I don't see my usage of LLMs needing that sort of 'storage' treatment.
+
+_But_, this extremely transparent sort of 'notebook' of memory is nice, mostly because it seems easy to edit / revise, and also access.
+
+The code is open source, but honestly if I did this sort of thing I'd probably just start fresh, but using the same stack as Geoffrey (SQLite + Val.town), seems like a fun LLM project.
+
+</div>
+[WebTUI - a modular CSS library that brings the beauty of Terminal UIs to the browser](https://webtui.ironclad.sh/)
+
+<div class="ml-[2rem] mb-8">
+This library truly does look like a terminal, well executed.
+
+</div>
+[Holograms, light-leaks and how to build CSS-only shaders - Robb Owen](https://robbowen.digital/wrote-about/css-blend-mode-shaders/)
+
+<div class="ml-[2rem] mb-8">
+> Get a shiny WebGL look without actually using WebGL. In this article we take a look at how CSS blend modes unleash the potential of cool compositing effects without the need for JavaScript
+
+Robb shows usages of the now well supported [`mix-blend-mode`](https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode).
+
+The light-leak and holographic examples near the bottom are quite neat.
+
+</div>
+[Shadertoys ported to Rust GPU](https://rust-gpu.github.io/blog/2025/04/10/shadertoys)
+
+<div class="ml-[2rem] mb-8">
+> We ported a few popular [Shadertoy](https://www.shadertoy.com/) shaders over to Rust using [Rust GPU](https://github.com/Rust-GPU/rust-gpu/). The process was straightforward and we want to share some highlights.
+
+This is neat!, but what's Rust GPU?
+
+> [Rust GPU](https://rust-gpu.github.io/) is a project that allows you to write code for GPUs using the Rust programming language. GPUs are typically programmed using specialized languages like [WGSL](https://www.w3.org/TR/WGSL/), [GLSL](https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders), [MSL](https://developer.apple.com/documentation/metal/performing_calculations_on_a_gpu), or [HLSL](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl). Rust GPU changes this by letting you use Rust to write GPU programs (often called "shaders" or "kernels").
+
+This is neat, I'm a bit of a Rust gamedev dissident, mostly because of the rigid nature of Rust (which I'm a fan of) fighting the prototypical nature of game creation, but I think I see a place for Rust in building lower level pieces of game development infrastructure, such as being a place you author shaders (even if other aspects of your game are not made using Rust).
+
+</div>
+[Ye Olde Blogroll - Because blogs are the soul of the web](https://blogroll.org/)
+
+<div class="ml-[2rem] mb-8">
+> You are viewing a humanly curated list of **746** fine personal & independent blogs and sites that are updated regularly. No algorithms ever!
+
+746 at the time I'm visiting the page, growing ever more.
+
+Obviously I am biased as a blog creator to agree with the statement blogs are the soul of the web.
+
+</div>
+[Stevan - Erlang’s not about lightweight processes and message passing…](https://stevana.github.io/erlangs_not_about_lightweight_processes_and_message_passing.html)
+
+<div class="ml-[2rem] mb-8">
+> I used to think that the big idea of Erlang is its lightweight processes and message passing. Over the last couple of years I’ve realised that there’s a bigger insight to be had, and in this post I’d like to share it with you.
+
+If Erlang was just about this, that would make Go and Erlang, but there is no such thing as Go/OTP, now Go does have a great standard library, but the concept of a [`gen_server`](https://www.erlang.org/docs/24/man/gen_server) isn't core to Go, there are some frameworks built around it that give it some legs, but the language itself makes no assumptions about that sort of structure / deployment.
+
+Stevan goes onto describe other 'behaviours' of which `gen_server` is one off, and covers [Joe Armstrong's](https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)) [thesis](http://kth.diva-portal.org/smash/record.jsf?pid=diva2%3A9492&dswid=-1166) how with all of these pieces, you end up having 'enough to build reliable distributed systems'.
+
+</div>
