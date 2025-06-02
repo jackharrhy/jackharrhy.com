@@ -668,7 +668,7 @@ def run_build_asset_manifest():
 
     logger.info("Running rclone sync...")
     result = subprocess.run(
-        ["rclone", "sync", "./assets-staging/", "garden:jacks-garden"],
+        ["rclone", "sync", "./assets-staging/", "garden:jacks-garden", "--progress"],
         capture_output=True,
         text=True,
     )
