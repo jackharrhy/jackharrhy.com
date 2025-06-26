@@ -30,7 +30,7 @@ export const GET = async () => {
     })
     .slice(0, 10);
 
-  return rss({
+  const res = await rss({
     title: "Linkblog - jackharrhy.dev",
     description: "Linkblog from Jack Harrhy",
     site: import.meta.env.SITE,
@@ -38,4 +38,19 @@ export const GET = async () => {
     customData: `<language>en-us</language>`,
     stylesheet: "/rss/styles/general.xsl",
   });
+
+  res.headers.set("Access-Control-Allow-Origin", "*");
+  res.headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+  return res;
 };
+
+export const OPTIONS = () =>
+  new Response(null, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
