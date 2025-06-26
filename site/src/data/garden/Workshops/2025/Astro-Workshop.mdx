@@ -20,3 +20,70 @@ name: "Workshops/2025/Astro-Workshop"
 
 5: https://pokeapi.co/api/v2/pokemon/ditto
 
+<div class="w-full h-4"></div>
+
+```jsx
+import { useState, useEffect, useRef } from 'react';
+
+export default function PokemonSearch() {
+  const [term, setTerm] = useState('');
+  const [pokemon, setPokemon] = useState(null);
+  const debounce = useRef(); // holds timeout id
+
+  useEffect(() => {
+    if (!term) {               // clear results on empty input
+      setPokemon(null);
+      return;
+    }
+
+    clearTimeout(debounce.current);           // reset debounce timer
+    debounce.current = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${term.toLowerCase()}`
+        );
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+
+        // model 🔎
+        setPokemon({
+          name: data.name,
+          type: data.types.map(t => t.type.name).join(', '),
+          img: data.sprites.front_default, // “first evolution” sprite
+        });
+      } catch {
+        setPokemon(null); // hide UI on error / 404
+      }
+    }, 300);                                   // 300 ms debounce
+
+    return () => clearTimeout(debounce.current);
+  }, [term]);
+
+  return (
+    <div className="pokemon-search">
+      <input
+        value={term}
+        onChange={e => setTerm(e.target.value)}
+        placeholder="Search Pokémon"
+      />
+
+      {pokemon && (
+        <div className="result">
+          <h2 className="capitalize">{pokemon.name}</h2>
+          <p>Type: {pokemon.type}</p>
+          {pokemon.img && (
+            <img
+              src={pokemon.img}
+              alt={pokemon.name}
+              width={96}
+              height={96}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+```
+
