@@ -2,6 +2,24 @@
 name: "Workshops/2025/Astro-Workshop"
 ---
 
+<div class="w-full h-4"></div>
+
+This page was used for misc. links during the live [workshop](https://members.technl.ca/eventcalendar/Details/astro-workshop-with-jack-harrhy-1415511) I did in June of 2025 on Astro!
+
+<div class="w-full h-4"></div>
+
+The complete StackBlitz example (with some stuff I didn't end up getting to in the workshop portion) is available [here](https://stackblitz.com/edit/astro-workshop-2025?file=README.md).
+
+<div class="w-full h-4"></div>
+
+_TODO: Once TechNL posts the video, embed it here._
+
+---
+
+Links from the live talk:
+
+<div class="w-full h-4"></div>
+
 1: https://astro.build/
 
 <div class="w-full h-4"></div>
@@ -28,15 +46,15 @@ import { useState, useEffect, useRef } from 'react';
 export default function PokemonSearch() {
   const [term, setTerm] = useState('');
   const [pokemon, setPokemon] = useState(null);
-  const debounce = useRef(); // holds timeout id
+  const debounce = useRef();
 
   useEffect(() => {
-    if (!term) {               // clear results on empty input
+    if (!term) {
       setPokemon(null);
       return;
     }
 
-    clearTimeout(debounce.current);           // reset debounce timer
+    clearTimeout(debounce.current);
     debounce.current = setTimeout(async () => {
       try {
         const res = await fetch(
@@ -45,16 +63,15 @@ export default function PokemonSearch() {
         if (!res.ok) throw new Error();
         const data = await res.json();
 
-        // model 🔎
         setPokemon({
           name: data.name,
-          type: data.types.map(t => t.type.name).join(', '),
-          img: data.sprites.front_default, // “first evolution” sprite
+          type: data.types.map((t) => t.type.name).join(', '),
+          img: data.sprites.front_default,
         });
       } catch {
-        setPokemon(null); // hide UI on error / 404
+        setPokemon(null);
       }
-    }, 300);                                   // 300 ms debounce
+    }, 300);
 
     return () => clearTimeout(debounce.current);
   }, [term]);
@@ -63,7 +80,7 @@ export default function PokemonSearch() {
     <div className="pokemon-search">
       <input
         value={term}
-        onChange={e => setTerm(e.target.value)}
+        onChange={(e) => setTerm(e.target.value)}
         placeholder="Search Pokémon"
       />
 
@@ -72,12 +89,7 @@ export default function PokemonSearch() {
           <h2 className="capitalize">{pokemon.name}</h2>
           <p>Type: {pokemon.type}</p>
           {pokemon.img && (
-            <img
-              src={pokemon.img}
-              alt={pokemon.name}
-              width={96}
-              height={96}
-            />
+            <img src={pokemon.img} alt={pokemon.name} width={96} height={96} />
           )}
         </div>
       )}
