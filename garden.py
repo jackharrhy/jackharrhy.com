@@ -754,19 +754,29 @@ def linkblog_from_raindrop():
     staging_dir = Path("tmp/linkblog")
     staging_dir.mkdir(parents=True, exist_ok=True)
 
+    for file in staging_dir.glob("*"):
+        if file.is_file():
+            file.unlink()
+
     for date, raindrops in raindrops_by_date.items():
         logseq_page = """public:: false
 description::
-og-image::\n"""
+og-image::\n\n"""
 
         for raindrop in raindrops:
-            logseq_page += f"""- [{raindrop["title"]}]({raindrop["link"]}){"\n    - > ".join(raindrop["excerpt"].split("\n"))}
-    - ...\n"""
+            logseq_page += f"- [{raindrop['title']}]({raindrop['link']})\n"
+            excerpt_lines = raindrop["excerpt"].split("\n")
+            for i, line in enumerate(excerpt_lines):
+                if i == 0:
+                    logseq_page += f"\t- > {line}\n"
+                else:
+                    logseq_page += f"\t  > {line}\n"
+            logseq_page += "\t- ...\n"
 
         logseq_filename = Path(f"Garden%2FLinkblog%2F{date.replace('-', '%2F')}.md")
 
         logseq_page_path = staging_dir / logseq_filename
-        logseq_page_path.write_text(logseq_page)
+        logseq_page_path.write_text(logseq_page.strip())
 
 
 if __name__ == "__main__":
