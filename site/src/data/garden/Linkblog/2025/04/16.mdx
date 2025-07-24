@@ -1,0 +1,122 @@
+---
+name: "Linkblog/2025/04/16"
+description: "VoteWell source code, Quake 3 Vulkanized, Getting Started with Agents, Lilly's CS2 Mirage Bricks, Case for AI Workflows, How to Build An Agent, JSX Over The Wire."
+ogImage: "/asset/Screenshot_2025-07-24_at_8.28.43 PM_1753397933874_0.png"
+---
+
+[kieran/votewell - strategic voting calculator](https://github.com/kieran/votewell)
+
+<div class="ml-[2rem] mb-8">
+The source code behind [VoteWell](https://votewell.ca/), a tool to help us Canadian's vote [strategically](https://en.wikipedia.org/wiki/Strategic_voting).
+
+Glad this sort of thing exists in our first past the post system...
+
+</div>
+[Artem Kharytoniuk's web page - Quake 3 Vulkanized](https://seminumerical.io/post/quake3-vulkanized/)
+
+<div class="ml-[2rem] mb-8">
+> Last week I made a new release of the [Quake-III-Arena-Kenny-Edition](https://github.com/kennyalive/Quake-III-Arena-Kenny-Edition) project. The major feature of this release is Vulkan rendering support. Here I present some summary information.
+>
+> ...
+>
+> It took 2.5 months to finish the project working ~40 hours per week or ~450 hours in total.
+
+Extremely cool project!, I'm jealous on being able to have focused on something like this dedicated for almost 3 months.
+
+Artem is pretty high level in this article, but its a nice overview of his approaches using Vulkan, my favorite has to be the 'twin mode' tool he developed:
+
+> One of the goals of the entire project is to preserve original look and feel and gameplay of the original Quake III Arena. On the graphics side this means that Vulkan backend should provide the same output as native OpenGL-based.
+>
+> The tool that I used to compare the outputs from both backends is a twin mode that can be enabled by the r_twinMode cvar. In this mode the renderer creates two windows that display both OpenGL and Vulkan outputs side-by-side.
+>
+> <Image src='/asset/quake3-dev-early-dev-twin-mode_1753396032022_0.jpeg' alt='quake3-dev-early-dev-twin-mode.jpeg' width={800} height={323} />
+
+Same exact game state, two windows, two renderers, _extremely neat_.
+
+</div>
+[Sam McLeod - Getting Started with Agentic Systems](https://smcleod.net/2025/04/getting-started-with-agentic-systems-developer-learning-paths/)
+
+<div class="ml-[2rem] mb-8">
+> A curated learning path for engineers looking to gain practical experience with AI and agentic systems.
+
+Great list of resources from Sam on learning aspects of building agentic systems.
+
+I feel like it goes without saying, but, this is such an extremely important step:
+
+> **Get your hands dirty and experiment**: Create small, disposable proof-of-concept projects to test different agent architectures and approaches.
+
+I think people might enter this space assuming they need to pull out the big guns day one... just build a shitty ChatGPT wrapper and see where it takes you, you'd be surprised.
+
+</div>
+[Lillykyu (@LillyKyu778) - Mirage Bricks](https://x.com/LillyKyu778/status/1912378613732618701)
+
+<div class="ml-[2rem] mb-8">
+> I made a fully breakable CS2 Map
+> 
+> <video controls src='/asset/lillykyu-breakable-map_1753396838612_0.mp4' width='1920' height='1080'></video>
+
+Another CS2 banger from Lillykyu.
+
+Really interesting to see how powerful Source 2's [Rubikon](https://developer.valvesoftware.com/wiki/Rubikon) is, no longer the days of good but _slow_ source-era [Havok](https://developer.valvesoftware.com/wiki/Havok).
+
+</div>
+[Eleanor Berge - Agents Aren't Always the Answer: The Case for AI Workflows](https://ai.intellectronica.net/the-case-for-ai-workflows)
+
+<div class="ml-[2rem] mb-8">
+> AI agents promise unprecedented flexibility and autonomy, capturing the imagination of those eager to innovate. Yet, for organisations prioritising reliability, predictability, and measurable returns, structured ***AI workflows*** often represent a smarter, safer, and more strategic choice.
+
+Agents are indeed all the rage, but I think Eleanor has a great point here, maybe just give the AI a rigid path, it'll likely get the job done, with less variability and nonsense.
+
+</div>
+[Amp - How To Build An Agent ](https://ampcode.com/how-to-build-an-agent)
+
+<div class="ml-[2rem] mb-8">
+Agents might not be the answer, but...
+
+> It’s not that hard to build a fully functioning, code-editing agent.
+>
+> It seems like it would be. When you look at an agent editing files, running commands, wriggling itself out of errors, retrying different strategies - it seems like there has to be a secret behind it.
+>
+> There isn’t. It’s an LLM, a loop, and enough tokens. It’s what we’ve been saying on the [podcast](https://ampcode.com/podcast) from the start. The rest, the stuff that makes [Amp](https://ampcode.com/) so addictive and impressive? Elbow grease.
+
+This is a great resource (done in Golang which is interesting to see), on building a simple LLM loop with tool calls.
+
+I mean, obviously the providers like Anthropic / OpenAI are the real heroes of making this so tiny, but at least in this VC funded loss leader world world, calling out to an LLM over an API rather than rolling your own is the _way to go_.
+
+</div>
+[Dan Abramov - JSX Over The Wire](https://overreacted.io/jsx-over-the-wire/)
+
+<div class="ml-[2rem] mb-8">
+> ...
+>
+> Your components don’t call your API.
+>
+> Instead, your API *returns* your components.
+>
+> Why would you ever want to do that?
+
+Dan opens with some gnarly fake code examples like this:
+
+```js
+app.get('/api/likes/:postId', async (req, res) => {
+  const postId = req.params.postId;
+  const [post, friendLikes] = await Promise.all([
+    getPost(postId),
+    getFriendLikes(postId, { limit: 2 }),
+  ]);
+  const json = (
+    <LikeButton
+      totalLikeCount={post.totalLikeCount}
+      isLikedByUser={post.isLikedByUser}
+      friendLikes={friendLikes}
+    />
+  );
+  res.json(json);
+});
+```
+
+Trying to illustrate React Server Components in an interesting way (yes that's JSX being returned via an Express route, no that doesn't really work), and in this 3 part blog post, I think he does a pretty good job.
+
+I like that even though he's no longer directly working on React, he's still contributing to the ethos around the ideas being put fourth by RSC.
+
+</div>
