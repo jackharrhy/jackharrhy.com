@@ -1,0 +1,38 @@
+---
+name: "Linkblog/2025/04/18"
+description: "ArkType Zod Alternative, Zig and GPUs."
+ogImage: "/asset/Screenshot_2025-07-25_at_5.29.20 AM_1753430379004_0.png"
+---
+
+[ArkType: TypeScript's 1:1 validator, optimized from editor to runtime](https://arktype.io/)
+
+<div class="ml-[2rem] mb-8">
+An interesting alternative to Zod I've seen mentioned around the interwebs.
+
+```js
+const User = type({
+	name: "string",
+	platform: "'android' | 'ios'",
+	"version?": "number | string"
+})
+```
+
+Also this is a pretty big claim:
+
+> 100x faster than Zod and 2,000x faster than Yup at runtime, with editor performance that will remind you how autocomplete is supposed to feel
+
+_Gotta go fast._
+
+</div>
+[Ali Cheraghi - Zig and GPUs](https://alichraghi.github.io/blog/zig-gpu/)
+
+<div class="ml-[2rem] mb-8">
+> GPU programming used to mean wrangling C++ compilers, bloated SDKs, and vendor-specific toolchains. That’s changing. You can now write GPU code in modern languages like [Rust](https://rust-gpu.github.io/) and [Zig](https://ziglang.org/) with fewer layers. This post walks through the current state of Zig’s GPU backends and how they stack up across Vulkan, OpenCL, and native ISAs.
+
+Zig to [SPIR-V](https://en.wikipedia.org/wiki/Standard_Portable_Intermediate_Representation) is mentioned in this post, _very neat_.
+
+I hope we live in the timeline that a language in this space, be is Zig, Odin, Jai, Rust, _whatever_ surpasses C++ as the king of this sort of thing.
+
+For now though, all hail C with Classes.
+
+</div>
