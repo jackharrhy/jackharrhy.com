@@ -1,0 +1,35 @@
+---
+name: "Linkblog/2025/04/19"
+description: "Lena handmade framework for tiny games."
+ogImage: "/asset/Screenshot_2025-07-25_at_5.36.28 AM_1753430798287_0.png"
+---
+
+[lichendust/lena - A handmade framework for making tiny games](https://github.com/lichendust/lena/tree/main)
+
+<div class="ml-[2rem] mb-8">
+> Lena is a compact, handmade framework for making tiny games with palette graphics. It's software-rendered, cross-platform and provides artistic constraints that challenge your creativity without limiting your game's size and scope.
+
+Really neat little Odin-native game tool, able to target Windows, macOS, Linux, & WASM.
+
+```odin
+main :: proc() {
+	lena.init("Hello, Lena!", 128, 128, flags = {.HIDE_WINDOW, .HIDE_CURSOR})
+	defer lena.destroy()
+
+	lena.set_window_background(BLUE)
+    ...
+```
+
+Cute API.
+
+<div class="w-full h-4"></div>
+
+Lena's creator posted a short little example on [their Mastodon](https://sunny.garden/@lichendust/114361134270501887):
+
+> <video controls src='/asset/lena-in-action_1753430596889_0.mp4' width='1966' height='1216'></video>
+
+<div class="w-full h-4"></div>
+
+Thanks to Oleander from the [CTSNL Discord](/now#ctsnl-discord) for posting!
+
+</div>
