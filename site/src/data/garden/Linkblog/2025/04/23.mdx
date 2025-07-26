@@ -1,0 +1,73 @@
+---
+name: "Linkblog/2025/04/23"
+description: "React Labs: View Transitions, Activity, and more."
+ogImage: "/asset/Screenshot_2025-07-25_at_11.12.23 PM_1753494152766_0.png"
+---
+
+[Ricky Hanlon - React Labs: View Transitions, Activity, and more](https://react.dev/blog/2025/04/23/react-labs-view-transitions-activity-and-more)
+
+<div class="ml-[2rem] mb-8">
+> In React Labs posts, we write about projects in active research and development. In this post, we’re sharing two new experimental features that are ready to try today, and updates on other areas we’re working on now.
+
+_Oh yeah_, lets see what the React team is cooking up.
+
+> **View Transitions**
+>
+> React View Transitions are a new experimental feature that makes it easier to add animations to UI transitions in your app. Under-the-hood, these animations use the new [`startViewTransition`](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) API available in most modern browsers.
+
+Very nice! Built in support for view transitions!
+
+They show this API is as simple as:
+
+```jsx
+<ViewTransition key={url}>
+  {url === '/' ? <Home /> : <TalkDetails />}
+</ViewTransition>
+```
+
+And using the existing `useTransition` features, like this:
+
+```js
+function navigate(url) {
+  // Update router state in transition.
+  startTransition(() => {
+    go(url);
+  });
+}
+```
+
+Not as just-add-water as [Astro's view transitions](https://docs.astro.build/en/guides/view-transitions/), which makes sense as Astro owns the router, I assume maybe the React Router folks might have an answer of how to integrate this properly in time.
+
+> Suspense will also activate View Transitions.
+
+That's nice as well! Good usage of existing API space to support view transitions.
+
+<div class="w-full h-4"></div>
+
+Next up:
+
+> **Activity**
+>
+> In [past](https://react.dev/blog/2022/06/15/react-labs-what-we-have-been-working-on-june-2022#offscreen) [updates](https://react.dev/blog/2024/02/15/react-labs-what-we-have-been-working-on-february-2024#offscreen-renamed-to-activity), we shared that we were researching an API to allow components to be visually hidden and deprioritized, preserving UI state with reduced performance costs relative to unmounting or hiding with CSS.
+>
+> We’re now ready to share the API and how it works, so you can start testing it in experimental React versions.
+>
+> `<Activity>` is a new component to hide and show parts of the UI:
+
+Another pretty minimal API feature, that looks like this:
+
+```jsx
+<Activity mode={isVisible ? 'visible' : 'hidden'}>
+  <Page />
+</Activity>
+```
+
+> When an Activity is visible it’s rendered as normal. When an Activity is hidden it is unmounted, but will save its state and continue to render at a lower priority than anything visible on screen.
+
+Pretty nice for some performance wins! I think we could actually make pretty heavy use of this at work for some busy portions of our frontend.
+
+<div class="w-full h-4"></div>
+
+Glad to see the React team is adding features that aren't just React Server Components, that affect more than just Next.js users :)
+
+</div>
