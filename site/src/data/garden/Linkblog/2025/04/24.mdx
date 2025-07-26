@@ -1,0 +1,124 @@
+---
+name: "Linkblog/2025/04/24"
+description: "e164.arpa fedi instance, Minecraft Server Handbook, Matscan, serverside emotes, Polymer client-side mods, Days since last Rust Minecraft server, Minecraft on Kubernetes."
+ogImage: "/asset/danse_1753536093809_0.png"
+---
+
+Minecraft heavy linkblog time!
+
+[@dam@0.9.2.e164.arpa](https://web.archive.org/web/20250424074113/https://0.9.2.e164.arpa/notes/a6xf0o3fxrf92ve7)
+
+<div class="ml-[2rem] mb-8">
+> we've seen fedi instances on ip6.arpa
+>
+> we've seen them on in-addr.arpa
+>
+> how about one on the mapped phone number domain of St. Helena (+290)?
+[0.9.2.e164.arpa](https://web.archive.org/web/20250424074113/https://0.9.2.e164.arpa/)
+>
+> yes. it's mine now.
+
+This URL is cursed, I assume I'm ontop of networking know-how until I run across this stuff.
+
+The e164.arpa domain, is part of the [telephone number mapping](https://en.wikipedia.org/wiki/Telephone_number_mapping) system.
+
+> **Telephone number mapping** is a system of unifying the international [telephone](https://en.wikipedia.org/wiki/Telephone) number system of the [public switched telephone network](https://en.wikipedia.org/wiki/Public_switched_telephone_network) with the [Internet](https://en.wikipedia.org/wiki/Internet) addressing and identification [name spaces](https://en.wikipedia.org/wiki/Name_space). Internationally, telephone numbers are systematically organized by the [E.164](https://en.wikipedia.org/wiki/E.164) standard, while the Internet uses the [Domain Name System](https://en.wikipedia.org/wiki/Domain_Name_System) (DNS) for linking [domain names](https://en.wikipedia.org/wiki/Domain_name) to [IP addresses](https://en.wikipedia.org/wiki/IP_address) and other resource information.
+
+_Woah_.
+
+There's [an entire listing](https://www.iana.org/domains/arpa) of all these `.arpa` domains.
+
+</div>
+[caukub - Minecraft Server Handbook](https://mcguide.caukub.dev/)
+
+<div class="ml-[2rem] mb-8">
+> I dare say this is a unique, truly extensive book (415,000 characters) in which you should find almost everything you need.
+>
+> This book is for *everyone*. It serves as a knowledge base for anyone who knows nothing about Minecraft servers, as well as for those who are interested and want to learn more about how they work in more depth.
+
+I've been playing Minecraft for [a while](https://www.planetminecraft.com/skin/cheesemanys-cheesey-suit/), and for most of that time, have been running servers.
+
+<div class="ml-[2rem] mb-8">
+Back in the day, [LogMeIn Hamachi](https://en.wikipedia.org/wiki/LogMeIn_Hamachi) was the workaround for not knowing how to port forward, _but_, there was also [portforward.com](https://portforward.com/), which I remember spending lots of time staring likely at [this page](https://portforward.com/actiontec/gt784wn/1-bell-aliant/) figuring out how to port forward 25565 on my FibreOP modem.
+
+</div>
+Honestly this was the start of learning system administration skills / the terminal / configuring a soup of `.yml` into something fun.
+
+<div class="w-full h-4"></div>
+
+caukub's handbook seems to be a _wealth_ of knowledge.
+
+For someone like myself, I skip past getting started, but even the ['platforms' page](https://mcguide.caukub.dev/general/platforms) is a really nice summary of all the forks and options and such running serverside software with plugins / mods / etc.
+
+caukub didn't author [this graph](https://github.com/saboooor/fork-graph), but I've never seen it before:
+
+<Image src='/asset/fork_graph_1753534978655_0.png' alt='fork_graph.png' width={2500} height={1875} />
+
+There's sections on commonly used plugins as well, like web based maps with [Dynmap](https://mcguide.caukub.dev/plugins/specific/dynmap).
+
+<div class="ml-[2rem] mb-8">
+While looking at `pl3xmap`, referenced in the bottom of Dynmap's page, I just ran into [this site](https://map.roanv.nl/), which is a comparison between different map plugins, very cool!
+
+</div>
+</div>
+[matdoesdev - Why did "matscan" join my Minecraft server?](https://matdoes.dev/matscan)
+
+<div class="ml-[2rem] mb-8">
+> matscan is a Minecraft bot that joins potentially vulnerable Minecraft servers and sends a message in chat to inform the admins.
+>
+> ...
+>
+> **How did you find my server?**
+>
+> I scan the internet for Minecraft servers, basically sending a packet to every IP address and seeing which ones respond (it’s a little more complex than this).
+
+Good man Mat, I've had a server griefed before by what I think might have been the infamous [Fifth Column](https://2b2t.miraheze.org/wiki/Fifth_Column) group, nice to see someone is scanning the ipv4 space for servers and _not_ logging them into a Discord server for folks to join and blow them up.
+
+<div class="w-full h-4"></div>
+
+There's a great [SalC1 video on a Mojang-Owned server being found and griefed](https://www.youtube.com/watch?v=fGULXMoBw6g), which makes me feel less dumb.
+
+</div>
+[Tom Albrecht - danse, serverside gestures / emotes](https://modrinth.com/mod/danse)
+
+<div class="ml-[2rem] mb-8">
+> Server-side player gestures using a resourcepack.
+>
+> No client-side mods required!
+>
+> <Image src='/asset/danse_1753536093809_0.png' alt='danse.png' width={460} height={292} />
+
+The sort of things server-side Minecraft plugins can do these days boggles the mind.
+
+</div>
+[Patbox - Polymer Patch for CC: Tweaked](https://github.com/PolymerPorts/cc-tweaked-patch)
+
+<div class="ml-[2rem] mb-8">
+> This is a patch for [CC: Tweaked](https://modrinth.com/mod/cc-tweaked) (which by itself is fork/continuation of original ComputerCraft), that modifies it allowing nearly all functionality of regular version to work purely server side (Vanilla client can join servers using it and have all functionality!).
+
+So... yeah, my last point about boggling the mind stands.
+
+[Polymer](https://modrinth.com/mod/polymer) is a _"a library for creating server side content, that work for player's without mods or (required) resource packs!"_, made by Patbox.
+
+There's an entire suite of bespoke mods by Pat, but also _ports_ of Fabric mods using his framework, including the mentioned _computer craft_ port.
+
+</div>
+[goldenstack - Days since last Rust Minecraft server](https://dayssincelastrustmcserver.com/)
+
+<div class="ml-[2rem] mb-8">
+> It has been \{x\} days since the last release of a
+Minecraft server software written in Rust.
+
+I too, one day, would like to contribute to the ever growing list of Minecraft protocol implementations, maybe in Rust, maybe not.
+
+</div>
+[Shulker — The modern way of putting Minecraft in boxes](https://shulker.jeremylvln.fr/)
+
+<div class="ml-[2rem] mb-8">
+> A Kubernetes operator for managing complex and dynamic Minecraft infrastructures, including game servers and proxies.
+
+Of course someone has cooked up Minecraft server infra for k8s.
+
+The name being Shulker is hilarious.
+
+</div>
