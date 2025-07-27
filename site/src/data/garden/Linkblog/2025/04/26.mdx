@@ -1,0 +1,63 @@
+---
+name: "Linkblog/2025/04/26"
+description: "How We Diagnosed And Fixed Voyager 1, Stop overbuilding evals."
+ogImage: "/asset/lgtm_1753654284542_0.jpg"
+---
+
+[David Cummings - How We Diagnosed and Fixed the 2023 Voyager 1 Anomaly from 15 Billion Miles Away](https://www.youtube.com/watch?v=YcUycQoz0zg)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/YcUycQoz0zg"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Voyager 1 is flaking out, but folks like David are the _goats_ pulling dark magic to 'debug' it, under these [challenges](https://youtu.be/YcUycQoz0zg?t=2396):
+
+> **Challenges**
+>
+> - JPL designed processor with custom instruction set
+>   - A document that may or may not be accurate
+> - No source code files
+>   - Source code listing in Microsoft Word with errors
+>   - May or may not match the version on the spacecraft
+> - No assembler
+> - No simulator
+> - No testbed
+> - Telemetry must be restored as soon as possible!!!
+>   - No visibility into an aging and delicate spacecraft
+> - AND: We were unable to find 256 contiguous words of memory that were unused!
+
+And sometimes I can't figure out where padding is coming from on my `div`s, we both have it rough.
+
+</div>
+[Doug Turnbull - Stop overbuilding evals](https://softwaredoug.com/blog/2025/04/26/stop-overbuilding-evals)
+
+<div class="ml-[2rem] mb-8">
+> Every startup ponders over-scaling risks. Vibe code a dumb app and be OK with a fail whale? Or build 50 microservices auto scaled in Kubernetes with a full devops team load balancing every layer?
+>
+> You’re probably better off with the former as long as you can tolerate it.
+>
+> Same thing can happen for evals in AI apps. The smartest teams can over invest before experiencing any success.
+
+Evals seem to be the best way to wrangle and understand your LLM workflows, but also _so full of fluff_.
+
+I'd like to know exactly how I'd integrate them into my work, but honestly I have no idea where I'd even start.
+
+> **What should you do?**
+>
+> After 12 years of failing (and sometimes succeeding) at search, I trust this proven process™️ as the starting upoint
+> 1. Test in prod
+> 1. (With Feature flags!)
+> 1. Focus on systematic qualitative eval
+> 1. ‘Unit testing’ algorithmic behavior *is a good thing*
+> 1. Evolve to qualitative the quantiative
+
+Feature flags are chefs-kiss.
+
+</div>
