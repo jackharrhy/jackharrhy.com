@@ -1,0 +1,139 @@
+---
+name: "Linkblog/2025/04/25"
+description: "Scaling Minecraft to 100K players, Senior engineers should make side bets, Why I Blog, How Discord Indexes Trillions of Messages, You wouldn't pirate a font, Server-side JSX library, E1M777 tracker song."
+ogImage: "/asset/Screenshot_2025-07-27_at_6.52.07 PM_1753651336141_0.png"
+---
+
+[Mihail Makei - How We Scaled Minecraft to 100K Connected Players with 5K Rendering Onscreen at Any Given Time](https://www.quarkmultiplayer.com/blog/how-we-scaled-minecraft-to-100k-connected-players-with-5k-rendering-onscreen-at-any-given-time)
+
+<div class="ml-[2rem] mb-8">
+> We're building the Quark Network Engine which parallelises and distributes simulations across a networked cluster of server and client computers.
+>
+> Today I want to show you something special - **a Minecraft Java Edition mod running on the Quark Engine** - pushing Minecraft to **5000+ visible players** and **unlimited number - even 1m+ is not the limit - of concurrent players in a single world**.
+
+This sort of tech would have been dope for the [Open Pit](https://www.openpit.net/) events.
+
+<div class="ml-[2rem] mb-8">
+_I miss Open Pit :(_
+
+</div>
+</div>
+[Sean Goedecke - Senior engineers should make side bets](https://www.seangoedecke.com/side-bets/)
+
+<div class="ml-[2rem] mb-8">
+> When you’re a junior, you should work on what you’re given.
+>
+> ...
+>
+> However, senior engineers should not only work on what they’re given. There are also two reasons for this. First, if a senior engineer spends all their time working from a list of tasks (GitHub issues, JIRA tickets, and so on), they’re likely to miss the [work that’s actually important](https://www.seangoedecke.com/party-tricks). Second, senior engineers should spend 10-20% of their time making *side bets*.
+>
+> What is a side bet? It’s a project or task that you think will be valuable to the company, but that isn’t on anyone else’s radar. It could be a new feature, or a performance optimization, or a change that will speed up development - as long as it could provide a concrete benefit.
+
+I'm glad to be part of a company that encourages ones _side bets_, its for sure a bit risky obviously to go off of the beaten project managed path and just _build something_, but I think people would be surprised what sort of things can be thrown together by a competent developer which could change the game within a company.
+
+I also though, think that just randomly throwing a week long / couple day hackathon, is _great_, but is _not_ that '10-20% of their time' amount.
+
+</div>
+[Ryan West - Why I Blog and How I Automate it](https://www.ryanwwest.com/why-blog/)
+
+<div class="ml-[2rem] mb-8">
+> I’m interested in consuming information in order to create new information (one of my motivations for pursuing a Ph.D.). I generally read articles/papers or watch videos, and then create papers/articles/code and have discussions as a result.
+
+I am in the same boat, as per this link blog!
+
+Ryan's setup however is _quite_ busy, involving both Obsidian & Zotero, with a lot of scripts to sync things between devices and such.
+
+Very nice.
+
+</div>
+[Vicki Niu - How Discord Indexes Trillions of Messages](https://discord.com/blog/how-discord-indexes-trillions-of-messages)
+
+<div class="ml-[2rem] mb-8">
+> Back in 2017, we shared how we built our message search system to[index billions of messages](https://discord.com/blog/how-discord-indexes-billions-of-messages). ... We chose to use Elasticsearch, with Discord messages sharded over[indices](https://www.elastic.co/blog/what-is-an-elasticsearch-index), the logical namespace for Elasticsearch messages, on two Elasticsearch clusters.
+>
+> But as Discord grew, our search infrastructure began to exhibit a few cracks…
+
+Vicki covers the _interesting_ issues Discord ran into running ElasticSearch at _massive_ scale.
+
+The TL:DR; is moving to the [Elastic Kubernetes Operator](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s), and running a _"larger number of smaller Elasticsearch clusters"_.
+
+A feature that spawned out of this refactor is actually quite nice:
+
+> This is what powers the new cross-DM search functionality, now available on mobile. Now, all DM messages and search queries are served by the `user-dm-messages` Elasticsearch cell, and guild messages and queries served by `guild-messages` cell.
+
+Also, special consideration was given to _BFGs_:
+
+> As guilds on Discord grow larger with longer histories, more and more of them bump up against Lucene’s MAX_DOC limit of ~2 billion messages. We needed a solution to scale search for these special cases, which we call BFGs, or Big Freaking Guilds.
+
+_Big freaking guilds, lol_.
+
+> Now, with our new search infrastructure, we:
+> - Index **trillions of messages,** with **double the indexing throughput** of our legacy search
+> - Improved median query latency from 500ms to \<100ms, and p99 from 1s to \<500ms
+> - Run **40 Elasticsearch clusters** with **thousands of indices**
+> - Perform cluster upgrades and rolling restarts automatically and with no service impact
+
+Wow, big data.
+
+</div>
+[@Rib@fedi.rib.gay](https://fedi.rib.gay/notes/a6xqityngfubsz0f)
+
+<div class="ml-[2rem] mb-8">
+> Today [Melissa Lewis over on BlueSky](https://bsky.app/profile/melissa.news/post/3ln7hx5rhcj2v) pointed out that the font used in the infamous "You wouldn't steal a car" anti-piracy campaign was actually designed by Just van Rossum, whose brother, Guido, created the Python programming language.
+>
+> She also pointed out that the font had been cloned and released illegally for free under the name "XBAND Rough". Naturally, it would be hilarious if the anti-piracy campaign actually turned out to have used this pirated font, so I went sleuthing and quickly [found a PDF from the campaign site](https://web.archive.org/web/20051223202935/http://www.piracyisacrime.com:80/press/pdfs/150605_8PP_brochure.pdf) with the font embedded.
+>
+> So I chucked it into FontForge and yep, turns out the campaign used a pirated font the entire time!
+
+_You wouldn't pirate a font_.
+
+(But we might)
+
+</div>
+[oscarotero/ssx - Fast and simple server-side JSX library](https://github.com/oscarotero/ssx)
+
+<div class="ml-[2rem] mb-8">
+> SSX is a minimal JSX library designed to be used ONLY in server side and output plain HTML code.
+
+I was looking for a really simple way to do some HTML on the server, and while I've used things like Handlebars / Jade before, I _wanted_ JSX.
+
+This, seems to be a nice version of just that:
+
+```jsx
+import { renderComponent } from "@lumeland/ssx/jsx-runtime";
+
+function ComponentA() {
+  return <div>Hello</div>;
+}
+
+function ComponentB() {
+  return (
+    <span>
+      <ComponentA />
+    </span>
+  );
+}
+
+const rendered = await renderComponent(<ComponentB />);
+console.log(rendered);
+```
+
+_Nice_.
+
+</div>
+[MASTER BOOT RECORD & Dubmood - E1M777](https://www.youtube.com/watch?v=7HpTr6IceTA)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/7HpTr6IceTA"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+This goes _so_ hard.
+
+</div>
