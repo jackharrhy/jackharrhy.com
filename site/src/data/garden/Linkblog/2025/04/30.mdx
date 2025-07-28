@@ -1,0 +1,67 @@
+---
+name: "Linkblog/2025/04/30"
+description: "You wouldn't Download a Hacker News, Open Sourcing BitCraft Online, Migrating away from Rust, React Compiler RC."
+ogImage: "/asset/Screenshot_2025-07-28_at_6.47.46 PM_1753737489668_0.png"
+---
+
+[Jason Thorsness - You Wouldn't Download a Hacker News](https://www.jasonthorsness.com/25)
+
+<div class="ml-[2rem] mb-8">
+> TLDR: I Did Download It
+>
+> And now I can analyze it with DuckDB. Behold the fraction of total comments and stories referencing key topics over time!
+
+Jason was working on an unrelated project, but realized he had the tooling to scrape all of Hacker News.
+
+Produced out of that was this graph of mentions of keywords over time:
+
+<Image src='/asset/Screenshot_2025-07-28_at_6.47.46 PM_1753737489668_0.png' alt='Screenshot 2025-07-28 at 6.47.46 PM.png' width={1280} height={1142} />
+
+Neat.
+
+</div>
+[Alessandro Asoni - We're Open Sourcing BitCraft Online](https://bitcraftonline.com/blog/open-sourcing-bitcraft-online)
+
+<div class="ml-[2rem] mb-8">
+> BitCraft Online is a community-driven sandbox MMORPG set in a procedurally generated world shared by all players. The whole world is completely editable. [...]
+>
+> We’ve been working on BitCraft for over 7 years, and with early access on the horizon, we’re making a decision that we hope will set the tone for the future of the game: we’re open sourcing the code.
+
+I've been following the development of BitCraft, mostly from the perspective of it being built on the already open source [SpacetimeDB](https://spacetimedb.com/), nice to see BitCraft itself also being open sourced!
+
+</div>
+[Brandon Reinhart  - Migrating away from Rust.](https://deadmoney.gg/news/articles/migrating-away-from-rust)
+
+<div class="ml-[2rem] mb-8">
+> When I started building **Architect of Ruin** in December 2023 I chose to build it in the [Bevy](https://bevyengine.org/) game engine. My choice was motivated by a personal interest in [Rust](https://www.rust-lang.org/) -- a language I derive a lot of joy in using. [...]
+>
+> So, it came as a surprise that in January of 2025 we transitioned the game away from Rust and Bevy. I spent about six weeks rewriting the game entirely in C# and we have been using Unity for the past three months.
+
+Brandon covers all of the pros of using Bevy, but then the large lot of _cons_.
+
+He mentions this conversation between himself and his partner:
+
+<Image src='/asset/longerconvo_1753738326445_0.png' alt='longerconvo.png' width={783} height={497} />
+
+This honestly sums up the article quite well.
+
+I don't think its constructive to hate on Rust for its complexity, I think certain fields utilize it quite well, like a heavy utilized well optimizable HTTP endpoint, or a encryption algorithm.
+
+But a _game_, still at the _prototype_ phase? I've seen too much in the way of this simply being a bad idea for productivity and actually shipping a game.
+
+Similar vibes as to [LogLog Games' "Leaving Rust gamedev after 3 years"](https://loglog.games/blog/leaving-rust-gamedev/).
+
+</div>
+[Lauren Tan and Mofei Zhang - React Compiler RC](https://react.dev/blog/2025/04/21/react-compiler-rc)
+
+<div class="ml-[2rem] mb-8">
+> The React team is excited to share new updates:
+> - We’re publishing React Compiler RC today, in preparation of the compiler’s stable release.
+> - We’re merging `eslint-plugin-react-compiler` into `eslint-plugin-react-hooks`.
+> - We’ve added support for swc and are working with oxc to support Babel-free builds.
+
+React compiler release candidate! Extremely hype!
+
+Planning on getting this into our repo at work _asap_.
+
+</div>
