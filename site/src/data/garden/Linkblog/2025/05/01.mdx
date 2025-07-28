@@ -1,0 +1,117 @@
+---
+name: "Linkblog/2025/05/01"
+description: "Redis is open source again, authors fail to understand what \"vibe coding\" means, ActivityPub + OSM = places.pub, Real-Time Markov Chain Path Guiding for GI Quake Demo, Problem with React Update Model."
+ogImage: "/asset/shambler_1753741173715_0.webp"
+---
+
+[Salvatore Sanfilippo - Redis is open source again](https://antirez.com/news/151)
+
+<div class="ml-[2rem] mb-8">
+> Five months ago, I rejoined Redis and quickly started to talk with my colleagues about a possible switch to the AGPL license, only to discover that there was already an ongoing discussion, a very old one, too. [...]
+>
+> P.S. Redis 8, the first version of Redis with the new license, is also GA today, with a many new features and speed improvements of the core: [https://redis.io/blog/redis-8-ga/](https://redis.io/blog/redis-8-ga/)
+
+Redis back to being _properly_ open source again, very nice to see.
+
+Unsure if this will actually rollback the movement with [Valkey](https://valkey.io/), but its nice to see nonetheless.
+
+</div>
+[Simon Willison - Two publishers and three authors fail to understand what “vibe coding” means](https://simonwillison.net/2025/May/1/not-vibe-coding/)
+
+<div class="ml-[2rem] mb-8">
+> **Vibe coding** does not mean “using AI tools to help write code”. It means “generating code with AI without caring about the code that is produced”. See **[Not all AI-assisted programming is vibe coding](https://simonwillison.net/2025/Mar/19/vibe-coding/)** for my previous writing on this subject. This is a hill I am willing to die on. I fear it will be the death of me.
+
+Simon points out some actual _books_ using the term 'vibe coding' to describe what simply _isn't_ vibe coding.
+
+<Image src='/asset/vibe-coding-books_1753739137362_0.jpg' alt='vibe-coding-books.jpg' width={1820} height={937} />
+
+If you go by the original [Andrej Karpathy tweet](https://x.com/karpathy/status/1886192184808149383) which coined the term, vibe coding means you're fully giving into the "vibes", sort of just quickly checking the final output in your browser / CLI, rather than worrying about the code.
+
+Both of those books are more on using AI in a more structured approach, where you are careful about what prompts and context you are feeding the LLM, and ensuring you validate its output often, which is quite antithesis to giving into the "vibes".
+
+> I know it’s harder now that tweets are longer than 480 characters, but it’s vitally important you **read to the end of the tweet** before publishing a book about something!
+
+I agree, frustrating to see this term spin out of control.
+
+</div>
+[Evan Prodromou - places.pub](https://places.pub/)
+
+<div class="ml-[2rem] mb-8">
+> [places.pub](https://places.pub/) is a service that makes OpenStreetMap geographical data available as [ActivityPub](https://activitypub.rocks/) objects.
+
+Very cool usage of ActivityPub and OSM!
+
+Hitting `https://places.pub/way/843545518` ([my University via OSM](https://www.openstreetmap.org/way/843545518)) results in the following data:
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    {
+      "dcterms": "http://purl.org/dc/terms/"
+    }
+  ],
+  "type": "Place",
+  "id": "https://places.pub/way/843545518",
+  "to": "as:Public",
+  "name": "Memorial University of Newfoundland and Labrador",
+  "latitude": null,
+  "longitude": null,
+  "dcterms:license": {
+    "type": "Link",
+    "href": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "name": "Open Database License (ODbL) v1.0"
+  },
+  "dcterms:source": {
+    "type": "Link",
+    "href": "https://www.openstreetmap.org/way/843545518",
+    "name": "OpenStreetMap way 843545518"
+  },
+  "vcard:hasAddress": {
+    "type": "vcard:Address",
+    "vcard:street-address": "P.O. Box 4200",
+    "vcard:locality": "St. John's",
+    "vcard:postal-code": "A1B 5S7"
+  }
+}
+```
+
+Very cool.
+
+</div>
+[Lucas Alber, Johannes Hanika and Carsten Dachsbacher - Real-Time Markov Chain Path Guiding for Global Illumination and Single Scattering](https://www.lalber.org/2025/04/markov-chain-path-guiding/)
+
+<div class="ml-[2rem] mb-8">
+> We present a lightweight and unbiased path guiding algorithm tailored for real-time applications with highly dynamic content. The algorithm demonstrates effectiveness in guiding both direct and indirect illumination. Moreover, it can be extended to guide single scattering events in participating media.
+
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/iXk3AG5tsDY"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Extremely pretty _realtime_ graphics here.
+
+I love that Quake and family are still goto benchmarks for this field.
+
+<Image src='/asset/shambler_1753741173715_0.webp' alt='shambler.webp' width={1920} height={1080} />
+
+_Just look at that majestic Shambler._
+
+</div>
+[Seva Zaikov - Problem with React Update Model](https://blog.bloomca.me/2025/04/20/problem-with-react-update-model.html)
+
+<div class="ml-[2rem] mb-8">
+> React is a great library, and its core principle redefined how we approach UI applications on the Web: declarative components with a single `render` method that create exactly the same output as long as the state is the same (and it encouraged putting all side-effects into the local state).
+>
+> ...
+>
+> In short, the main issue is that React is not great at reactivity (ironically): if you have a component depending on multiple states, any state change will re-render the entire component, including situations where the state is not used in the resulting DOM directly. There are techniques to avoid that, and often they are enough, but the problem is that it’s brittle: it’s not easy to fix and very trivial to break again, often without even realizing that you’re introducing a regression.
+
+Seva goes over some common footguns with state updates in React, how aspects of its design are over eager to update, but also leaves off by mentioning React Compiler, which has a [RC as of not long ago](https://react.dev/blog/2025/04/21/react-compiler-rc), I take the opinion that said compiler should be adopted wherever possible to remove needing to worry about said footguns.
+
+</div>
