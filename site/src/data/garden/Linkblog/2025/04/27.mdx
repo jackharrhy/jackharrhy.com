@@ -1,0 +1,113 @@
+---
+name: "Linkblog/2025/04/27"
+description: "Acerola Why Did PS1 Games Look Like That?, Roblox smovement, Comfy.Guide, RSS doesn't mean firehorse, Plan9 + WASM = Wanix, Short position on Backblaze, No rule says you can't backfill."
+ogImage: "/asset/Screenshot_2025-07-27_at_9.58.30 PM_1753662518226_0.png"
+---
+
+[Acerola - Why Did PS1 Games Look Like That?](https://www.youtube.com/watch?v=y84bG19sg6U)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/y84bG19sg6U"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Acerola makes _great_ gamedev content, this honestly might be one of my favourite videos of his so far.
+
+I'm really glad he switched from Unity to Godot.
+
+</div>
+[berd (@berdyaboi) on Twitter](https://x.com/berdyaboi/status/1916363503650079035)
+
+<div class="ml-[2rem] mb-8">
+> dude fuck roblox. this is like meth to me. this is digital pink cocaine
+>
+> <video controls src='/asset/dude-fuck-roblox_1753654476428_0.mp4' width='1280' height='720'></video>
+
+_Why does Roblox have insane smovement tech?_
+
+_Why do I actually want to play this?_
+
+</div>
+[Alessandro Gaggioli - Comfy.Guide](https://comfy.guide/)
+
+<div class="ml-[2rem] mb-8">
+> Welcome to the internet’s premier resource for computer guides. Whether you’re looking to run your own [Linux server,](https://comfy.guide/server/nginx) or just trying to set up your [graphics card,](https://comfy.guide/client/nvidia) `comfy.guide` has useful, easy-to-follow steps on how to do it.
+
+Nice collection of tutorials on self hosting all sorts of server / client software.
+
+</div>
+[Andre Garzia - RSS doesn't necessarily mean firehose](https://andregarzia.com/2025/04/rss-doesnt-necessarily-means-firehose.html)
+
+<div class="ml-[2rem] mb-8">
+> Was reading Hacker News today and saw this very interesting post [Reading RSS content is a skilled activity](https://www.doliver.org/articles/rss-as-a-skill) which raises some really interesting points about feed reading and how much effort one should put into making their experience fit what they want. The [following discussion on Hacker News](https://news.ycombinator.com/item?id=43799697#43800551) is full of people commenting how their feed reading experience is either overwhelming or stressful cause of the firehose of posts they see on their reader app.
+
+Andre discusses how a lot of RSS apps are a "river-of-news", which my reader, [Miniflux](https://miniflux.app/), would probably fall into.
+
+> A calmer reading experience is possible. The first app I seen that explicitly focus on an experience that is not anxiety inducing is [FraidyCat](https://fraidyc.at/).
+>
+> <Image src='/asset/fraidycat_1753655583371_0.png' alt='fraidycat.png' width={2024} height={1584} />
+>
+> From the theme to the overall UX, FraidyCat aims to make sure no publisher can take over the feed by publishing too much. It also put fetching under the user control by letting the user decide how often to fetch a given feed.
+
+This app looks _nice_, I like the idea of not having the direct stream of posts be one big _unread_ page.
+
+Andre himself is building his own RSS reader, built as a web extension:
+
+> Inspired by all of that and some past softwares I created in the past (I have a thing for blogging tools), I made [BlogCat](https://blogcat.org/). It provides an experience similar to FraidyCat and Rad Reader in which there is no firehose, the user selects when feeds are retrieved and there is no background fetching or notifications.
+
+_Nice_, I must say I really like the fact that Miniflux is hosted on a server, all of these options seem cool but I for one would much rather have something server side rather than client side, so I can browse my feeds on any device.
+
+My trick for cutting down on the noise, is for one, removing feeds that I skim and produce content too often, but then also looking for options like [Hacker News RSS](https://hnrss.github.io/), which give you a filterable version of a busier feed to consume.
+
+<div class="ml-[2rem] mb-8">
+Which means my Hacker News RSS endpoint is `https://hnrss.org/newest?points=15`, which means posts have to get a score of `>=15` to show up in my reader.
+
+</div>
+</div>
+[Jeff Lindsay - Wanix](https://wanix.sh/)
+
+<div class="ml-[2rem] mb-8">
+> Virtual environment kit for the local-first web, inspired by Plan 9
+
+I'm both an enjoyer of [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs) and [WASM](https://en.wikipedia.org/wiki/WebAssembly), this is quite the interesting package of both of them in the same suit.
+
+It features _"Capability-oriented microkernel architecture ("everything is a file")"_, which implies this sort of thing is possible:
+
+> You can also append CSS styles to the page by appending to `/web/dom/style `:
+>
+> ```sh
+> echo "html { border: 8px solid lightgreen; }" >> /web/dom/style
+> ```
+
+I mean, if everything is a file in the context of the web, the DOM being a file makes total sense, but this is a _wild_ idea to me.
+
+</div>
+[Morpheus Research - Backblaze: A Loss-Making Data Storage Business Mired in Lawsuits, Sham Accounting, and Brazen Insider Dumping](https://www.morpheus-research.com/backblaze/)
+
+<div class="ml-[2rem] mb-8">
+> - Backblaze (NASDAQ:BLZE) is a $250 million cloud storage and backup solution provider based in California that operates through two business segments: B2 Cloud Storage allowing “customers to store data” and “developers to build applications,” and Computer Backup that “automatically backs up data” from devices for “virtually unlimited” storage. 
+> - Since its November 2021 IPO, Backblaze has reported losses every quarter, its outstanding share count has grown by 80%, and its share price
+
+Pretty scathing position against Backblaze from Morpheus Research, who hold short positions against their stock.
+
+I'm using them as a off-site backup solution for my homelab, hopefully if there is a sudden moment of going under us folks who use them are given a chance to move elsewhere.
+
+</div>
+[Simon Willison’s Weblog - Note on 25th April 2025](https://simonwillison.net/2025/Apr/25/backfill-your-blog/#atom-everything)
+
+<div class="ml-[2rem] mb-8">
+> Fun fact: there's no rule that says you can't create a new blog today and backfill (and backdate) it with your writing from other platforms or sources, even going back many years.
+
+What I'm currently doing is backfilling some linkblog entries, the last few, and for many to go, have been written months in the future, since I stopped writing links into my Logseq back in April, but still kept logging the links in [Raindrop](https://raindrop.io/).
+
+With some more Python soup built onto the existing Python soup that powers this site, I can generate the `.md` 'templates' for each day, which means I just have to... write 'em now.
+
+Lets go team backfill.
+
+</div>
