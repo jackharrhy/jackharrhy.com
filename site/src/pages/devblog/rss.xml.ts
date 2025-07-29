@@ -1,5 +1,10 @@
 import rss from "@astrojs/rss";
 import { getDevblogPosts, projectNameToBetterName } from "../../feeds";
+import {
+  createImageCustomData,
+  addCorsHeaders,
+  createCorsOptionsResponse,
+} from "../../utils";
 
 export const prerender = false;
 
@@ -26,6 +31,7 @@ export const GET = async () => {
         title: `${projectName} - ${post.data.description}`,
         link: `${import.meta.env.SITE}/${post.id}`,
         pubDate: new Date(`${year}-${month}-${day}`),
+        customData: createImageCustomData(post.data.ogImage),
       };
     })
     .filter((item) => {
@@ -34,12 +40,19 @@ export const GET = async () => {
     })
     .slice(0, 10);
 
-  return rss({
+  const res = await rss({
     title: "Devblog - jackharrhy.dev",
     description: "Devblog from Jack Harrhy",
     site: import.meta.env.SITE,
+    xmlns: {
+      media: "http://search.yahoo.com/mrss/",
+    },
     items: rssItems,
     customData: `<language>en-us</language>`,
     stylesheet: "/rss/styles/general.xsl",
   });
+
+  return addCorsHeaders(res);
 };
+
+export const OPTIONS = createCorsOptionsResponse;
