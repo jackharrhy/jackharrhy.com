@@ -1,0 +1,64 @@
+---
+name: "Linkblog/2025/05/16"
+description: "React Router RSC Preview."
+ogImage: "/asset/Screenshot_2025-07-28_at_10.17.57 PM_1753750086038_0.png"
+---
+
+[Ryan Florence - React Router RSC Preview](https://remix.run/blog/rsc-preview)
+
+<div class="ml-[2rem] mb-8">
+> **tl;dr**
+> - React Router has preview support for RSC!
+>  - [Clone this repo](https://github.com/jacob-ebey/experimental-parcel-react-router-starter) to try it out
+> - RSC content from loaders/actions in existing routes
+> - RSC-first "Server Component Routes"
+> - Client components with `"use client"`
+> - Server Functions with `"use server"`
+>
+> ...
+
+React Server Components in React Router framework mode! Super hype!
+
+I'm most excited for the basic use case of returning JSX from loaders like so:
+```jsx
+export async function loader({ params }) {
+  let { contentBlocks, ...product } = await getProduct(params.productId);
+  return {
+    product,
+    content: (
+      <div>
+        {contentBlocks.map((block) => {
+          switch (block.type) {
+            case "image":
+              return <ImageBlock {...block} />;
+            case "gallery":
+              return <GalleryBlock {...block} />;
+            case "video":
+              return <VideoBlock {...block} />;
+            case "text":
+              return <TextBlock {...block} />;
+            case "markdown":
+              return <MarkdownBlock {...block} />;
+            default:
+              throw new Error(`Unknown block type: ${block.type}`);
+          }
+        })}
+      </div>
+    ),
+  };
+}
+
+export default function Article({ loaderData }) {
+  return (
+    <ProductLayout product={loaderData.product}>
+      {loaderData.content}
+    </ProductLayout>
+  );
+}
+```
+
+Being able to portal JSX from serverside to clientside is _nice_, honestly it makes the boundary between the two feel more explicit, and works for Suspense and such just fine as well.
+
+They're cooking on this, lets hope for a soon and _stable_ release candidate / _release_.
+
+</div>
