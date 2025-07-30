@@ -1,0 +1,75 @@
+---
+name: "Linkblog/2025/05/31"
+description: "Why Does RSC Integrate with a Bundler?, Progessive JSON, On Browsers, AI, and the web, untrusted layer of chatbot AI between you and the internet is an obvious disaster."
+ogImage: "/asset/goodbye-arc_1753895185303_0.jpg"
+---
+
+[Dan Abramov - Why Does RSC Integrate with a Bundler?](https://overreacted.io/why-does-rsc-integrate-with-a-bundler/)
+
+<div class="ml-[2rem] mb-8">
+One of the critiques of RSC is that no longer is React just a conversion from `.jsx` to `.js`, but something that needs an entire _framework_ alongside a bundler to give it its client / server legs.
+
+I always show folks I'm reaching React to this example in the Babel REPL:
+
+```jsx
+function Component() {
+    return <p className="red">Text</p>
+}
+```
+
+Which turns into:
+
+```js
+import { jsx as _jsx } from "react/jsx-runtime";
+function Component() {
+  return /*#__PURE__*/_jsx("p", {
+    className: "red",
+    children: "Text"
+  });
+}
+```
+
+There's obviously a lot more to React than the above, but that for the longest time has been the only difference between the code you see in your editor, and the one the browser is executing.
+
+Dan's opening summarizes is as so:
+
+> React Server Components is a programming paradigm that [extends the module system](https://overreacted.io/what-does-use-client-do/) to express a server/client application as a single program spanning two runtimes. Under the hood, the RSC implementation consists of two main pieces:
+>
+> - A serializer for React trees ([`packages/react-server`](https://github.com/facebook/react/tree/main/packages/react-server) in the React repo).
+> - A deserializer for React trees ([`packages/react-client`](https://github.com/facebook/react/tree/main/packages/react-client) in the React repo).
+
+When you understand the goals of RSC, this makes sense, and their intent has been to make it possible for entities other than Next.js / Vercel to be able to produce other 'frameworks' as well, as seen by Parcel adding support for RSC, and hopefully VIte having the same soon.
+
+</div>
+[Dan Abramov - Progressive JSON](https://overreacted.io/progressive-json/)
+
+<div class="ml-[2rem] mb-8">
+Another Dan post! This time on how streaming works with React Server Components, opening up with a great analogy on how streaming arbitrary JSON over the wire can play out from this perspective.
+
+> [...] Instead of sending data as a single big chunk, it sends the props for your component tree outside-in. As a result, as soon as there’s an intentional loading state to display, React can do that while the rest of the data for your page is being streamed in.
+
+</div>
+[Manuel Moreale - On Browsers, AI, and the web](https://manuelmoreale.com/on-browsers-ai-and-the-web)
+
+<div class="ml-[2rem] mb-8">
+> Almost exactly one year ago I wrote a follow-up post to comment on the newly—at the time—released website by the folks over at The Browser Company, a name I still find incredibly hilarious. It was all about their Arc browser, their big ambitions, and how they were going to I guess revolutionize everything. Ok, maybe that’s me paraphrasing.
+>
+> Here we are, a year later. Arc is now officially “dead”. Not really dead dead, but pretty much dead. But fear not, there’s a new product on the horizon, and it’s another browser but with AI. Shocking I know.
+
+Manuel covers his original distaste for Arc, which is a _neat_ project, but did have some weird VC energy behind it, and now is dead because _The Browser Company_ felt the need to be pulled into the AI sphere just like most other tech companies trying to stay relevant.
+
+> > webpages — apps, articles, and files — will become tool calls with AI chat interfaces
+>
+> Happy to be proven wrong but I call bullshit on that. Most content is not going to be consumed inside chat interfaces. Hell, the other side of the AI debate is arguing we don’t need a screen at all and we’re just going to talk to all these AI tools in no time. So which one is it? I guess no one knows.
+
+</div>
+[Tom MacWright - Putting an untrusted layer of chatbot AI between you and the internet is an obvious disaster waiting to happen](https://macwright.com/2025/05/29/putting-an-untrusted-chat-layer-is-a-disaster)
+
+<div class="ml-[2rem] mb-8">
+> This is directly motivated by reading about [the Browser Company’s pivot](https://browsercompany.substack.com/p/letter-to-arc-members-2025) to [Dia](https://www.diabrowser.com/finals), a chatbot-centric browser, but there are many similar cases.
+>
+> I feel like this is obvious but I’m not hearing it shouted from the rooftops so here it is: **adding an untrusted middleman to your information diet and all of your personal communications will eventually become a disaster that will be obvious in hindsight**.
+
+Tom's weighing in on this as well, with similar points being made, on how a browser _browsing_ for you does _not_ sound like a good idea.
+
+</div>
