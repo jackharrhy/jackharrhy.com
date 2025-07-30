@@ -1,0 +1,174 @@
+---
+name: "Linkblog/2025/05/29"
+description: "History of chessmen, Shopify improves Import Maps, Angular v20 networkable signals, SQLite Railroad Diagrams, My website is ugly because I made it, Sahil's DOGE diary, Closed captions on DVDs are getting left behind, Saying Bye to Glitch, selfhosted static video site via hyper8."
+ogImage: "/asset/Screenshot_2025-07-30_at_11.33.30 AM_1753884227289_0.png"
+---
+
+[Don Kirkby - Visual history of chessmen](https://chesshistory.github.io/)
+
+<div class="ml-[2rem] mb-8">
+> When you or I think about chess, what pieces do we picture? What pieces do people in other countries picture? What did people in the past picture? **This is a timeline of chess set designs through history.**
+
+From:
+
+<Image src='/asset/my-dads-chessboard_1753880528612_0.png' alt='my-dads-chessboard.png' width={314} height={252} />
+
+To:
+
+<Image src='/asset/still-my-dads-chessboard-hes-a-nerd-as-well_1753880582898_0.png' alt='still-my-dads-chessboard-hes-a-nerd-as-well.png' width={317} height={331} />
+
+Boards galore.
+
+</div>
+[Yoav Weiss - Resilient Import Maps - Better Theme Development and Beyond](https://shopify.engineering/resilient-import-maps)
+
+<div class="ml-[2rem] mb-8">
+> Import maps are great for both performance and developer experience, but their original limitations made them hard to use, especially at Shopify’s scale. We stepped up and pushed changes across the HTML spec, Chromium and WebKit to fix these issues at the web platform level. Now, developers can interleave JavaScript modules and multiple import maps on their HTML pages without worrying about correctness issues.
+
+Shopify discusses [import maps](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap), which if you don't know, permit you to do this:
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "square": "./modules/shapes/square.85738f8.js",
+    }
+  }
+</script>
+
+<script src="square_draw.f9a7f1b.js" type="module"></script>
+```
+
+```js
+// square_draw.f9a7f1b.js
+import { draw } from "square";
+
+draw();
+```
+
+But, they ran into two problems which made them frustrating:
+
+> - No module was allowed to load *before* the import map was loaded.
+> - Import maps were similar to [highlanders](https://highlander.fandom.com/wiki/There_can_be_only_one) - there could be only one.
+
+Now, other people would either learn to work with these restrictions, or just not use import maps.
+
+But if you're Shopify...
+
+> We ran this by [Domenic Denicola](https://github.com/domenic) and [Hiroshige Hayashizaki](https://github.com/hiroshige-g), got their early thumbs up, and moved the discussion to the [HTML spec](https://github.com/whatwg/html/pull/10528), to hash out the details in a broader forum. [Guy Bedford](https://github.com/guybedford), the author of the ES-Module-Shim polyfill and the one who reported many of the original issues also chimed in.
+>
+> Together, we crossed all the Ts and landed the spec change. In parallel, we [implemented](https://chromium-review.googlesource.com/c/chromium/src/+/5776262) the feature in Chromium (with reviews from Domenic & Hiroshige), and eventually [shipped it](https://groups.google.com/a/chromium.org/g/blink-dev/c/4JWXZilDG6w/m/xx9ch5KYAQAJ). After a [positive position](https://github.com/WebKit/standards-positions/issues/381#issuecomment-2454682433) from the WebKit team, we also [landed it there](https://github.com/WebKit/WebKit/pull/37896) (Thanks to [Anne van Kesteren](https://github.com/annevk) and [Yusuke Suzuki](https://github.com/Constellation) for their help and reviews!).
+
+...you just work with the folks behind the spec to change it.
+
+Very nice.
+
+</div>
+[Minko Gechev - Announcing Angular v20](https://blog.angular.dev/announcing-angular-v20-b5c9c06cf301)
+
+<div class="ml-[2rem] mb-8">
+Angular stabilizing support for signals, while also outlining a new API for doing web request things within the context of signals:
+
+```js
+@Component({
+  template: `{{ userResource.value() | json }}`
+})
+class UserProfile {
+  userId = signal(1);
+  userResource = httpResource<User>(() => 
+    `https://example.com/v1/users/${this.userId()}`
+  });
+}
+```
+
+Which works like so:
+
+> The snippet above will send an HTTP GET request to the URL we specified every time when the `userId` changes. `httpResource` returns `HttpResourceRef` which has a `value` property of type signal that we can directly access in the template. The `userResource` has other values, such as `isLoading`, `headers`, and others, as well.
+
+This is nice.
+
+</div>
+[Jordan Eldredge - SQLite Railroad Diagrams](https://jordaneldredge.com/notes/sqlite-railroad/)
+
+<div class="ml-[2rem] mb-8">
+> Programming languages (including SQL) are generally defined in terms of formal grammars.
+>
+> ...
+>
+> [Sqlite generates] these delightful “Railroad Diagrams” that work more like little choose your own adventure flow charts.
+
+I remember running into these before the days I knew how databases worked, and felt overwhelmed, but now that I _do_ have existing knowledge of the SQL syntax, these are quite cool:
+
+<Image src='/asset/Screenshot_2025-07-30_at_11.23.58 AM_1753883700544_0.png' alt='Screenshot 2025-07-30 at 11.23.58 AM.png' width={1268} height={592} />
+
+</div>
+[Taylor Troesh - My website is ugly because I made it](https://goodinternetmagazine.com/my-website-is-ugly-because-i-made-it/)
+
+<div class="ml-[2rem] mb-8">
+> If my mom wanted good art on her fridge, she could’ve purchased reprints of works by Vermeer, Lichtenstein, Wyeth, etc. But she didn’t want good art – she wanted my art.
+>
+> Somebody with good taste could’ve made my website, but then it wouldn’t be mine.
+
+I love the homepage of [taylor.town](https://taylor.town/), as Taylor himself discusses the CSS behind the random tiling / font change / spacing of the text said home page, which currently looks like this:
+
+<Image src='/asset/Screenshot_2025-07-30_at_11.33.30 AM_1753884227289_0.png' alt='Screenshot 2025-07-30 at 11.33.30 AM.png' width={1754} height={1416} />
+
+I say _currently_, since as with any good long-lived personal website:
+
+> Soon it will become something else entirely. Because it’s my website and I’m perpetually becoming somebody else.
+
+My current site design is nowhere near as avant-garde as Taylor's, but I also don't feel like I fit into the mold of cookie cutter templates, _my_ website is _mine_, and I'm personally a big fan of it.
+
+Maybe one day my mum will print out a screenshot of my homepage on her fridge...
+
+</div>
+[Ben Werdmuller - Sahil Lavingia's DOGE diary](https://werd.io/2025/sahil-lavingias-doge-diary)
+
+<div class="ml-[2rem] mb-8">
+Ben covers [Sahil Lavingia's "DOGE Days" diary](https://sahillavingia.com/doge).
+
+> I personally don't think his decision to join DOGE was defensible, but there are lots of interesting details in Sahil Lavingia's diary of the 55 days he worked there.
+>
+> For example:
+>
+> > "I was excited to help in-source VA's software, but I was also realizing why so much of it was outsourced. For example, I was constantly constrained by my restricted government laptop, which made it difficult to write and run code. I couldn't install Git, Python, or use tools like Cursor, due to government security policies.
+> >
+> > Fixing the root of the problem–making it easier for employees to execute–would require congressional intervention, and it was more practical to continue spending lots of money outsourcing the software development to contractors."
+
+I'm also no fan of DOGE, but it is interesting to see even with the amount of bulldozing done by Musk and gang, contractors like Sahil were still extremely stunted by what they could 'legally' use to complete their tasks.
+
+</div>
+[Technology Connections - Closed captions on DVDs are getting left behind](https://www.youtube.com/watch?v=OSCOQ6vnLwU)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/OSCOQ6vnLwU"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Another great dive by Technology Connections, covering the history of closed captioning, its implementation into the DVD spec, but newer DVD systems opting to not support the feature over HDMI, while still sending it over the composite stream.
+
+</div>
+[Pirijan - Saying Bye to Glitch](https://pketh.org/bye-glitch.html)
+
+<div class="ml-[2rem] mb-8">
+> Here lies Glitch, a place on the web you could go to write up a website or a node.js server that would be hosted and updated as you type. 🥀 RIP 2015 – 2025.
+
+Seeing [Glitch](https://en.wikipedia.org/wiki/Glitch,_Inc.) die has been quite sad :(
+
+> I co-created Glitch at Fog Creek Software. I laid out the original product vision for web development with real code that was as easy as editing a Google Doc, designed and built the editor, started the community site, and of course drew the logo and many of the illustrations.
+
+</div>
+[Sindre - selfhosted youtube channel lol](https://kjelsrud.dev/blog/selfhosted-youtube-channel-lol/)
+
+<div class="ml-[2rem] mb-8">
+> two months ago I discovered [hyper8](https://simonrepp.com/hyper8/) - a static site generator for video publishing! right away I thought, this, this I want to host for my own video content that I’ve made.
+
+I have so many old videos that could use a home on the internet, what a cool project.
+
+</div>
