@@ -1,0 +1,32 @@
+---
+name: "Linkblog/2025/05/30"
+description: "One Roundtrip Per Navigation."
+ogImage: "/asset/Screenshot_2025-07-30_at_2.30.23 PM_1753894829517_0.png"
+---
+
+[Dan Abramov - One Roundtrip Per Navigation](https://overreacted.io/one-roundtrip-per-navigation/)
+
+<div class="ml-[2rem] mb-8">
+> How many requests should it take to navigate to another page?
+>
+> In the simplest case, a navigation is resolved in a single request. You click a link, the browser requests the HTML content for the new URL, and then displays it.
+>
+> In practice, a page might also want to display some images, load some client-side JavaScript, load some extra styles, and so on. So there’ll be a bunch of requests. Some will be render-blocking (so the browser will defer displaying the page until they resolve), and the rest will be “nice-to-have”. Maybe they’ll be important for full interactivity but the browser can already display the page while they load.
+>
+> Okay, but what about loading *data*?
+>
+> How many API requests should it take to get the *data* for the next page?
+
+Another great Dan post in his recent tirade of posting covering React Server Components.
+
+This one is interesting in that it discusses Astro and React Query, usually I find Dan has been more abstract in talking about the existing ways folks are building application with React, but here he's outlining some of the commonly used tools 'in the field' people are using, discussing their pros, but also giving examples of their shortcomings when it comes to data fetching.
+
+Also discussed is the concept of loaders, such in React Router, which I'm personally quite a fan of, but Dan does bring up the point that this means the component no longer fetches the data, but must be fed what it needs from the route level, which I guess could be considered a DX ick, but I think it's elegant to be upfront with the data you need, and have mostly _dumb_ components that just get fed what they need to render without much internal state going on.
+
+As as expected, Dan ends off with how RSC solves this problem.
+
+<div class="w-full h-4"></div>
+
+Of all of Dan's posts so far, I think this one of my favourite.
+
+</div>
