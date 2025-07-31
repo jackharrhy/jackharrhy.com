@@ -1,0 +1,108 @@
+---
+name: "Linkblog/2025/06/02"
+description: "World Record Source Surfing, Tech lead for Cloudflare Workers builds library with AI, Meta GenAI in panic mode, YouTube Autotranslation Considered Harmful, Git Scripting Linux Kernel Snafu, Pages CMS, Minio Removes Web UI From Community Version."
+ogImage: "/asset/surfing_1754004468599_0.jpg"
+---
+
+[Daxen - What it takes to break a World Record in Surf](https://www.youtube.com/watch?v=WvVcdPbTwXc)
+
+<div class="ml-[2rem] mb-8">
+<iframe
+    class="my-2"
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/WvVcdPbTwXc"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+></iframe>
+
+Extremely well edited video on Source engine surfing.
+
+</div>
+[Simon Willison - A quote from Kenton Varda](https://simonwillison.net/2025/Jun/2/kenton-varda/)
+
+<div class="ml-[2rem] mb-8">
+> It took me a few days to build the library [[cloudflare/workers-oauth-provider](https://github.com/cloudflare/workers-oauth-provider)] with AI.
+>
+> I estimate it would have taken a few weeks, maybe months to write by hand.
+>
+> That said, this is a pretty ideal use case: implementing a well-known standard on a well-known platform with a clear API spec.
+>
+> [...]
+>
+> - [Kenton Varda](https://news.ycombinator.com/item?id=44159166#44160208), in a Hacker News comment.
+
+Kenton, Tech lead for Cloudflare Workers, having praise for building out a library _quickly_ for workers.
+
+I do think this is the sort of perfect example of using an AI tool, in which you likely have a ton of context already in the training set of the model, alongside an entire spec to feed into the context window.
+
+</div>
+[Blind - Meta genai org in panic mode](https://www.teamblind.com/post/Meta-genai-org-in-panic-mode-KccnF41n)
+
+<div class="ml-[2rem] mb-8">
+> It started with deepseek v3, which rendered the Llama 4 already behind in benchmarks. Adding insult to injury was the "unknown Chinese company with 5..5 million training budget"
+>
+> Management is worried about justifying the massive cost of gen ai org. How would they face the leadership when every single "leader" of gen ai org is making more than what it cost to trained deepseek v3 entirely, and we have dozens of such "leaders"
+>
+> ...
+
+Some internal _tea_ about Meta's current internal state, from a (supposed, if Blind's check for this was proper) current Meta employee.
+
+</div>
+[Gabriel de Brito - YouTube Autotranslation Considered Harmful](https://gboncoffee.dev.br/posts/youtube-autotranslation-considered-harmful.html)
+
+<div class="ml-[2rem] mb-8">
+> I'm a bilingual person. I was born and still live in Brazil, and so I speak natively brazilian Portuguese. [...] I watch YouTube in English. [...]
+>
+> I guess no one in that company knows that bilingual people exist, because YouTube automatically translates the titles of the Portuguese videos I watch to English, and it started automatically dubbing those videos too, so instead of playing a video and beeing greeted by the content creator speaking Portuguese, I'm greeted by an AI speaking English.
+>
+> The translation is not good, ever. [...], You cannot simply tell YouTube to stop doing this. No, it's forced up on you. Actually, if you play a video with no text in the thumbnail, you won't know if you're reading and listening the original or a translation (hoping they won't put this feature in thumbnails also!). And that's dangerous. They're literally putting words on creator's mouth's.
+
+This is both crazy, and insane its not able to be turned off, def. a case in AI 'features' going _wrong_.
+
+</div>
+[Michael Larabel - Apparent Git Scripting Issue Raised Concerns Of Possible Malicious Linux Kernel Activity](https://www.phoronix.com/news/Linux-6.16-Git-Gone-Wrong)
+
+<div class="ml-[2rem] mb-8">
+> The Linux 6.16 merge window this weekend suffered an unexpected twist this weekend when Linus Torvalds noticed some unusual Git activity by a longtime Linux kernel developer
+>
+> > WTF, Kees?
+> >
+> > You seem to have actively maliciously modified your tree completely.
+> >
+> > There are completely crazy commits in there that are entirely fake.
+
+</div>
+[Rachel Smith - Pages CMS](https://rachsmith.com/pages-cms/)
+
+<div class="ml-[2rem] mb-8">
+> Recently I've been experimenting with adding title-less notes to this site, for thoughts the length of a microblog or social post.
+>
+> ...
+>
+> I didn’t want to replace the authoring flow for my regular notes with Pages, because I quite like the [Obsidian-vault-to-site-repo pipeline](https://rachsmith.com/automating-obsidian-to-astro/) I had created for those. But these notes are written and published while I’m sitting at my computer. They take more time and attention, so I’m cool with the “slow” and manual process it takes to publish them.
+>
+> Now I’ve got Pages set up, all I need to do is add the thought I have into a text box and boom! It’s sitting as content in my repo. And I can do it from anywhere, from my phone.
+
+Rachel has a pretty positive review of [Pages CMS](https://pagescms.org/), which does look quite nice!.
+
+I've used [Keystatic](https://keystatic.com/) before, but Pages looks more fleshed out.
+
+I'd _like_ to be able to consider using something like Pages for my site similar to Rachel, but my Logseq graph currently needs a build step basically to turn it into the markdown used by my Astro site, so Pages would basically be authoring the _build output_ of my current setup, so no dice.
+
+<div class="ml-[2rem] mb-8">
+As mentioned yesterday though, Logseq DB maybe soon... that could maybe mean the ability to edit my Logseq graph from a web browser, and having a server I can then use to build the site in the cloud? That would be nice.
+
+</div>
+</div>
+[BigGo - MinIO Removes Web UI Features from Community Version, Pushes Users to Paid Plans](https://lobste.rs/s/wjb9ox/minio_removes_web_ui_features_from)
+
+<div class="ml-[2rem] mb-8">
+> MinIO, a popular open-source object storage solution, has made significant changes to its community version that have sparked controversy among users. The company has removed key web-based management features from the free version, directing users to either use command-line tools or upgrade to paid plans.
+
+This sucks, I've used MinIO before, but it seems like its time to find another good local S3 alternative.
+
+Seems like [SeaweedFS](https://github.com/seaweedfs/seaweedfs) is a good alternative.
+
+</div>
