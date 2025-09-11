@@ -1,0 +1,114 @@
+---
+name: "Linkblog/2025/06/03"
+description: "GenAI is Our Polyester, Frills on the Indie Web, 32-Bit Cafe, Cassidy on AI Usage, Bootstrapping installs on HTTP-Only systems."
+ogImage: "/asset/Screenshot_2025-09-11_at_6.08.21 AM_1757579912304_0.png"
+---
+
+[W. David Marx - GenAI is Our Polyester](https://culture.ghost.io/genai-is-our-polyester/)
+
+<div class="ml-[2rem] mb-8">
+> The best way to understand generative AI art and aesthetics is to consider how previous "synthetics" lost value in the long-run
+>
+> ...
+>
+> I rehash the rise and fall of polyester because I believe it presages what will happen to **generative AI art**. At the moment, computer scientists are creating software that reduces time-consuming inefficiencies in creating new designs, sounds, and other aesthetic products. Companies are already beginning to use AI-art in their advertising and product design, especially small businesses without design teams. Larger firms are planning to layoff employees or curb hiring in the belief that they can do more with GenAI.
+>
+> While polyester took a few decades to lose its appeal, GenAI is already feeling a bit cheesy. We're only a few years into the AI Revolution, and Facebook and X are filled to the brim with “[AI slop](https://www.garbageday.email/p/meta-has-a-cool-new-slop-feed?ref=culture.ghost.io).” Everyone around the world has near-equal access to these tools, and low-skilled South and Southeast Asian content farmers are [the most active creators](https://www.404media.co/where-facebooks-ai-slop-comes-from/?ref=culture.ghost.io) because their wages are low enough for the platforms' economic incentives to be attractive.
+
+I quite like this comparison, while I'm frustrated at the 'rise' of slop, it does make sense companies view it as the 'cheap' way to do things which previously were simply _not_ cheap at all... and that hopefully quickly will leave sour tastes in consumers minds, such that it'll be seen as something to be avoided rather than _oh yeah lets just gippity this promotional art_.
+
+</div>
+[Frills - A whole year on the Indie Web](https://frills.dev/blog/240404-anniversary/)
+
+<div class="ml-[2rem] mb-8">
+> Favourites, highlights and the evolution of this website
+
+Progression from Frills, from (April 2023):
+
+<Image src='/asset/frills-april-2023_1757578384887_0.png' alt='frills-april-2023.png' width={500} height={400} />
+
+To (March 2024):
+
+<Image src='/asset/frills-march-2024_1757578393866_0.png' alt='frills-march-2024.png' width={500} height={400} />
+
+I run into these really lovely 'busy' neocities / indieweb websites, seeing the early simplistic days to much more bold styles is fun.
+
+I still feel like my current website, while not intending to be dragged fully into the neocities vibe, could do with some more paint.
+
+</div>
+[Molly White - Trump to launch branded crypto trading application](https://www.citationneeded.news/trump-crypto-wallet/)
+
+<div class="ml-[2rem] mb-8">
+> New crypto trading and wallet application, created in partnership with Magic Eden, invites fans of President Trump to buy his memecoin
+
+Another day another Trump crypto scam.
+
+</div>
+[32-Bit Cafe](https://32bit.cafe/)
+
+<div class="ml-[2rem] mb-8">
+> A web space community that focuses on building websites for self-expression and creativity, made up of professionals, hobbyists, and enthusiasts of the personal web.
+
+Another day another mention of cute indieweb things.
+
+I especially like the [cookbook](https://32bit.cafe/cookbook/).
+
+</div>
+[Cassidy Williams - AI Usage](https://cassidoo.co/ai/)
+
+<div class="ml-[2rem] mb-8">
+> Everything on this website is written by me, personally, not an AI.
+>
+> I do think that LLMs and AI are valuable tools for learning (and fun), and I have used tools like GitHub Copilot or Claude to help me write some code, but this website is very hand-crafted, on purpose, because I like being the human behind it.
+
+Ditto, it is strange though that this does feel sensible to post in the modern day, that you _don't_ use LLMs to help you author content.
+
+I like writing (currently in Logseq) and _not_ having an LLM rushing to autocomplete my sentences, or an _AI pane_ I could reach for to just write these blurbs for me.
+
+Could... I let LLMs look at previous linkblog entries (of which there is now likely enough to go off of), to understand my style, and 'automate' said entries, still having my 'taste' of choice be shown, but my words less so?
+
+I could.
+
+I'd never do that.
+
+</div>
+[Ajam - Bootstrapping Soar on HTTP-Only Bare/Legacy Systems](https://blog.pkgforge.dev/https-via-http)
+
+<div class="ml-[2rem] mb-8">
+I hadn't actually seen what [Soar](https://github.com/pkgforge/soar) was until I started writing this entry, its a _modern package manager for Static Binaries, Portable Formats (AppImage|AppBundle|FlatImage|Runimage) & More_, very nice, I always found AppImages to be my fav. option of the bunch with the _worst_ UX, and sorry, [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) does not spark joy, Soar being an all in one does seem quite nice though.
+
+Anyways, Ajam shows how one can download Soar over HTTPS on systems that you'd usually struggle to handle, given this blurb of scenarios:
+
+```sh
+# Fresh Debian container
+$ docker run -it debian:latest
+# No curl, no wget, no ca-certificates
+
+# Legacy system
+$ uname -a
+# SunOS legacy 5.10 Generic_147441-01 i86pc i386 i86pc
+$ which curl wget
+# command not found
+
+# No Privileges
+$ apt install curl
+Error: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)
+Error: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?
+
+```
+
+The trick, is to make use of a lesser known bash feature...
+
+> Every system with bash has `/dev/tcp` - a built-in feature for raw TCP connections.
+
+Amazing! with a bit of magic, the author defines a function in bash `burl` which can be used as so:
+
+```sh
+burl "http://http.pkgforge.dev/https://ip.pkgforge.dev/json"
+```
+
+And is indeed, basically **Bash** C**url**, _sick_.
+
+The non-HTTPs part is basically then just using a service to proxy HTTP requests to HTTPS, which has security icks obviously... but not bad for being in a weirdly constrained state.
+
+</div>
