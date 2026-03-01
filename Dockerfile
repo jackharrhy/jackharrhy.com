@@ -1,4 +1,4 @@
-FROM node:23-alpine AS base
+FROM platformatic/node-caged:25-alpine AS base
 WORKDIR /app
 
 COPY ./site/package.json ./site/package-lock.json ./
