@@ -6,8 +6,10 @@ import Project from "./Project.astro";
 import Feed from "./Feed.astro";
 import FeedTree from "./FeedTree.astro";
 import NowPlaying from "./NowPlaying.astro";
+import Letterbird from "./Letterbird.astro";
 
 import Layout from "../layouts/Layout.astro";
+import { resolveOgImage } from "../utils";
 
 const { id, header = true } = Astro.props;
 
@@ -104,7 +106,7 @@ const title =
   title={displayName === "Home" ? undefined : displayName}
   description={entry.data.description}
   noFooter={noFooter}
-  ogImage={entry.data['og-image']}
+  ogImage={resolveOgImage(entry.data['og-image'])}
   width={width}
   mainClass={mainClass}
   invert={invert}
@@ -150,5 +152,5 @@ const title =
       </p>
     )
   }
-  <Content components={{ Mug, Project, Feed, FeedTree, NowPlaying }} />
+  <Content components={{ "x-mug": Mug, "x-project": Project, "x-feed": Feed, "x-feedtree": FeedTree, "x-nowplaying": NowPlaying, "x-letterbird": Letterbird }} />
 </Layout>

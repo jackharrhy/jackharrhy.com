@@ -2,6 +2,7 @@ import rss from "@astrojs/rss";
 import { getLinkblogPosts } from "../../feeds";
 import {
   createImageCustomData,
+  resolveOgImage,
   addCorsHeaders,
   createCorsOptionsResponse,
 } from "../../utils";
@@ -28,7 +29,7 @@ export const GET = async () => {
         title: `${post.id.replace("linkblog/", "")} - ${post.data.description}`,
         link: `${import.meta.env.SITE}/${post.id}`,
         pubDate: new Date(`${year}-${month}-${day}`),
-        customData: createImageCustomData(post.data['og-image']),
+        customData: createImageCustomData(resolveOgImage(post.data['og-image'])),
       };
     })
     .filter((item) => {
