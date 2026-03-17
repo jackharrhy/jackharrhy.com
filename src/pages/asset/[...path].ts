@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import mime from 'mime';
 import type { APIRoute } from 'astro';
 
 export const prerender = false;
@@ -22,32 +23,16 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   // In development, serve from local vault assets
+  const vaultAssetsPath = process.env.GARDEN_VAULT_ASSETS_PATH || './vault/assets';
   const assetPath = path.join(
-    '/workspace/extra/vault/assets',
+    vaultAssetsPath,
     requestedPath
   );
 
   try {
     const file = await fs.readFile(assetPath);
 
-    // Determine content type from extension
-    const ext = path.extname(requestedPath).toLowerCase();
-    const contentTypes: Record<string, string> = {
-      '.jpg': 'image/jpeg',
-      '.jpeg': 'image/jpeg',
-      '.png': 'image/png',
-      '.gif': 'image/gif',
-      '.svg': 'image/svg+xml',
-      '.webp': 'image/webp',
-      '.avif': 'image/avif',
-      '.mp4': 'video/mp4',
-      '.webm': 'video/webm',
-      '.mp3': 'audio/mpeg',
-      '.wav': 'audio/wav',
-      '.ogg': 'audio/ogg',
-    };
-
-    const contentType = contentTypes[ext] || 'application/octet-stream';
+    const contentType = mime.getType(requestedPath) || 'application/octet-stream';
 
     return new Response(file, {
       headers: {

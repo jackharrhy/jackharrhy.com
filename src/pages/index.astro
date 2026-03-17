@@ -1,5 +1,15 @@
 ---
+import { getEntry } from "astro:content";
 import Page from "../components/Page.astro";
+import Layout from "../layouts/Layout.astro";
+
+const home = await getEntry("garden", "home");
 ---
 
-<Page id="home" header={false} />
+{home ? (
+  <Page id="home" header={false} />
+) : (
+  <Layout>
+    <p>Garden vault not connected.</p>
+  </Layout>
+)}

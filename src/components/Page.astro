@@ -15,11 +15,12 @@ if (!id) {
   throw new Error("Page ID is required");
 }
 
-const entry = await getEntry("garden", id)!;
+const entry = await getEntry("garden", id);
 
 if (!entry) {
-  throw new Error(`Page not found: ${id}`);
+  return Astro.rewrite("/404");
 }
+
 
 const customLayout = entry.data.custom_layout || entry.data['custom-layout'];
 
