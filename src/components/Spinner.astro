@@ -1,0 +1,27 @@
+---
+interface Props {
+  id: string;
+  className?: string;
+}
+
+const { id, className = "" } = Astro.props;
+---
+
+<i
+  id={id}
+  class={`text-2xl inline-block ph-bold ph-circle-notch spin ${className}`}></i>
+
+<style>
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

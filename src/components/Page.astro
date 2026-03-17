@@ -1,0 +1,153 @@
+---
+import { getEntry, render } from "astro:content";
+
+import Mug from "./Mug.astro";
+import Project from "./Project.astro";
+import Feed from "./Feed.astro";
+import FeedTree from "./FeedTree.astro";
+import NowPlaying from "./NowPlaying.astro";
+
+import Layout from "../layouts/Layout.astro";
+
+const { id, header = true } = Astro.props;
+
+if (!id) {
+  throw new Error("Page ID is required");
+}
+
+const entry = await getEntry("garden", id)!;
+
+if (!entry) {
+  throw new Error(`Page not found: ${id}`);
+}
+
+const customLayout = entry.data.custom_layout || entry.data['custom-layout'];
+
+let width = undefined;
+let centerHeader = false;
+let mainClass = undefined;
+let noHeader = !header;
+let noFooter = !header;
+let invert = false;
+let mobileFriendly = true;
+let titlePartOfBreadcrumbs = false;
+
+switch (customLayout) {
+  case "quake":
+    const bgImageClassName = "bg-[url(/images/quake-bg.png)]";
+    width = "max-w-full";
+    centerHeader = true;
+    mainClass = `${bgImageClassName} prose-lg font-mono py-8 [&_div>p]:relative [&_div>p]:pl-4 [&_div>p]:before:content-['•'] [&_div>p]:before:absolute [&_div>p]:before:left-0 [&_div>p]:before:top-0.5`;
+    noFooter = true;
+    invert = true;
+    mobileFriendly = false;
+    break;
+  case "terminal":
+    width = "max-w-full";
+    noHeader = true;
+    mainClass = "bg-black prose-lg font-mono py-8 flex-1";
+    invert = true;
+    noFooter = true;
+    break;
+}
+
+if (id.startsWith("devblog/") || id.startsWith("linkblog/")) {
+  titlePartOfBreadcrumbs = true;
+}
+
+const { Content } = await render(entry);
+
+// Build display name from the entry ID (file path)
+// e.g., "linkblog/2025/03/15" → segments ["linkblog", "2025", "03", "15"]
+const idSegments = entry.id.split("/");
+
+// Use the entry's name frontmatter if available, otherwise derive from ID
+const displayName = entry.data.name || entry.id.split("/").map(
+  (s: string) => s.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+).join("/");
+
+const nameSegments = displayName.split("/");
+const hasBreadcrumbs = nameSegments.length > 1;
+
+let breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
+
+if (breadcrumbs && titlePartOfBreadcrumbs) {
+  breadcrumbs = nameSegments;
+}
+
+const pageTitle = hasBreadcrumbs
+  ? nameSegments[nameSegments.length - 1]
+  : displayName;
+
+const breadcrumbPaths = await Promise.all(
+  breadcrumbs.map(async (_: string, index: number) => {
+    const segmentIndex = Math.min(index, idSegments.length - 1);
+    const path =
+      `${idSegments.slice(0, segmentIndex + 1).join("/")}`.toLowerCase();
+    const hasEntry = await getEntry("garden", path);
+    const willLink = hasEntry && path !== id;
+    return {
+      name: breadcrumbs[index],
+      path: willLink ? `/${path}` : undefined,
+    };
+  })
+);
+
+const title =
+  titlePartOfBreadcrumbs && entry.data.description
+    ? entry.data.description
+    : pageTitle;
+---
+
+<Layout
+  title={displayName === "Home" ? undefined : displayName}
+  description={entry.data.description}
+  noFooter={noFooter}
+  ogImage={entry.data['og-image']}
+  width={width}
+  mainClass={mainClass}
+  invert={invert}
+  mobileFriendly={mobileFriendly}
+>
+  {
+    !noHeader && (
+      <>
+        {hasBreadcrumbs && (
+          <div class="not-prose text-xl mb-2 font-medium">
+            {breadcrumbPaths.map((breadcrumb, index) => (
+              <>
+                {breadcrumb.path ? (
+                  <a href={breadcrumb.path} class="hover:underline">
+                    {breadcrumb.name}
+                  </a>
+                ) : (
+                  <span>{breadcrumb.name}</span>
+                )}
+                {index < breadcrumbPaths.length - 1 && (
+                  <span class="mx-2">/</span>
+                )}
+              </>
+            ))}
+          </div>
+        )}
+        <h1
+          class:list={[
+            centerHeader && "text-center",
+            hasBreadcrumbs && "pt-4",
+            title.length > 120 && "!text-3xl",
+          ]}
+        >
+          {title}
+        </h1>
+      </>
+    )
+  }
+  {
+    entry.data.description && !titlePartOfBreadcrumbs && (
+      <p class="not-prose text-2xl font-medium mb-10">
+        {entry.data.description}
+      </p>
+    )
+  }
+  <Content components={{ Mug, Project, Feed, FeedTree, NowPlaying }} />
+</Layout>

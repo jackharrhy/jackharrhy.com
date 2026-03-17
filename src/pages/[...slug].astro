@@ -1,77 +1,26 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import Page from "../components/Page.astro";
 
 export async function getStaticPaths() {
-  const allEntries = await getCollection('garden');
+  const allEntries = await getCollection("garden");
 
-  // Filter to public entries and exclude the main pages (handled separately)
-  const excluded = ['home', 'about', 'projects', 'now'];
   const gardenPages = allEntries.filter(
-    entry => entry.data.public && !excluded.includes(entry.id)
+    (entry) => entry.data.public && entry.id !== "home"
   );
 
-  return gardenPages.map(entry => ({
+  return gardenPages.map((entry) => ({
     params: { slug: entry.id },
-    props: { entry },
+    props: { id: entry.id },
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { id } = Astro.props;
 
-// Split the id into segments for breadcrumbs
-const idSegments = entry.id.split('/');
-
-// Generate display names from segments (capitalize first letter)
-const nameSegments = idSegments.map(segment =>
-  segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-);
-
-const hasBreadcrumbs = nameSegments.length > 1;
-
-// Breadcrumbs are all segments except the last one
-const breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
-
-// Page title is the last segment (or use frontmatter title if available)
-const pageTitle = entry.data.title || nameSegments[nameSegments.length - 1];
-
-// Browser title uses full path
-const browserTitle = entry.data.title || nameSegments.join(' / ');
-
-// Build breadcrumb paths - check if each parent segment has a page
-const breadcrumbPaths = await Promise.all(
-  breadcrumbs.map(async (name, index) => {
-    const path = idSegments.slice(0, index + 1).join('/').toLowerCase();
-    const hasEntry = await getEntry('garden', path);
-    const willLink = hasEntry && path !== entry.id;
-    return {
-      name,
-      path: willLink ? `/${path}` : undefined,
-    };
-  })
-);
+// Redirect /home to root
+if (id === "home") {
+  return Astro.redirect("/", 301);
+}
 ---
 
-<BaseLayout title={browserTitle}>
-  {hasBreadcrumbs && (
-    <div class="not-prose text-xl mb-2 font-medium">
-      {breadcrumbPaths.map((breadcrumb, index) => (
-        <>
-          {breadcrumb.path ? (
-            <a href={breadcrumb.path} class="hover:underline">
-              {breadcrumb.name}
-            </a>
-          ) : (
-            <span>{breadcrumb.name}</span>
-          )}
-          {index < breadcrumbPaths.length - 1 && (
-            <span class="mx-2">/</span>
-          )}
-        </>
-      ))}
-    </div>
-  )}
-  <h1>{pageTitle}</h1>
-  <Content />
-</BaseLayout>
+<Page id={id} />
