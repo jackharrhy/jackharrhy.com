@@ -22,3 +22,5 @@ logseq/
 *.shelve-shm
 *-wal
 logseq
+
+vault
