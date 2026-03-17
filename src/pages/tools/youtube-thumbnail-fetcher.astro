@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export const prerender = true;
+---
+
+<Layout
+  title="Youtube Thumbnail Fetcher"
+  description="Fetch the thumbnail of a Youtube video."
+>
+  <h1>Youtube Thumbnail Fetcher</h1>
+  <div class="no-prose my-10">
+    <form
+      hx-post="/tools/youtube-thumbnail-fetcher/fetch"
+      hx-target="#result"
+      class="flex flex-col items-center gap-6"
+    >
+      <input
+        type="text"
+        value=""
+        name="url"
+        placeholder="Enter a YouTube video URL"
+        class="w-full px-4 py-2 rounded border-2 border-shade-200 focus:border-orange-300 focus:outline-none placeholder:text-shade-400"
+      />
+      <button
+        type="submit"
+        class="w-32 bg-orange-300/20 hover:bg-orange-200/40 text-black py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Fetch
+      </button>
+    </form>
+  </div>
+  <div id="result"></div>
+</Layout>
