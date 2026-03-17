@@ -2,64 +2,56 @@
   import PicoCADViewer from "./Mug/pico-cad-viewer.js";
   import cuppa from "./Mug/cuppa.txt?raw";
 
-  const getCanvas = () => {
-    const canvas = document.getElementById(
-      "canvas"
-    ) as HTMLCanvasElement | null;
-    if (canvas === null) throw new Error("no canvas!");
-    return canvas;
-  };
-
-  const canvas = getCanvas();
-
   const largeSize = { width: 250, height: 180 };
   const smallSize = { width: 100, height: 50 };
 
   const areWeOnHome = () => window.location.pathname === "/";
 
-  const getResolution = () => {
-    if (areWeOnHome()) {
-      return largeSize;
+  const getResolution = () => (areWeOnHome() ? largeSize : smallSize);
+
+  let viewer: InstanceType<typeof PicoCADViewer> | null = null;
+
+  function init() {
+    const canvas = document.getElementById("mug-canvas") as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    if (!viewer) {
+      viewer = new PicoCADViewer({
+        canvas,
+        fov: 15,
+        resolution: getResolution(),
+      });
+
+      viewer.backgroundColor = [0, 0, 0, 0];
+      viewer.load(cuppa);
+
+      let spin = 0;
+      const v = viewer;
+      v.startDrawLoop((dt: number) => {
+        spin += dt;
+        v.setTurntableCamera(8, spin, 0.07, { x: 0, y: 0.6, z: 0 });
+        v.setLightDirectionFromCamera();
+      });
     }
-    return smallSize;
-  };
 
-  const viewer = new PicoCADViewer({
-    canvas,
-    fov: 15,
-    resolution: getResolution(),
-  });
+    // Update size and margins based on current page
+    const onHome = areWeOnHome();
+    canvas.classList.toggle("my-16", onHome);
+    canvas.classList.toggle("my-0", !onHome);
+    const { width, height } = getResolution();
+    viewer!.setResolution(width, height);
+    canvas.width = width;
+    canvas.height = height;
+  }
 
-  document.addEventListener("astro:page-load", () => {
-    if (areWeOnHome()) {
-      canvas.classList.remove("my-0");
-      canvas.classList.add("my-16");
-    } else {
-      canvas.classList.remove("my-16");
-      canvas.classList.add("my-0");
-    }
-
-    const resolution = getResolution();
-    viewer.setResolution(resolution.width, resolution.height);
-  });
-
-  viewer.backgroundColor = [0, 0, 0, 0];
-
-  viewer.load(cuppa);
-
-  let spin = 0;
-
-  viewer.startDrawLoop((dt: number) => {
-    spin += dt;
-    viewer.setTurntableCamera(8, spin, 0.07, { x: 0, y: 0.6, z: 0 });
-    viewer.setLightDirectionFromCamera();
-  });
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <div class="flex justify-center" transition:name="mug" transition:persist>
   <canvas
-    id="canvas"
+    id="mug-canvas"
     class={Astro.url.pathname === "/" ? "my-16" : "my-0"}
     width={Astro.url.pathname === "/" ? "250" : "100"}
-    height={Astro.url.pathname === "/" ? "180" : "50"}></canvas>
+    height={Astro.url.pathname === "/" ? "180" : "50"}
+  ></canvas>
 </div>
