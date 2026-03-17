@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.5.4",
+    "@astrojs/rss": "^4.0.17",
     "astro": "^5.17.1",
+    "cheerio": "^1.2.0",
+    "htmx.org": "^2.0.8",
+    "mime": "^4.1.0",
     "rehype-stringify": "^10.0.1",
     "remark-rehype": "^11.1.2",
     "unified": "^11.0.5",

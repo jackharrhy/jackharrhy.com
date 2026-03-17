@@ -21,3 +21,4 @@ logseq/
 *.shelve
 *.shelve-shm
 *-wal
+logseq
