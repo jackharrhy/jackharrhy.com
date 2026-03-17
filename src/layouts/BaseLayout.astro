@@ -1,0 +1,46 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+const pageTitle = title ? `${title} · Jack Harrhy` : 'Jack Harrhy';
+---
+
+<!DOCTYPE html>
+<html lang="en" class="bg-paper font-serif h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{pageTitle}</title>
+</head>
+<body class="flex flex-col items-center h-full justify-between">
+  <div class="flex flex-col prose max-w-none prose-orange prose-md md:prose-lg lg:prose-xl prose-li:my-0 prose-p:mt-0 prose-p:mb-4 w-full min-h-full !max-w-[65ch]">
+    <header class="relative w-full not-prose px-8 py-10 pt-12 flex justify-between leading-none">
+      <a href="/" class="hover:underline">Jack Harrhy</a>
+      <div class="flex gap-4">
+        <a href="/about" class="hover:underline">About</a>
+        <a href="/projects" class="hover:underline">Projects</a>
+        <a href="/now" class="hover:underline">Now</a>
+      </div>
+    </header>
+
+    <main class="pb-6 px-8 mx-auto w-full flex-1">
+      <slot />
+    </main>
+
+    <footer class="flex items-center gap-4 justify-center text-sm text-shade-500 w-full pb-8">
+      <span>Made with 🫖</span>
+    </footer>
+  </div>
+</body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

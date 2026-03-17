@@ -1,20 +1,23 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
+# Dependencies
+node_modules/
+
+# Build output
 dist/
-wheels/
-*.egg-info
+.astro/
 
-# Virtual environments
-.venv
-
-assets-staging/
-
-logseq
+# Environment
 .env
+
+# Obsidian vault (linked externally)
+vault/
+
+# OS
+.DS_Store
+
+# Legacy
+tmp/
+assets-staging/
+logseq/
 *.shelve
 *.shelve-shm
 *-wal
-
-tmp/

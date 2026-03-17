@@ -1,0 +1,18 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Get the Home.md from Garden
+const home = await getEntry('garden', 'home');
+
+if (!home) {
+  throw new Error('Home.md not found in Garden');
+}
+
+const { Content } = await render(home);
+---
+
+<BaseLayout>
+  {home.data.title && <h1>{home.data.title}</h1>}
+  <Content />
+</BaseLayout>

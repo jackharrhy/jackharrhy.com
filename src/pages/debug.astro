@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allEntries = await getCollection('garden');
+
+// Separate public and private entries
+const publicEntries = allEntries.filter(entry => entry.data.public);
+const privateEntries = allEntries.filter(entry => !entry.data.public);
+
+// Sort alphabetically
+publicEntries.sort((a, b) => a.id.localeCompare(b.id));
+privateEntries.sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<BaseLayout title="Debug">
+  <p>
+    This page is for debugging, I don't really want to have a general index of
+    all content, I think part of the fun of a garden is finding different little
+    hidden nooks and crannies.
+  </p>
+  <p>
+    However, while I'm still working on this, this page will obviously be quite
+    useful.
+  </p>
+  <p>
+    I'll probably leave it in, but at some point I'll remove references to it,
+    so only those who know will find themselves here.
+  </p>
+
+  <hr />
+
+  <h2>Public Pages ({publicEntries.length})</h2>
+  <ul>
+    {publicEntries.map((entry) => (
+      <li>
+        <a href={`/${entry.id}`}>{entry.id}</a>
+      </li>
+    ))}
+  </ul>
+
+  <hr />
+
+  <h2>Private Pages ({privateEntries.length})</h2>
+  <ul>
+    {privateEntries.map((entry) => (
+      <li style="opacity: 0.5;">
+        {entry.id} (private)
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
