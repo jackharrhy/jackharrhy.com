@@ -6,7 +6,7 @@ const nowPlayingUrl = debug
 ---
 
 <div
-  class="now-playing"
+  class="now-playing my-7"
   hx-post={nowPlayingUrl}
   hx-swap="innerHTML swap:0.5s"
   hx-trigger="load"
@@ -16,6 +16,7 @@ const nowPlayingUrl = debug
 
 <style>
   .now-playing {
+    min-height: 8rem;
     opacity: 1;
     transition: opacity 0.5s ease-out;
   }
