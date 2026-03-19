@@ -42,29 +42,16 @@ export const getPostsAsTree = async (source: string) => {
 };
 
 export const getLinkblogPosts = async () => {
-  const collection = await getCollection("garden");
-
-  const linkblogPosts = collection.filter((entry) =>
-    entry.id.startsWith("linkblog/")
+  const items = await getCollection("garden", ({ id, data }) =>
+    data.public && /^linkblog\/\d{4}\/\d{2}\/\d{2}$/.test(id)
   );
-  const items = linkblogPosts.filter((post) =>
-    /^linkblog\/\d{4}\/\d{2}\/\d{2}$/.test(post.id)
-  );
-
   return items.sort((a, b) => b.id.localeCompare(a.id));
 };
 
 export const getDevblogPosts = async () => {
-  const collection = await getCollection("garden");
-
-  const devblogPosts = collection.filter((entry) =>
-    entry.id.startsWith("devblog/")
+  const items = await getCollection("garden", ({ id, data }) =>
+    data.public && /^devblog\/[^\/]+\/\d{4}\/\d{2}\/\d{2}$/.test(id)
   );
-
-  const items = devblogPosts.filter((post) =>
-    /^devblog\/[^\/]+\/\d{4}\/\d{2}\/\d{2}$/.test(post.id)
-  );
-
   return items.sort((a, b) => b.id.localeCompare(a.id));
 };
 

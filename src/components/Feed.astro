@@ -6,17 +6,11 @@ const { source, limit } = Astro.props;
 const items = (await getPosts(source)).slice(0, limit);
 ---
 
-<div>
-  <ul>
-    {
-      items.map((item) => (
-        <li>
-          <p>
-            <a href={item.id}>{deslugify(item.id)}</a>
-            {item.data.description}
-          </p>
-        </li>
-      ))
-    }
-  </ul>
-</div>
+<ul>
+  {items.map((item) => (
+    <li>
+      <a href={"/" + item.id}>{deslugify(item.id)}</a>
+      {item.data.description && <> {item.data.description}</>}
+    </li>
+  ))}
+</ul>

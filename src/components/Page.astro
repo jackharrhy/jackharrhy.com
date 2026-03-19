@@ -19,7 +19,7 @@ if (!id) {
 
 const entry = await getEntry("garden", id);
 
-if (!entry) {
+if (!entry || !entry.data.public) {
   return Astro.rewrite("/404");
 }
 
@@ -149,7 +149,7 @@ const breadcrumbPaths = await Promise.all(
     const hasEntry = await getEntry("garden", path);
     return {
       name: breadcrumbs[index],
-      path: hasEntry && path !== id ? `/${path}` : undefined,
+      path: hasEntry && hasEntry.data.public && path !== id ? `/${path}` : undefined,
     };
   })
 );
