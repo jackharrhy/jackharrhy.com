@@ -23,7 +23,6 @@ if (!entry) {
   return Astro.rewrite("/404");
 }
 
-
 const customLayout = entry.data.custom_layout || entry.data['custom-layout'];
 
 let width = undefined;
@@ -58,48 +57,106 @@ if (id.startsWith("devblog/") || id.startsWith("linkblog/")) {
   titlePartOfBreadcrumbs = true;
 }
 
-const { Content } = await render(entry);
+// --- Component block parsing ---
+// Split the raw markdown body into interleaved prose + component segments
+// so we can render real Astro components in the right positions.
 
-// Build display name from the entry ID (file path)
-// e.g., "linkblog/2025/03/15" → segments ["linkblog", "2025", "03", "15"]
+function parseComponentBlock(value: string): Record<string, string> | null {
+  const lines = value.trim().split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length === 0) return null;
+  const name = lines[0];
+  const props: Record<string, string> = { component: name };
+  for (let i = 1; i < lines.length; i++) {
+    const colon = lines[i].indexOf(':');
+    if (colon === -1) continue;
+    props[lines[i].slice(0, colon).trim()] = lines[i].slice(colon + 1).trim();
+  }
+  return props;
+}
+
+type ProseSegment = { type: 'prose'; content: string };
+type ComponentSegment = { type: 'component'; props: Record<string, string> };
+type Segment = ProseSegment | ComponentSegment;
+
+function splitIntoSegments(body: string): Segment[] {
+  const segments: Segment[] = [];
+  const re = /^```component\n([\s\S]*?)^```/gm;
+  let lastIndex = 0;
+  let match;
+  while ((match = re.exec(body)) !== null) {
+    const before = body.slice(lastIndex, match.index).trim();
+    if (before) segments.push({ type: 'prose', content: before });
+    const props = parseComponentBlock(match[1]);
+    if (props) segments.push({ type: 'component', props });
+    lastIndex = match.index + match[0].length;
+  }
+  const remaining = body.slice(lastIndex).trim();
+  if (remaining) segments.push({ type: 'prose', content: remaining });
+  return segments;
+}
+
+const segments = splitIntoSegments(entry.body ?? '');
+const hasComponents = segments.some(s => s.type === 'component');
+
+// Render prose segments through the full remark/rehype pipeline
+let renderedSegments: (string | ComponentSegment)[] = [];
+let Content: any;
+
+if (hasComponents) {
+  const { unified } = await import('unified');
+  const { default: remarkParse } = await import('remark-parse');
+  const { default: remarkRehype } = await import('remark-rehype');
+  const { default: rehypeStringify } = await import('rehype-stringify');
+  const { remarkObsidian } = await import('../../lib/remark-obsidian.mjs');
+  const { rehypeObsidian } = await import('../../lib/rehype-obsidian.mjs');
+
+  for (const seg of segments) {
+    if (seg.type === 'component') {
+      renderedSegments.push(seg);
+    } else {
+      const file = await unified()
+        .use(remarkParse)
+        .use(remarkObsidian)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeObsidian)
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(seg.content);
+      renderedSegments.push(String(file));
+    }
+  }
+} else {
+  // No component blocks — use Astro's native render (faster, full pipeline)
+  ({ Content } = await render(entry));
+}
+
+// --- Breadcrumbs ---
 const idSegments = entry.id.split("/");
-
-// Use the entry's name frontmatter if available, otherwise derive from ID
 const displayName = entry.data.name || entry.id.split("/").map(
   (s: string) => s.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 ).join("/");
 
 const nameSegments = displayName.split("/");
 const hasBreadcrumbs = nameSegments.length > 1;
-
 let breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
+if (breadcrumbs && titlePartOfBreadcrumbs) breadcrumbs = nameSegments;
 
-if (breadcrumbs && titlePartOfBreadcrumbs) {
-  breadcrumbs = nameSegments;
-}
-
-const pageTitle = hasBreadcrumbs
-  ? nameSegments[nameSegments.length - 1]
-  : displayName;
+const pageTitle = hasBreadcrumbs ? nameSegments[nameSegments.length - 1] : displayName;
 
 const breadcrumbPaths = await Promise.all(
   breadcrumbs.map(async (_: string, index: number) => {
     const segmentIndex = Math.min(index, idSegments.length - 1);
-    const path =
-      `${idSegments.slice(0, segmentIndex + 1).join("/")}`.toLowerCase();
+    const path = idSegments.slice(0, segmentIndex + 1).join("/").toLowerCase();
     const hasEntry = await getEntry("garden", path);
-    const willLink = hasEntry && path !== id;
     return {
       name: breadcrumbs[index],
-      path: willLink ? `/${path}` : undefined,
+      path: hasEntry && path !== id ? `/${path}` : undefined,
     };
   })
 );
 
-const title =
-  titlePartOfBreadcrumbs && entry.data.description
-    ? entry.data.description
-    : pageTitle;
+const title = titlePartOfBreadcrumbs && entry.data.description
+  ? entry.data.description
+  : pageTitle;
 ---
 
 <Layout
@@ -112,45 +169,54 @@ const title =
   invert={invert}
   mobileFriendly={mobileFriendly}
 >
-  {
-    !noHeader && (
-      <>
-        {hasBreadcrumbs && (
-          <div class="not-prose text-xl mb-2 font-medium">
-            {breadcrumbPaths.map((breadcrumb, index) => (
-              <>
-                {breadcrumb.path ? (
-                  <a href={breadcrumb.path} class="hover:underline">
-                    {breadcrumb.name}
-                  </a>
-                ) : (
-                  <span>{breadcrumb.name}</span>
-                )}
-                {index < breadcrumbPaths.length - 1 && (
-                  <span class="mx-2">/</span>
-                )}
-              </>
-            ))}
-          </div>
-        )}
-        <h1
-          class:list={[
-            centerHeader && "text-center",
-            hasBreadcrumbs && "pt-4",
-            title.length > 120 && "!text-3xl",
-          ]}
-        >
-          {title}
-        </h1>
-      </>
-    )
-  }
-  {
-    entry.data.description && !titlePartOfBreadcrumbs && (
-      <p class="not-prose text-2xl font-medium mb-10">
-        {entry.data.description}
-      </p>
-    )
-  }
-  <Content components={{ "x-mug": Mug, "x-project": Project, "x-feed": Feed, "x-feedtree": FeedTree, "x-nowplaying": NowPlaying, "x-letterbird": Letterbird }} />
+  {!noHeader && (
+    <>
+      {hasBreadcrumbs && (
+        <div class="not-prose text-xl mb-2 font-medium">
+          {breadcrumbPaths.map((breadcrumb, index) => (
+            <>
+              {breadcrumb.path
+                ? <a href={breadcrumb.path} class="hover:underline">{breadcrumb.name}</a>
+                : <span>{breadcrumb.name}</span>
+              }
+              {index < breadcrumbPaths.length - 1 && <span class="mx-2">/</span>}
+            </>
+          ))}
+        </div>
+      )}
+      <h1 class:list={[
+        centerHeader && "text-center",
+        hasBreadcrumbs && "pt-4",
+        title.length > 120 && "!text-3xl",
+      ]}>
+        {title}
+      </h1>
+    </>
+  )}
+
+  {entry.data.description && !titlePartOfBreadcrumbs && (
+    <p class="not-prose text-2xl font-medium mb-10">{entry.data.description}</p>
+  )}
+
+  {hasComponents ? (
+    <>
+      {renderedSegments.map((seg) => {
+        if (typeof seg === 'string') {
+          return <Fragment set:html={seg} />;
+        }
+        const { component, ...props } = seg.props;
+        switch (component) {
+          case 'Mug':        return <Mug />;
+          case 'NowPlaying': return <NowPlaying />;
+          case 'Feed':       return <Feed source={props.source} limit={Number(props.limit) || undefined} />;
+          case 'FeedTree':   return <FeedTree source={props.source} />;
+          case 'Project':    return <Project {...props} />;
+          case 'Letterbird': return <Letterbird />;
+          default:           return null;
+        }
+      })}
+    </>
+  ) : (
+    <Content />
+  )}
 </Layout>
