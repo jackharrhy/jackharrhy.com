@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import { remarkObsidian } from './lib/remark-obsidian.mjs';
 import { rehypeObsidian } from './lib/rehype-obsidian.mjs';
 
@@ -11,7 +11,10 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [tailwind()],
+  integrations: [],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   server: {
     host: '0.0.0.0',
     port: 4321,

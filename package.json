@@ -9,21 +9,22 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.4",
-    "@astrojs/rss": "^4.0.17",
-    "astro": "^5.17.1",
+    "@astrojs/node": "^10.0.4",
+    "@astrojs/rss": "^4.0.18",
+    "astro": "^6.1.6",
     "cheerio": "^1.2.0",
     "htmx.org": "^2.0.8",
     "mime": "^4.1.0",
     "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^6.0.2",
-    "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^25.5.0",
-    "tailwindcss": "^3.4.19"
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^25.6.0",
+    "tailwindcss": "^4.2.2"
   }
 }

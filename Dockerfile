@@ -1,17 +1,20 @@
 FROM platformatic/node-caged:25-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 WORKDIR /app
 
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json ./pnpm-lock.yaml ./
 
 FROM base AS prod-deps
-RUN npm install --omit=dev
+RUN pnpm install --frozen-lockfile --prod
 
 FROM base AS build-deps
-RUN npm install
+RUN pnpm install --frozen-lockfile
 
 FROM build-deps AS build
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 FROM base AS runtime
 COPY --from=prod-deps /app/node_modules ./node_modules
