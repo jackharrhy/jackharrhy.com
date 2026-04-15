@@ -9,8 +9,10 @@ const items = (await getPosts(source)).slice(0, limit);
 <ul>
   {items.map((item) => (
     <li>
-      <a href={"/" + item.id}>{deslugify(item.id)}</a>
-      {item.data.description && <> {item.data.description}</>}
+      <p>
+        <a href={"/" + item.id}>{deslugify(item.id)}</a>
+        {item.data.description && <> {item.data.description}</>}
+      </p>
     </li>
   ))}
 </ul>
