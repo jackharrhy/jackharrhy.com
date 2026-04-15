@@ -1,16 +1,27 @@
 ---
+export const prerender = false;
+
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const allEntries = await getCollection('garden');
 
-// Separate public and private entries
 const publicEntries = allEntries.filter(entry => entry.data.public);
 const privateEntries = allEntries.filter(entry => !entry.data.public);
 
-// Sort alphabetically
 publicEntries.sort((a, b) => a.id.localeCompare(b.id));
 privateEntries.sort((a, b) => a.id.localeCompare(b.id));
+
+const accept = Astro.request.headers.get('accept') ?? '';
+if (accept.includes('application/json')) {
+  const payload = [
+    ...publicEntries.map(e => ({ id: e.id, public: true })),
+    ...privateEntries.map(e => ({ id: e.id, public: false })),
+  ];
+  return new Response(JSON.stringify(payload), {
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
 ---
 
 <Layout title="Debug">
@@ -26,6 +37,10 @@ privateEntries.sort((a, b) => a.id.localeCompare(b.id));
   <p>
     I'll probably leave it in, but at some point I'll remove references to it,
     so only those who know will find themselves here.
+  </p>
+
+  <p>
+    <a href="/debug/compare">→ Compare local vs production</a>
   </p>
 
   <hr />

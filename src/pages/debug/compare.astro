@@ -1,0 +1,165 @@
+---
+export const prerender = false;
+
+const LOCAL = 'http://localhost:4321';
+const PROD = 'https://jackharrhy.com';
+
+const path = Astro.url.searchParams.get('path') ?? '/';
+const localUrl = `${LOCAL}${path}`;
+const prodUrl = `${PROD}${path}`;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare: {path}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      font-family: monospace;
+      background: #1a1a1a;
+      color: #eee;
+    }
+
+    #toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      background: #111;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    #toolbar label { font-size: 0.75rem; color: #aaa; }
+
+    #path-select, #path-input {
+      font-family: monospace;
+      font-size: 0.8rem;
+      background: #222;
+      color: #eee;
+      border: 1px solid #444;
+      border-radius: 3px;
+      padding: 0.2rem 0.4rem;
+    }
+
+    #path-select { flex: 1; max-width: 420px; }
+    #path-input  { flex: 1; }
+
+    #go {
+      font-family: monospace;
+      font-size: 0.8rem;
+      background: #333;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 3px;
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+    }
+    #go:hover { background: #444; }
+
+    #frames {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid #333;
+    }
+    .pane:last-child { border-right: none; }
+
+    .pane-label {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: #0d0d0d;
+      color: #888;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <label for="path-select">page</label>
+    <select id="path-select">
+      <option value="">loading…</option>
+    </select>
+    <label for="path-input">or type</label>
+    <input id="path-input" type="text" value={path} placeholder="/some/slug" />
+    <button id="go">go</button>
+  </div>
+
+  <div id="frames">
+    <div class="pane">
+      <div class="pane-label">local — {localUrl}</div>
+      <iframe id="local-frame" src={localUrl} sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+    <div class="pane">
+      <div class="pane-label">prod — {prodUrl}</div>
+      <iframe id="prod-frame" src={prodUrl} sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Populate path picker from /debug JSON endpoint
+    fetch('/debug', { headers: { Accept: 'application/json' } })
+      .then(r => r.json())
+      .then(entries => {
+        const sel = document.getElementById('path-select');
+        const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
+        sel.innerHTML = '<option value="/">/ (home)</option>' +
+          entries.map(e => {
+            const slug = '/' + e.id;
+            const label = e.public ? e.id : `${e.id} (private)`;
+            const sel = slug === currentPath ? ' selected' : '';
+            return `<option value="${slug}"${sel}>${label}</option>`;
+          }).join('');
+      })
+      .catch(() => {
+        document.getElementById('path-select').innerHTML = '<option value="">failed to load</option>';
+      });
+
+    // Navigation
+    function navigate(path) {
+      const u = new URL(location.href);
+      u.searchParams.set('path', path);
+      location.href = u.toString();
+    }
+
+    document.getElementById('path-select').addEventListener('change', e => {
+      if (e.target.value) navigate(e.target.value);
+    });
+
+    document.getElementById('go').addEventListener('click', () => {
+      const val = document.getElementById('path-input').value.trim() || '/';
+      navigate(val);
+    });
+
+    document.getElementById('path-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('go').click();
+    });
+
+  </script>
+</body>
+</html>
