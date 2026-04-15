@@ -4,6 +4,22 @@ import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkObsidian } from './lib/remark-obsidian.mjs';
 import { rehypeObsidian } from './lib/rehype-obsidian.mjs';
+import path from 'node:path';
+
+/** @type {import('astro').AstroIntegration} */
+const watchLib = {
+  name: 'watch-lib',
+  hooks: {
+    'astro:server:setup': ({ server }) => {
+      server.watcher.add(path.resolve('./lib'));
+      server.watcher.on('change', (file) => {
+        if (file.includes('/lib/')) {
+          server.restart();
+        }
+      });
+    },
+  },
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +27,7 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [],
+  integrations: [watchLib],
   vite: {
     plugins: [tailwindcss()],
   },
