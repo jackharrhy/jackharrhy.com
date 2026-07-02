@@ -47,6 +47,8 @@
   --color-orange-900: #40200D;
   --color-orange-950: #27180E;
 
+  --color-link: #ea580c;
+
   --color-yellow-50: #FAEEC6;
   --color-yellow-100: #F6E2A0;
   --color-yellow-150: #F1D67E;
@@ -133,7 +135,7 @@
 }
 
 @utility prose-orange {
-  --tw-prose-links: var(--color-orange-600);
+  --tw-prose-links: var(--color-link);
   --tw-prose-invert-links: var(--color-orange-400);
 }
 
