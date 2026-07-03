@@ -135,11 +135,8 @@ The rewritten pages (Home, About, Now, Linkblog, Devblog, Projects) are now clea
 ### Quake Page
 `/quake` uses `custom_layout: quake` — verify it renders with the retro background image and correct inverted styling. The layout forces `data-astro-reload` on links to `/quake` (set in Layout.astro script) to bypass view transitions.
 
-### `assets-staging/` Directory
-There is a physical `assets-staging/` directory (gitignored) with hundreds of media files not yet pushed to R2. These need to be synced before the new site goes live, otherwise asset images will 404. The old `garden.py` used `rclone` for this. No equivalent script exists yet in the new site.
-
-### Missing: Asset Sync Script
-There is no script to sync local vault assets to R2. The old `garden.py` did this via `rclone`. Needed before production cutover.
+### Asset Sync Verification
+Asset sync now uses `scripts/assets.ts` and `rclone`. Before production cutover, run `npm run assets:diff`, pull any files missing locally with `npm run assets:pull:missing`, and upload local-only assets with `npm run assets:copy:to-r2`.
 
 ### `utils.ts` — `slugify` function
 The `slugify` function exists but doesn't appear to be used anywhere in the current codebase. May have been carried over unnecessarily.
@@ -196,5 +193,26 @@ There is both a `favicon.ico` and `favicon.svg` in `public/`. The layout referen
 
 See `.env.dist`. Key ones:
 - `GARDEN_VAULT_PATH` — path to `vault/Garden` folder (default: `./vault/Garden`)
-- `GARDEN_VAULT_ASSETS_PATH` — path to vault assets (default: `./vault/assets`)
+- `GARDEN_VAULT_ASSETS_PATH` — path to vault assets (default: `./vault/Assets`)
+- `GARDEN_RCLONE_REMOTE` — rclone remote for the R2 bucket (default: `garden:jacks-garden`)
 - `JACKHARRHY_LASTFM_API_KEY` — for NowPlaying widget
+
+---
+
+## Asset Sync
+
+R2 asset sync is handled through `rclone` using `scripts/assets.ts`. The default remote matches the old Logseq pipeline: `garden:jacks-garden`.
+
+Useful commands:
+
+```sh
+npm run assets:diff
+npm run assets:missing:local
+npm run assets:pull:missing
+npm run assets:missing:remote
+npm run assets:copy:to-r2
+npm run assets:sync:to-r2:dry-run
+npm run assets:sync:to-r2 -- --yes
+```
+
+Use `assets:pull:missing` to restore local dev parity from the production bucket. Use `assets:copy:to-r2` to upload local assets without deleting anything in R2. Use `assets:sync:to-r2` only when the local assets directory should be authoritative.
