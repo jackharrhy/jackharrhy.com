@@ -28,7 +28,7 @@ const prodUrl = `${PROD}${path}`;
       color: #eee;
     }
 
-    #toolbar {
+    #toolbar, #notes {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -39,6 +39,32 @@ const prodUrl = `${PROD}${path}`;
     }
 
     #toolbar label { font-size: 0.75rem; color: #aaa; }
+
+    #notes {
+      align-items: stretch;
+      background: #181818;
+    }
+
+    #notes label {
+      padding-top: 0.3rem;
+      font-size: 0.75rem;
+      color: #aaa;
+      white-space: nowrap;
+    }
+
+    #note-input {
+      flex: 1;
+      min-height: 3.4rem;
+      resize: vertical;
+      font-family: monospace;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      background: #222;
+      color: #eee;
+      border: 1px solid #444;
+      border-radius: 3px;
+      padding: 0.35rem 0.45rem;
+    }
 
     #path-select, #path-input {
       font-family: monospace;
@@ -53,7 +79,7 @@ const prodUrl = `${PROD}${path}`;
     #path-select { flex: 1; max-width: 420px; }
     #path-input  { flex: 1; }
 
-    #go {
+    #go, #save-note, #clear-note {
       font-family: monospace;
       font-size: 0.8rem;
       background: #333;
@@ -63,7 +89,20 @@ const prodUrl = `${PROD}${path}`;
       padding: 0.2rem 0.6rem;
       cursor: pointer;
     }
-    #go:hover { background: #444; }
+    #go:hover, #save-note:hover, #clear-note:hover { background: #444; }
+
+    #note-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 7rem;
+    }
+
+    #note-status {
+      font-size: 0.7rem;
+      color: #888;
+      min-height: 1rem;
+    }
 
     #prev, #next {
       font-family: monospace;
@@ -125,6 +164,16 @@ const prodUrl = `${PROD}${path}`;
     <button id="next" disabled>→</button>
   </div>
 
+  <div id="notes">
+    <label for="note-input">note</label>
+    <textarea id="note-input" placeholder="Leave cleanup notes for this page. Save with Cmd/Ctrl+Enter."></textarea>
+    <div id="note-actions">
+      <button id="save-note">save</button>
+      <button id="clear-note">clear</button>
+      <div id="note-status"></div>
+    </div>
+  </div>
+
   <div id="frames">
     <div class="pane">
       <div class="pane-label">local — {localUrl}</div>
@@ -139,22 +188,82 @@ const prodUrl = `${PROD}${path}`;
   <script>
     // Populate path picker from /debug JSON endpoint
     const allPaths = ['/'];
+    let allEntries = [];
+    let notes = {};
+    const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
+    const noteInput = document.getElementById('note-input');
+    const noteStatus = document.getElementById('note-status');
+
+    function setNoteStatus(text) {
+      noteStatus.textContent = text;
+    }
+
+    function noteLabelFor(path, label) {
+      return notes[path] ? `${label} [note]` : label;
+    }
+
+    function loadCurrentNote() {
+      const entry = notes[currentPath];
+      noteInput.value = entry?.note ?? '';
+      setNoteStatus(entry ? `saved ${new Date(entry.updatedAt).toLocaleString()}` : '');
+    }
+
+    function renderPathOptions(entries) {
+      const sel = document.getElementById('path-select');
+
+      sel.innerHTML = `<option value="/">${noteLabelFor('/', '/ (home)')}</option>` +
+        entries.map(e => {
+          const slug = '/' + e.id;
+          const label = e.public ? e.id : `${e.id} (private)`;
+          const selected = slug === currentPath ? ' selected' : '';
+          return `<option value="${slug}"${selected}>${noteLabelFor(slug, label)}</option>`;
+        }).join('');
+    }
+
+    async function loadNotes() {
+      const response = await fetch('/debug/notes', { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('Failed to load notes');
+      const data = await response.json();
+      notes = data.notes ?? {};
+      loadCurrentNote();
+    }
+
+    async function saveNote() {
+      setNoteStatus('saving...');
+      const response = await fetch('/debug/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ path: currentPath, note: noteInput.value }),
+      });
+
+      if (!response.ok) {
+        setNoteStatus('save failed');
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.entry) {
+        notes[currentPath] = data.entry;
+      } else {
+        delete notes[currentPath];
+      }
+
+      setNoteStatus(data.entry ? `saved ${new Date(data.entry.updatedAt).toLocaleString()}` : 'cleared');
+      renderPathOptions(allEntries);
+    }
+
+    const notesPromise = loadNotes().catch(() => {
+      setNoteStatus('notes unavailable');
+    });
+
     fetch('/debug', { headers: { Accept: 'application/json' } })
       .then(r => r.json())
-      .then(entries => {
-        const sel = document.getElementById('path-select');
-        const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
-
+      .then(async entries => {
+        await notesPromise;
+        allEntries = entries;
         entries.forEach(e => allPaths.push('/' + e.id));
-
-        sel.innerHTML = '<option value="/">/ (home)</option>' +
-          entries.map(e => {
-            const slug = '/' + e.id;
-            const label = e.public ? e.id : `${e.id} (private)`;
-            const selected = slug === currentPath ? ' selected' : '';
-            return `<option value="${slug}"${selected}>${label}</option>`;
-          }).join('');
-
+        renderPathOptions(entries);
         updatePrevNext();
       })
       .catch(() => {
@@ -188,6 +297,17 @@ const prodUrl = `${PROD}${path}`;
       if (e.key === 'Enter') document.getElementById('go').click();
     });
 
+    document.getElementById('save-note').addEventListener('click', saveNote);
+
+    document.getElementById('clear-note').addEventListener('click', () => {
+      noteInput.value = '';
+      saveNote();
+    });
+
+    noteInput.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') saveNote();
+    });
+
     document.getElementById('prev').addEventListener('click', () => {
       const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
       const idx = allPaths.indexOf(currentPath);
@@ -201,7 +321,7 @@ const prodUrl = `${PROD}${path}`;
     });
 
     document.addEventListener('keydown', e => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
       if (e.key === 'ArrowLeft') document.getElementById('prev').click();
       if (e.key === 'ArrowRight') document.getElementById('next').click();
     });
