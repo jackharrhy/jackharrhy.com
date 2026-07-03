@@ -23,7 +23,7 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   // In development, serve from local vault assets
-  const vaultAssetsPath = process.env.GARDEN_VAULT_ASSETS_PATH || './vault/assets';
+  const vaultAssetsPath = process.env.GARDEN_VAULT_ASSETS_PATH || './vault/Assets';
   const assetPath = path.join(
     vaultAssetsPath,
     requestedPath
