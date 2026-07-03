@@ -24,3 +24,6 @@ logseq/
 logseq
 
 vault
+
+# Local debug notes
+.debug-notes/
