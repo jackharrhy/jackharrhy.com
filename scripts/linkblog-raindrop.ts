@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import fs from "node:fs";
-import path from "node:path";
+import { parse } from "@bomb.sh/args";
+import { loadEnv, usage } from "./lib/cli.ts";
 import {
   getLinkblogRaindropConfig,
   getLinkblogRaindropStatus,
@@ -9,15 +9,10 @@ import {
   writeLinkblogRaindropDrafts,
 } from "../src/lib/linkblog-raindrop.ts";
 
-const ROOT_DIR = path.resolve(import.meta.dirname, "..");
-const ENV_FILE = path.join(ROOT_DIR, ".env");
+loadEnv();
 
-if (fs.existsSync(ENV_FILE)) {
-  process.loadEnvFile(ENV_FILE);
-}
-
-function usage(): never {
-  console.log(`Usage: node scripts/linkblog-raindrop.ts <command>
+function printUsage(): never {
+  usage(`Usage: node scripts/linkblog-raindrop.ts <command>
 
 Commands:
   status       Show completed/todo Raindrop linkblog items
@@ -30,12 +25,15 @@ Environment:
   GARDEN_RAINDROP_IMPORTED_COLLECTION Imported collection title, default "Logseq Imported"
   GARDEN_VAULT_PATH           Vault Garden path, default ./vault/Garden
 `);
-  process.exit(1);
 }
 
-const command = process.argv[2];
-if (!command || command === "--help" || command === "-h") usage();
-const apply = process.argv.includes("--apply");
+const args = parse(process.argv.slice(2), {
+  boolean: ["apply", "help"],
+  alias: { h: "help" },
+});
+const command = args._[0]?.toString();
+if (!command || args.help) printUsage();
+const apply = args.apply;
 
 const config = getLinkblogRaindropConfig();
 
@@ -107,5 +105,5 @@ switch (command) {
   }
 
   default:
-    usage();
+    printUsage();
 }

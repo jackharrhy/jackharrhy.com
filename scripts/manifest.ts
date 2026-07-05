@@ -4,6 +4,13 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { canonicalRouteId } from "../lib/garden-routing.mjs";
+import {
+  loadEnv,
+  normalizeRelativePath,
+  ROOT_DIR,
+  usage,
+  walkFiles,
+} from "./lib/cli.ts";
 
 type ManifestPage = {
   route: string;
@@ -27,12 +34,7 @@ type DeployManifest = {
   assets: ManifestAsset[];
 };
 
-const ROOT_DIR = path.resolve(import.meta.dirname, "..");
-const ENV_FILE = path.join(ROOT_DIR, ".env");
-
-if (fs.existsSync(ENV_FILE)) {
-  process.loadEnvFile(ENV_FILE);
-}
+loadEnv();
 
 const GARDEN_DIR = path.resolve(
   ROOT_DIR,
@@ -69,8 +71,8 @@ const assetExtensions = new Set([
   ".webp",
 ]);
 
-function usage(): never {
-  console.log(`Usage: node scripts/manifest.ts [write]
+function printUsage(): never {
+  usage(`Usage: node scripts/manifest.ts [write]
 
 Writes a deploy manifest to:
   .garden/deploy-manifest.json
@@ -80,32 +82,6 @@ Environment:
   GARDEN_VAULT_PATH         Vault Garden path, default ./vault/Garden
   GARDEN_VAULT_ASSETS_PATH  Vault assets path, default ./vault/Assets
 `);
-  process.exit(1);
-}
-
-function normalizeRelativePath(value: string) {
-  return value.replaceAll(path.sep, "/");
-}
-
-function walkFiles(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-
-  const files: string[] = [];
-
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      files.push(...walkFiles(fullPath));
-      continue;
-    }
-
-    if (entry.isFile()) {
-      files.push(fullPath);
-    }
-  }
-
-  return files.sort();
 }
 
 function sha256(buffer: Buffer | string) {
@@ -184,8 +160,8 @@ function writeJson(filePath: string, data: unknown) {
 }
 
 const command = process.argv[2] ?? "write";
-if (command === "--help" || command === "-h") usage();
-if (command !== "write") usage();
+if (command === "--help" || command === "-h") printUsage();
+if (command !== "write") printUsage();
 
 const manifest = buildManifest();
 

@@ -3,19 +3,22 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { parse } from "@bomb.sh/args";
+import {
+  loadEnv,
+  normalizeRelativePath,
+  ROOT_DIR,
+  run,
+  usage,
+  walkFiles,
+} from "./lib/cli.ts";
 
 type Options = {
   dryRun: boolean;
   yes: boolean;
 };
 
-const ROOT_DIR = path.resolve(import.meta.dirname, "..");
-
-const ENV_FILE = path.join(ROOT_DIR, ".env");
-if (fs.existsSync(ENV_FILE)) {
-  process.loadEnvFile(ENV_FILE);
-}
+loadEnv();
 
 const ASSETS_DIR = path.resolve(
   ROOT_DIR,
@@ -37,8 +40,8 @@ function assertSafeRemote(remote: string) {
   }
 }
 
-function usage(): never {
-  console.log(`Usage: node scripts/assets.ts <command> [options]
+function printUsage(): never {
+  usage(`Usage: node scripts/assets.ts <command> [options]
 
 Commands:
   diff                 Compare local vault assets and the R2 bucket
@@ -57,79 +60,36 @@ Environment:
   GARDEN_VAULT_ASSETS_PATH   Local assets directory, default ./vault/Assets
   GARDEN_RCLONE_REMOTE       R2 rclone bucket/subpath, default jacks-garden:jacks-garden
 `);
-  process.exit(1);
 }
 
 function parseArgs(argv: string[]): { command: string; options: Options } {
-  const [command, ...flags] = argv.slice(2);
+  const args = parse(argv.slice(2), {
+    boolean: ["dry-run", "yes", "help"],
+    alias: { h: "help" },
+  });
+  const command = args._[0]?.toString();
 
-  if (!command || command === "--help" || command === "-h") {
-    usage();
+  if (!command || args.help) {
+    printUsage();
   }
 
   return {
     command,
     options: {
-      dryRun: flags.includes("--dry-run"),
-      yes: flags.includes("--yes"),
+      dryRun: args["dry-run"],
+      yes: args.yes,
     },
   };
-}
-
-function run(
-  command: string,
-  args: string[],
-  options: { capture?: boolean } = {},
-) {
-  const result = spawnSync(command, args, {
-    cwd: ROOT_DIR,
-    encoding: "utf8",
-    stdio: options.capture ? ["ignore", "pipe", "pipe"] : "inherit",
-  });
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (result.status !== 0) {
-    if (options.capture && result.stderr) {
-      process.stderr.write(result.stderr);
-    }
-    process.exit(result.status ?? 1);
-  }
-
-  return result.stdout || "";
 }
 
 function rclone(args: string[], options: { capture?: boolean } = {}) {
   return run("rclone", args, options);
 }
 
-function normalizeRelativePath(value: string) {
-  return value.replaceAll(path.sep, "/");
-}
-
 function collectLocalFiles(dir: string, base = dir): string[] {
-  if (!fs.existsSync(dir)) {
-    return [];
-  }
-
-  const files: string[] = [];
-
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      files.push(...collectLocalFiles(fullPath, base));
-      continue;
-    }
-
-    if (entry.isFile()) {
-      files.push(normalizeRelativePath(path.relative(base, fullPath)));
-    }
-  }
-
-  return files.sort();
+  return walkFiles(dir)
+    .map((filePath) => normalizeRelativePath(path.relative(base, filePath)))
+    .sort();
 }
 
 function collectRemoteFiles() {
@@ -299,5 +259,5 @@ switch (command) {
   }
 
   default:
-    usage();
+    printUsage();
 }

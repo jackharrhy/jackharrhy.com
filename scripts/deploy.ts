@@ -2,8 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
-import readline from "node:readline/promises";
+import { confirmOrExit, loadEnv, output, ROOT_DIR, run } from "./lib/cli.ts";
 
 type ManifestItem = {
   route?: string;
@@ -18,46 +17,7 @@ type DeployManifest = {
   assets: ManifestItem[];
 };
 
-const ROOT_DIR = path.resolve(import.meta.dirname, "..");
-const ENV_FILE = path.join(ROOT_DIR, ".env");
-
-if (fs.existsSync(ENV_FILE)) {
-  process.loadEnvFile(ENV_FILE);
-}
-
-function run(command: string, args: string[]) {
-  const result = spawnSync(command, args, {
-    cwd: ROOT_DIR,
-    stdio: "inherit",
-    env: process.env,
-  });
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (result.status !== 0) {
-    process.exit(result.status ?? 1);
-  }
-}
-
-function output(command: string, args: string[]) {
-  const result = spawnSync(command, args, {
-    cwd: ROOT_DIR,
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "inherit"],
-  });
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (result.status !== 0) {
-    process.exit(result.status ?? 1);
-  }
-
-  return result.stdout.trim();
-}
+loadEnv();
 
 const image = process.env.DEPLOY_IMAGE || "ghcr.io/jackharrhy/jackharrhy.com";
 const tag =
@@ -194,26 +154,8 @@ async function confirmDeploy(
   console.log(`  removed: ${assetDiff.removed.length}`);
   printList(assetDiff.removed, (item) => item.sourcePath);
 
-  if (process.env.DEPLOY_YES === "true") {
-    console.log("");
-    console.log("DEPLOY_YES=true set; skipping confirmation.");
-    return;
-  }
-
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  try {
-    const answer = await rl.question("\nContinue deploy? [y/N] ");
-    if (!/^y(es)?$/i.test(answer.trim())) {
-      console.log("Deploy cancelled.");
-      process.exit(1);
-    }
-  } finally {
-    rl.close();
-  }
+  console.log("");
+  await confirmOrExit("Continue deploy?", { envVar: "DEPLOY_YES" });
 }
 
 run("pnpm", ["format:check"]);
