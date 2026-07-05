@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const allEntries = await getCollection("garden");
 
   const gardenPages = allEntries.filter(
-    (entry) => entry.data.public && entry.id !== "home"
+    (entry) => entry.data.public && !["404", "home"].includes(entry.id)
   );
 
   return gardenPages.map((entry) => ({

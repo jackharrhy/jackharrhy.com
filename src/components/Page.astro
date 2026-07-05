@@ -1,5 +1,5 @@
 ---
-import { getEntry, render } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Mug from "./Mug.astro";
 import Project from "./Project.astro";
@@ -100,33 +100,35 @@ const hasComponents = segments.some(s => s.type === 'component');
 
 // Render prose segments through the full remark/rehype pipeline
 let renderedSegments: (string | ComponentSegment)[] = [];
-let Content: any;
 
-if (hasComponents) {
-  const { unified } = await import('unified');
-  const { default: remarkParse } = await import('remark-parse');
-  const { default: remarkRehype } = await import('remark-rehype');
-  const { default: rehypeStringify } = await import('rehype-stringify');
-  const { remarkObsidian } = await import('../../lib/remark-obsidian.mjs');
-  const { rehypeObsidian } = await import('../../lib/rehype-obsidian.mjs');
+const { createMarkdownProcessor } = await import('@astrojs/markdown-remark');
+const { remarkObsidian } = await import('../../lib/remark-obsidian.mjs');
+const { rehypeObsidian } = await import('../../lib/rehype-obsidian.mjs');
+const { buildGardenIndexFromVault } = await import('../../lib/garden-routing.mjs');
 
-  for (const seg of segments) {
-    if (seg.type === 'component') {
-      renderedSegments.push(seg);
-    } else {
-      const file = await unified()
-        .use(remarkParse)
-        .use(remarkObsidian)
-        .use(remarkRehype, { allowDangerousHtml: true })
-        .use(rehypeObsidian)
-        .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(seg.content);
-      renderedSegments.push(String(file));
-    }
+const gardenIndex = buildGardenIndexFromVault(process.env.GARDEN_VAULT_PATH || './vault/Garden');
+const routeCollisions = gardenIndex.collisions.filter((collision) => collision.type === 'route');
+
+if (routeCollisions.length > 0) {
+  throw new Error(
+    `Garden route collisions: ${routeCollisions
+      .map((collision) => `${collision.key} (${collision.entries.map((entry) => entry.sourcePath).join(', ')})`)
+      .join('; ')}`
+  );
+}
+
+const markdownProcessor = await createMarkdownProcessor({
+  remarkPlugins: [[remarkObsidian, { gardenIndex }]],
+  rehypePlugins: [rehypeObsidian],
+});
+
+for (const seg of segments) {
+  if (seg.type === 'component') {
+    renderedSegments.push(seg);
+  } else {
+    const file = await markdownProcessor.render(seg.content);
+    renderedSegments.push(file.code);
   }
-} else {
-  // No component blocks — use Astro's native render (faster, full pipeline)
-  ({ Content } = await render(entry));
 }
 
 // --- Breadcrumbs ---
@@ -141,18 +143,16 @@ let breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
 if (breadcrumbs && titlePartOfBreadcrumbs) breadcrumbs = nameSegments;
 
 const pageTitle = hasBreadcrumbs ? nameSegments[nameSegments.length - 1] : displayName;
+const publicEntryIds = new Set((await getCollection("garden", ({ data }) => data.public)).map((entry) => entry.id));
 
-const breadcrumbPaths = await Promise.all(
-  breadcrumbs.map(async (_: string, index: number) => {
-    const segmentIndex = Math.min(index, idSegments.length - 1);
-    const path = idSegments.slice(0, segmentIndex + 1).join("/").toLowerCase();
-    const hasEntry = await getEntry("garden", path);
-    return {
-      name: breadcrumbs[index],
-      path: hasEntry && hasEntry.data.public && path !== id ? `/${path}` : undefined,
-    };
-  })
-);
+const breadcrumbPaths = breadcrumbs.map((_: string, index: number) => {
+  const segmentIndex = Math.min(index, idSegments.length - 1);
+  const path = idSegments.slice(0, segmentIndex + 1).join("/").toLowerCase();
+  return {
+    name: breadcrumbs[index],
+    path: publicEntryIds.has(path) && path !== id ? `/${path}` : undefined,
+  };
+});
 
 const title = titlePartOfBreadcrumbs && entry.data.description
   ? entry.data.description
@@ -198,25 +198,19 @@ const title = titlePartOfBreadcrumbs && entry.data.description
     <p class="not-prose text-2xl font-medium mb-10">{entry.data.description}</p>
   )}
 
-  {hasComponents ? (
-    <>
-      {renderedSegments.map((seg) => {
-        if (typeof seg === 'string') {
-          return <Fragment set:html={seg} />;
-        }
-        const { component, ...props } = seg.props;
-        switch (component) {
-          case 'Mug':        return <Mug />;
-          case 'NowPlaying': return <NowPlaying />;
-          case 'Feed':       return <Feed source={props.source} limit={Number(props.limit) || undefined} />;
-          case 'FeedTree':   return <FeedTree source={props.source} />;
-          case 'Project':    return <Project {...props} />;
-          case 'Letterbird': return <Letterbird />;
-          default:           return null;
-        }
-      })}
-    </>
-  ) : (
-    <Content />
-  )}
+  {renderedSegments.map((seg) => {
+    if (typeof seg === 'string') {
+      return <Fragment set:html={seg} />;
+    }
+    const { component, ...props } = seg.props;
+    switch (component) {
+      case 'Mug':        return <Mug />;
+      case 'NowPlaying': return <NowPlaying />;
+      case 'Feed':       return <Feed source={props.source} limit={Number(props.limit) || undefined} />;
+      case 'FeedTree':   return <FeedTree source={props.source} />;
+      case 'Project':    return <Project {...props} />;
+      case 'Letterbird': return <Letterbird />;
+      default:           return null;
+    }
+  })}
 </Layout>
