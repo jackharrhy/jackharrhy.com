@@ -92,7 +92,7 @@ export const getDevblogPostsAsTree = async () => {
   > = {};
 
   for (const post of items) {
-    const [_, project, year, month, day] = post.id.match(
+    const [, , year, month, day] = post.id.match(
       /^devblog\/([^\/]+)\/(\d{4})\/(\d{2})\/(\d{2})$/,
     )!;
 

@@ -2,6 +2,7 @@ import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { remarkObsidian } from "../../lib/remark-obsidian.mjs";
 import { rehypeObsidian } from "../../lib/rehype-obsidian.mjs";
 import { buildGardenIndexFromVault } from "../../lib/garden-routing.mjs";
+import type { GardenIndex } from "../../lib/garden-routing.d.ts";
 
 export type ProseSegment = { type: "prose"; content: string };
 export type ComponentSegment = {
@@ -11,7 +12,7 @@ export type ComponentSegment = {
 export type Segment = ProseSegment | ComponentSegment;
 export type RenderedSegment = string | ComponentSegment;
 
-let cachedGardenIndex: ReturnType<typeof buildGardenIndexFromVault> | undefined;
+let cachedGardenIndex: GardenIndex | undefined;
 let cachedMarkdownProcessor:
   Awaited<ReturnType<typeof createMarkdownProcessor>> | undefined;
 
@@ -56,7 +57,7 @@ export function splitIntoSegments(body: string): Segment[] {
   return segments;
 }
 
-function getGardenIndex() {
+function getGardenIndex(): GardenIndex {
   const gardenIndex = import.meta.env.DEV
     ? buildGardenIndexFromVault(
         process.env.GARDEN_VAULT_PATH || "./vault/Garden",

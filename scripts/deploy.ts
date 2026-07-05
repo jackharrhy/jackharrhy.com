@@ -159,6 +159,7 @@ async function confirmDeploy(
 }
 
 run("pnpm", ["format:check"]);
+run("npm", ["run", "check"]);
 run("npm", ["run", "deploy:manifest"]);
 await confirmDeploy(readLocalManifest(), await fetchProdManifest());
 run("npm", ["run", "build"]);

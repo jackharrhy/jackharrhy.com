@@ -7,8 +7,12 @@
     "build": "astro build",
     "deploy": "node scripts/deploy.ts",
     "deploy:manifest": "node scripts/manifest.ts write",
+    "verify": "pnpm format:check && npm run check && npm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check": "astro check && tsc --noEmit",
+    "astro:check": "astro check",
+    "typecheck": "tsc --noEmit",
     "preview": "astro preview",
     "astro": "astro",
     "assets:diff": "node scripts/assets.ts diff",
@@ -34,6 +38,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@bomb.sh/args": "^0.3.1",
     "@clack/prompts": "^1.7.0",
     "@tailwindcss/typography": "^0.5.19",
@@ -41,6 +46,7 @@
     "@types/node": "^25.6.0",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.3"
   }
 }

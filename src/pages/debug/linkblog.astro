@@ -3,14 +3,18 @@ export const prerender = false;
 
 import Layout from "../../layouts/Layout.astro";
 import { getLinkblogRaindropStatus } from "../../lib/linkblog-raindrop";
+import type {
+  LinkblogRaindropStatus,
+  LinkblogRaindropStatusItem,
+} from "../../lib/linkblog-raindrop";
 
 if (!import.meta.env.DEV) {
   return new Response("Not found", { status: 404 });
 }
 
-let status;
+let status: LinkblogRaindropStatus | undefined;
 let error: string | null = null;
-let nextTodoDates: [string, NonNullable<typeof status>["todo"]][] = [];
+let nextTodoDates: [string, LinkblogRaindropStatusItem[]][] = [];
 const obsidianVault = import.meta.env.GARDEN_OBSIDIAN_VAULT || "vault";
 
 function obsidianUrlForDraftPage(draftPage: string) {
