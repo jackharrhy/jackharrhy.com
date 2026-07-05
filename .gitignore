@@ -25,5 +25,6 @@ logseq
 
 vault
 
-# Local debug notes
-.debug-notes/
+# Local generated state
+.garden/
+public/deploy-manifest.json

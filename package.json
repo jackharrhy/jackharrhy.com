@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "deploy": "node scripts/deploy.ts",
+    "deploy:manifest": "node scripts/manifest.ts write",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "astro preview",

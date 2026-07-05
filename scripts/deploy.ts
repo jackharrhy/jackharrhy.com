@@ -59,6 +59,7 @@ console.log(`Deploy image: ${tags.join(", ")}`);
 console.log(`Deploy platform: ${platform}`);
 
 run("pnpm", ["format:check"]);
+run("npm", ["run", "deploy:manifest"]);
 run("npm", ["run", "build"]);
 run("node", ["scripts/assets.ts", "copy-to-r2"]);
 run("node", ["scripts/assets.ts", "check"]);

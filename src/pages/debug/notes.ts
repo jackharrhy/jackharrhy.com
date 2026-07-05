@@ -13,7 +13,7 @@ type NotesFile = {
   notes: Record<string, NoteEntry>;
 };
 
-const notesDir = path.resolve(".debug-notes");
+const notesDir = path.resolve(".garden");
 const notesPath = path.join(notesDir, "compare-notes.json");
 
 function normalizePagePath(value: unknown) {

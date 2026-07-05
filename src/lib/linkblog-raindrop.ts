@@ -76,7 +76,7 @@ const DEFAULT_IMPORTED_COLLECTION_TITLE = "Logseq Imported";
 const DEFAULT_CACHE_MS = 5 * 60 * 1000;
 const CACHE_PATH = path.resolve(
   process.cwd(),
-  ".debug-notes/linkblog-raindrop-cache.json",
+  ".garden/linkblog-raindrop-cache.json",
 );
 
 export function getLinkblogRaindropConfig(
