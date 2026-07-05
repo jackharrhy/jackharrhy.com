@@ -7,16 +7,6 @@ Follow-up work from the local/prod debug review. Keep this as the repo-level mig
 - [ ] Update `/meta/how-this-is-built`.
   - Current copy still describes the old Logseq pipeline.
   - Rewrite around the Obsidian vault, Astro content collection, `remark-obsidian`, `rehype-obsidian`, asset proxy/R2, and component fenced blocks.
-- [ ] Clean up `/meta/todo`.
-  - Mark completed items with strikethrough so Jack can review.
-  - Keep or split aspirational ideas separately from migration cleanup.
-- [ ] Reformat `/newfoundland/st-johns/third-spaces`.
-  - Production/Logseq version was heavily indented.
-  - Likely needs the same style of separator/list-to-section cleanup done for linkblog entries.
-- [ ] Major rework `/quake`.
-  - Production has heavy indentation and local needs substantial structure work.
-  - Decide whether to split into multiple pages or section it in-place.
-  - Preserve `custom_layout: quake` or replace with a more maintainable layout if the content becomes multi-page.
 
 ## Technical Follow-Ups
 

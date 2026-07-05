@@ -1,0 +1,9 @@
+{
+  "formatter": {
+    "external": {
+      "command": "pnpm",
+      "arguments": ["prettier", "--stdin-filepath", "{buffer_path}"]
+    }
+  },
+  "format_on_save": "on"
+}

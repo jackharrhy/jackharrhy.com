@@ -1,15 +1,18 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 
-import Mug from "./Mug.astro";
-import Project from "./Project.astro";
-import Feed from "./Feed.astro";
-import FeedTree from "./FeedTree.astro";
-import NowPlaying from "./NowPlaying.astro";
-import Letterbird from "./Letterbird.astro";
-
 import Layout from "../layouts/Layout.astro";
 import { resolveOgImage } from "../utils";
+import {
+  getBreadcrumbs,
+  getDisplayName,
+  getPageLayoutConfig,
+  getRenderedTitle,
+  shouldIncludeTitleInBreadcrumbs,
+} from "../lib/page";
+import { renderMarkdownSegments } from "../lib/markdown";
+import PageHeader from "./PageHeader.astro";
+import PageContent from "./PageContent.astro";
 
 const { id, header = true } = Astro.props;
 
@@ -23,193 +26,39 @@ if (!entry || !entry.data.public) {
   return Astro.rewrite("/404");
 }
 
-const customLayout = entry.data.custom_layout || entry.data['custom-layout'];
-
-let width = undefined;
-let centerHeader = false;
-let mainClass = undefined;
-let noHeader = !header;
-let noFooter = !header;
-let invert = false;
-let mobileFriendly = true;
-let titlePartOfBreadcrumbs = false;
-
-switch (customLayout) {
-  case "quake":
-    const bgImageClassName = "bg-[url(/images/quake-bg.png)]";
-    width = "max-w-full";
-    centerHeader = true;
-    mainClass = `${bgImageClassName} prose-lg font-mono py-8 [&_div>p]:relative [&_div>p]:pl-4 [&_div>p]:before:content-['•'] [&_div>p]:before:absolute [&_div>p]:before:left-0 [&_div>p]:before:top-0.5`;
-    noFooter = true;
-    invert = true;
-    mobileFriendly = false;
-    break;
-  case "terminal":
-    width = "max-w-full";
-    noHeader = true;
-    mainClass = "bg-black prose-lg font-mono py-8 flex-1";
-    invert = true;
-    noFooter = true;
-    break;
-}
-
-if (id.startsWith("devblog/") || id.startsWith("linkblog/")) {
-  titlePartOfBreadcrumbs = true;
-}
-
-// --- Component block parsing ---
-// Split the raw markdown body into interleaved prose + component segments
-// so we can render real Astro components in the right positions.
-
-function parseComponentBlock(value: string): Record<string, string> | null {
-  const lines = value.trim().split('\n').map(l => l.trim()).filter(Boolean);
-  if (lines.length === 0) return null;
-  const name = lines[0];
-  const props: Record<string, string> = { component: name };
-  for (let i = 1; i < lines.length; i++) {
-    const colon = lines[i].indexOf(':');
-    if (colon === -1) continue;
-    props[lines[i].slice(0, colon).trim()] = lines[i].slice(colon + 1).trim();
-  }
-  return props;
-}
-
-type ProseSegment = { type: 'prose'; content: string };
-type ComponentSegment = { type: 'component'; props: Record<string, string> };
-type Segment = ProseSegment | ComponentSegment;
-
-function splitIntoSegments(body: string): Segment[] {
-  const segments: Segment[] = [];
-  const re = /^```component\n([\s\S]*?)^```/gm;
-  let lastIndex = 0;
-  let match;
-  while ((match = re.exec(body)) !== null) {
-    const before = body.slice(lastIndex, match.index).trim();
-    if (before) segments.push({ type: 'prose', content: before });
-    const props = parseComponentBlock(match[1]);
-    if (props) segments.push({ type: 'component', props });
-    lastIndex = match.index + match[0].length;
-  }
-  const remaining = body.slice(lastIndex).trim();
-  if (remaining) segments.push({ type: 'prose', content: remaining });
-  return segments;
-}
-
-const segments = splitIntoSegments(entry.body ?? '');
-
-// Render prose segments through the full remark/rehype pipeline
-let renderedSegments: (string | ComponentSegment)[] = [];
-
-const { createMarkdownProcessor } = await import('@astrojs/markdown-remark');
-const { remarkObsidian } = await import('../../lib/remark-obsidian.mjs');
-const { rehypeObsidian } = await import('../../lib/rehype-obsidian.mjs');
-const { buildGardenIndexFromVault } = await import('../../lib/garden-routing.mjs');
-
-const gardenIndex = buildGardenIndexFromVault(process.env.GARDEN_VAULT_PATH || './vault/Garden');
-const routeCollisions = gardenIndex.collisions.filter((collision) => collision.type === 'route');
-
-if (routeCollisions.length > 0) {
-  throw new Error(
-    `Garden route collisions: ${routeCollisions
-      .map((collision) => `${collision.key} (${collision.entries.map((entry) => entry.sourcePath).join(', ')})`)
-      .join('; ')}`
-  );
-}
-
-const markdownProcessor = await createMarkdownProcessor({
-  remarkPlugins: [[remarkObsidian, { gardenIndex }]],
-  rehypePlugins: [rehypeObsidian],
-});
-
-for (const seg of segments) {
-  if (seg.type === 'component') {
-    renderedSegments.push(seg);
-  } else {
-    const file = await markdownProcessor.render(seg.content);
-    renderedSegments.push(file.code);
-  }
-}
-
-// --- Breadcrumbs ---
-const idSegments = entry.id.split("/");
-const displayName = entry.data.name || entry.id.split("/").map(
-  (s: string) => s.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
-).join("/");
-
-const nameSegments = displayName.split("/");
-const hasBreadcrumbs = nameSegments.length > 1;
-let breadcrumbs = hasBreadcrumbs ? nameSegments.slice(0, -1) : [];
-if (breadcrumbs && titlePartOfBreadcrumbs) breadcrumbs = nameSegments;
-
-const pageTitle = hasBreadcrumbs ? nameSegments[nameSegments.length - 1] : displayName;
-const publicEntryIds = new Set((await getCollection("garden", ({ data }) => data.public)).map((entry) => entry.id));
-
-const breadcrumbPaths = breadcrumbs.map((_: string, index: number) => {
-  const segmentIndex = Math.min(index, idSegments.length - 1);
-  const path = idSegments.slice(0, segmentIndex + 1).join("/").toLowerCase();
-  return {
-    name: breadcrumbs[index],
-    path: publicEntryIds.has(path) && path !== id ? `/${path}` : undefined,
-  };
-});
-
-const title = titlePartOfBreadcrumbs && entry.data.description
-  ? entry.data.description
-  : pageTitle;
+const customLayout = entry.data.custom_layout || entry.data["custom-layout"];
+const layout = getPageLayoutConfig(customLayout, header);
+const displayName = getDisplayName(entry);
+const publicEntryIds = new Set(
+  (await getCollection("garden", ({ data }) => data.public)).map((entry) => entry.id),
+);
+const breadcrumbs = getBreadcrumbs(entry, displayName, publicEntryIds);
+const title = getRenderedTitle(entry, displayName);
+const renderedSegments = await renderMarkdownSegments(entry.body ?? "");
+const titlePartOfBreadcrumbs = shouldIncludeTitleInBreadcrumbs(entry.id);
 ---
 
 <Layout
   title={displayName === "Home" ? undefined : displayName}
   description={entry.data.description}
-  noFooter={noFooter}
-  ogImage={resolveOgImage(entry.data['og-image'])}
-  width={width}
-  mainClass={mainClass}
-  invert={invert}
-  mobileFriendly={mobileFriendly}
+  noFooter={layout.noFooter}
+  ogImage={resolveOgImage(entry.data["og-image"])}
+  width={layout.width}
+  mainClass={layout.mainClass}
+  invert={layout.invert}
+  mobileFriendly={layout.mobileFriendly}
 >
-  {!noHeader && (
-    <>
-      {hasBreadcrumbs && (
-        <div class="not-prose text-xl mb-2 font-medium">
-          {breadcrumbPaths.map((breadcrumb, index) => (
-            <>
-              {breadcrumb.path
-                ? <a href={breadcrumb.path} class="hover:underline">{breadcrumb.name}</a>
-                : <span>{breadcrumb.name}</span>
-              }
-              {index < breadcrumbPaths.length - 1 && <span class="mx-2">/</span>}
-            </>
-          ))}
-        </div>
-      )}
-      <h1 class:list={[
-        centerHeader && "text-center",
-        hasBreadcrumbs && "pt-4",
-        title.length > 120 && "!text-3xl",
-      ]}>
-        {title}
-      </h1>
-    </>
+  {!layout.noHeader && (
+    <PageHeader
+      breadcrumbs={breadcrumbs}
+      title={title}
+      centerHeader={layout.centerHeader}
+    />
   )}
 
   {entry.data.description && !titlePartOfBreadcrumbs && (
     <p class="not-prose text-2xl font-medium mb-10">{entry.data.description}</p>
   )}
 
-  {renderedSegments.map((seg) => {
-    if (typeof seg === 'string') {
-      return <Fragment set:html={seg} />;
-    }
-    const { component, ...props } = seg.props;
-    switch (component) {
-      case 'Mug':        return <Mug />;
-      case 'NowPlaying': return <NowPlaying />;
-      case 'Feed':       return <Feed source={props.source} limit={Number(props.limit) || undefined} />;
-      case 'FeedTree':   return <FeedTree source={props.source} />;
-      case 'Project':    return <Project {...props} />;
-      case 'Letterbird': return <Letterbird />;
-      default:           return null;
-    }
-  })}
+  <PageContent segments={renderedSegments} pageId={entry.id} />
 </Layout>

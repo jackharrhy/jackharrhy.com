@@ -27,7 +27,7 @@ const tree = await getPostsAsTree(source);
                   .map(([day, post]) => (
                     <li class="last:border-b-0 border-b-2 border-dashed border-shade-300">
                       <a
-                        href={post.id}
+                        href={`/${post.id}`}
                         class="flex gap-3 items-center justify-between hover:underline"
                       >
                         <span class="underline text-[var(--tw-prose-links)]">

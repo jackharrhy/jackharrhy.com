@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview": "astro preview",
     "astro": "astro",
     "assets:diff": "node scripts/assets.ts diff",
@@ -28,6 +30,8 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^25.6.0",
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.2.2"
   }
 }

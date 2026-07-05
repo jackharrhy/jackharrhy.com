@@ -1,0 +1,6 @@
+dist/
+.astro/
+node_modules/
+.debug-notes/
+vault/
+pnpm-lock.yaml
