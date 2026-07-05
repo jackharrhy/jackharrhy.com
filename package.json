@@ -2,6 +2,9 @@
   "name": "website",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -30,10 +33,10 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.1",
-    "@astrojs/node": "^10.0.4",
-    "@astrojs/rss": "^4.0.18",
-    "astro": "^6.1.6",
-    "htmx.org": "^2.0.8",
+    "@astrojs/node": "^11.0.2",
+    "@astrojs/rss": "^4.0.19",
+    "astro": "^7.0.6",
+    "htmx.org": "^2.0.10",
     "mime": "^4.1.0",
     "unist-util-visit": "^5.1.0"
   },
@@ -41,12 +44,12 @@
     "@astrojs/check": "^0.9.9",
     "@bomb.sh/args": "^0.3.1",
     "@clack/prompts": "^1.7.0",
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.2",
-    "@types/node": "^25.6.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/node": "^26.1.0",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3"
   }
 }
