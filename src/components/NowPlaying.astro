@@ -7,7 +7,7 @@ const nowPlayingUrl = debug
 
 <div
   class="now-playing my-7"
-  hx-post={nowPlayingUrl}
+  hx-get={nowPlayingUrl}
   hx-swap="innerHTML swap:0.5s"
   hx-trigger="load"
   transition:persist
