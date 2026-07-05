@@ -130,6 +130,20 @@ function markdownEscape(value: string) {
   return value.replaceAll("[", "\\[").replaceAll("]", "\\]");
 }
 
+function isYouTubeUrl(value: string) {
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
+    return (
+      hostname === "youtube.com" ||
+      hostname === "m.youtube.com" ||
+      hostname === "youtu.be"
+    );
+  } catch {
+    return false;
+  }
+}
+
 function frontmatterPublic(markdown: string) {
   const match = markdown.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return false;
@@ -418,6 +432,10 @@ export async function getLinkblogRaindropStatus(
 
 function renderDraftItem(item: LinkblogRaindropStatusItem) {
   const lines = [`[${markdownEscape(item.title)}](${item.link})`, ""];
+
+  if (isYouTubeUrl(item.link)) {
+    lines.push(`![](${item.link})`, "");
+  }
 
   const excerpt = item.excerpt.trim();
   if (excerpt) {
