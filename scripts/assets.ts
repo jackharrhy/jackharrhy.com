@@ -21,13 +21,28 @@ const ASSETS_DIR = path.resolve(
   ROOT_DIR,
   process.env.GARDEN_VAULT_ASSETS_PATH || "./vault/Assets",
 );
-const RCLONE_REMOTE = process.env.GARDEN_RCLONE_REMOTE || "garden:jacks-garden";
+const RCLONE_REMOTE =
+  process.env.GARDEN_RCLONE_REMOTE || "jacks-garden:jacks-garden";
+
+function isRemoteRoot(remote: string) {
+  return /^[^:]+:\/?$/.test(remote.trim());
+}
+
+function assertSafeRemote(remote: string) {
+  if (isRemoteRoot(remote)) {
+    console.error(
+      `Refusing to operate on remote root "${remote}". Set GARDEN_RCLONE_REMOTE to a bucket/subpath, for example "jacks-garden:jacks-garden".`,
+    );
+    process.exit(1);
+  }
+}
 
 function usage(): never {
   console.log(`Usage: node scripts/assets.ts <command> [options]
 
 Commands:
   diff                 Compare local vault assets and the R2 bucket
+  check                Verify local vault assets and the R2 bucket contain the same files
   missing-local        List files present in R2 but missing locally
   missing-remote       List files present locally but missing in R2
   pull-missing         Copy files present in R2 but missing locally into vault assets
@@ -40,7 +55,7 @@ Options:
 
 Environment:
   GARDEN_VAULT_ASSETS_PATH   Local assets directory, default ./vault/Assets
-  GARDEN_RCLONE_REMOTE       R2 rclone remote, default garden:jacks-garden
+  GARDEN_RCLONE_REMOTE       R2 rclone bucket/subpath, default jacks-garden:jacks-garden
 `);
   process.exit(1);
 }
@@ -199,6 +214,8 @@ function copyWithFilesFrom(
 
 const { command, options } = parseArgs(process.argv);
 
+assertSafeRemote(RCLONE_REMOTE);
+
 switch (command) {
   case "diff": {
     const { local, remote, missingLocal, missingRemote } = getDiff();
@@ -208,6 +225,25 @@ switch (command) {
     console.log(`Remote files: ${remote.length}`);
     console.log(`Missing locally: ${missingLocal.length}`);
     console.log(`Missing remotely: ${missingRemote.length}`);
+    break;
+  }
+
+  case "check": {
+    const { local, remote, missingLocal, missingRemote } = getDiff();
+    console.log(`Local assets: ${ASSETS_DIR}`);
+    console.log(`R2 remote: ${RCLONE_REMOTE}`);
+    console.log(`Local files: ${local.length}`);
+    console.log(`Remote files: ${remote.length}`);
+    console.log(`Missing locally: ${missingLocal.length}`);
+    console.log(`Missing remotely: ${missingRemote.length}`);
+
+    if (missingLocal.length > 0 || missingRemote.length > 0) {
+      console.error(
+        "Asset check failed. Run assets:pull:missing or assets:copy:to-r2, then check again.",
+      );
+      process.exit(1);
+    }
+
     break;
   }
 
