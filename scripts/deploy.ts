@@ -48,6 +48,7 @@ function output(command: string, args: string[]) {
 const image = process.env.DEPLOY_IMAGE || "ghcr.io/jackharrhy/jackharrhy.com";
 const tag =
   process.env.DEPLOY_TAG || output("git", ["rev-parse", "--short", "HEAD"]);
+const platform = process.env.DEPLOY_PLATFORM || "linux/amd64";
 const tags = [`${image}:${tag}`];
 
 if (process.env.DEPLOY_LATEST !== "false") {
@@ -55,20 +56,25 @@ if (process.env.DEPLOY_LATEST !== "false") {
 }
 
 console.log(`Deploy image: ${tags.join(", ")}`);
+console.log(`Deploy platform: ${platform}`);
 
 run("pnpm", ["format:check"]);
 run("npm", ["run", "build"]);
 run("node", ["scripts/assets.ts", "copy-to-r2"]);
 run("node", ["scripts/assets.ts", "check"]);
 
-const buildArgs = ["build", "--target", "prebuilt-runtime"];
+const buildArgs = [
+  "buildx",
+  "build",
+  "--platform",
+  platform,
+  "--target",
+  "prebuilt-runtime",
+  "--push",
+];
 for (const imageTag of tags) {
   buildArgs.push("--tag", imageTag);
 }
 buildArgs.push(".");
 
 run("docker", buildArgs);
-
-for (const imageTag of tags) {
-  run("docker", ["push", imageTag]);
-}
