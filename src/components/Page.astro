@@ -96,7 +96,6 @@ function splitIntoSegments(body: string): Segment[] {
 }
 
 const segments = splitIntoSegments(entry.body ?? '');
-const hasComponents = segments.some(s => s.type === 'component');
 
 // Render prose segments through the full remark/rehype pipeline
 let renderedSegments: (string | ComponentSegment)[] = [];
