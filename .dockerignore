@@ -1,7 +1,12 @@
 .DS_Store
-./site/node_modules
-./site/dist
-.venv
-logseq
-*.env
 .git
+.astro
+.debug-notes
+.env
+.env.*
+.venv
+assets-staging
+logseq
+node_modules
+tmp
+vault

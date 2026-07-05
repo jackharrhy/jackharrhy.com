@@ -1,8 +1,6 @@
 services:
   garden:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/jackharrhy/jackharrhy.com:latest
     ports:
       - 127.0.0.1:8050:80
     env_file:

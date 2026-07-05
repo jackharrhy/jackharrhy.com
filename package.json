@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "deploy": "node scripts/deploy.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "astro preview",
     "astro": "astro",
     "assets:diff": "node scripts/assets.ts diff",
+    "assets:check": "node scripts/assets.ts check",
     "assets:missing:local": "node scripts/assets.ts missing-local",
     "assets:missing:remote": "node scripts/assets.ts missing-remote",
     "assets:pull:missing": "node scripts/assets.ts pull-missing",
