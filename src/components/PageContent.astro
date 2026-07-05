@@ -1,0 +1,17 @@
+---
+import type { RenderedSegment } from "../lib/markdown";
+import ComponentBlock from "./ComponentBlock.astro";
+
+interface Props {
+  segments: RenderedSegment[];
+  pageId: string;
+}
+
+const { segments, pageId } = Astro.props;
+---
+
+{segments.map((segment) => (
+  typeof segment === "string"
+    ? <Fragment set:html={segment} />
+    : <ComponentBlock props={segment.props} pageId={pageId} />
+))}

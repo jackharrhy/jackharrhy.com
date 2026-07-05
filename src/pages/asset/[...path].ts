@@ -23,13 +23,14 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   // In development, serve from local vault assets
-  const vaultAssetsPath = process.env.GARDEN_VAULT_ASSETS_PATH || './vault/Assets';
-  const assetPath = path.join(
-    vaultAssetsPath,
-    requestedPath
-  );
-
   try {
+    const vaultAssetsPath = await fs.realpath(path.resolve(process.env.GARDEN_VAULT_ASSETS_PATH || './vault/Assets'));
+    const assetPath = await fs.realpath(path.resolve(vaultAssetsPath, requestedPath));
+
+    if (!assetPath.startsWith(`${vaultAssetsPath}${path.sep}`) && assetPath !== vaultAssetsPath) {
+      return new Response('Invalid path', { status: 400 });
+    }
+
     const file = await fs.readFile(assetPath);
 
     const contentType = mime.getType(requestedPath) || 'application/octet-stream';
@@ -41,7 +42,7 @@ export const GET: APIRoute = async ({ params }) => {
       },
     });
   } catch (error) {
-    console.error(`Asset not found: ${assetPath}`, error);
+    console.error(`Asset not found: ${requestedPath}`, error);
     return new Response('File not found', { status: 404 });
   }
 };

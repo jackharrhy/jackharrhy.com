@@ -1,0 +1,35 @@
+---
+import Mug from "./Mug.astro";
+import Project from "./Project.astro";
+import Feed from "./Feed.astro";
+import FeedTree from "./FeedTree.astro";
+import NowPlaying from "./NowPlaying.astro";
+import Letterbird from "./Letterbird.astro";
+
+interface Props {
+  props: Record<string, string>;
+  pageId: string;
+}
+
+const { props: blockProps, pageId } = Astro.props;
+const { component, ...props } = blockProps;
+
+switch (component) {
+  case "Mug":
+  case "NowPlaying":
+  case "Feed":
+  case "FeedTree":
+  case "Project":
+  case "Letterbird":
+    break;
+  default:
+    throw new Error(`Unknown component block "${component}" in ${pageId}`);
+}
+---
+
+{component === "Mug" && <Mug />}
+{component === "NowPlaying" && <NowPlaying />}
+{component === "Feed" && <Feed source={props.source} limit={Number(props.limit) || undefined} />}
+{component === "FeedTree" && <FeedTree source={props.source} />}
+{component === "Project" && <Project {...props} />}
+{component === "Letterbird" && <Letterbird />}

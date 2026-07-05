@@ -150,3 +150,19 @@
 .astro-code .line {
   white-space: pre;
 }
+
+.quake-page {
+  background-image: url("/images/quake-bg.png");
+}
+
+.quake-page div > p {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.quake-page div > p::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.125rem;
+}

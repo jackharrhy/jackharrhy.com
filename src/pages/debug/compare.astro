@@ -4,7 +4,17 @@ export const prerender = false;
 const LOCAL = 'http://localhost:4321';
 const PROD = 'https://jackharrhy.com';
 
-const path = Astro.url.searchParams.get('path') ?? '/';
+if (!import.meta.env.DEV) {
+  return new Response('Not found', { status: 404 });
+}
+
+function normalizeComparePath(value: string | null) {
+  if (!value || !value.trim()) return '/';
+  const path = value.trim();
+  return path.startsWith('/') && !path.startsWith('//') ? path : '/';
+}
+
+const path = normalizeComparePath(Astro.url.searchParams.get('path'));
 const localUrl = `${LOCAL}${path}`;
 const prodUrl = `${PROD}${path}`;
 ---
@@ -151,7 +161,7 @@ const prodUrl = `${PROD}${path}`;
     }
   </style>
 </head>
-<body>
+<body data-current-path={path}>
   <div id="toolbar">
     <label for="path-select">page</label>
     <select id="path-select">
@@ -190,7 +200,7 @@ const prodUrl = `${PROD}${path}`;
     const allPaths = ['/'];
     let allEntries = [];
     let notes = {};
-    const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
+    const currentPath = document.body.dataset.currentPath || '/';
     const noteInput = document.getElementById('note-input');
     const noteStatus = document.getElementById('note-status');
 
@@ -271,7 +281,6 @@ const prodUrl = `${PROD}${path}`;
       });
 
     function updatePrevNext() {
-      const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
       const idx = allPaths.indexOf(currentPath);
       document.getElementById('prev').disabled = idx <= 0;
       document.getElementById('next').disabled = idx < 0 || idx >= allPaths.length - 1;
@@ -309,13 +318,11 @@ const prodUrl = `${PROD}${path}`;
     });
 
     document.getElementById('prev').addEventListener('click', () => {
-      const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
       const idx = allPaths.indexOf(currentPath);
       if (idx > 0) navigate(allPaths[idx - 1]);
     });
 
     document.getElementById('next').addEventListener('click', () => {
-      const currentPath = new URL(location.href).searchParams.get('path') ?? '/';
       const idx = allPaths.indexOf(currentPath);
       if (idx >= 0 && idx < allPaths.length - 1) navigate(allPaths[idx + 1]);
     });
