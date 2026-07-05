@@ -15,22 +15,6 @@ export const resolveOgImage = (ogImage: string | undefined): string | undefined 
   return ogImage;
 };
 
-export const slugify = (name: string): string => {
-  let slug = name
-    .replace("?", "")
-    .replace(" ", "-")
-    .replace("&", "and")
-    .replace(".", "-")
-    .replace(":", "-")
-    .replace("'", "");
-
-  while (slug.includes("--")) {
-    slug = slug.replace("--", "-");
-  }
-
-  return slug;
-};
-
 export const getImageType = (ogImage: string | undefined): string => {
   if (!ogImage) return "image/png";
 

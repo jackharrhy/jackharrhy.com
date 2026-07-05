@@ -2,8 +2,6 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
-import { remarkObsidian } from './lib/remark-obsidian.mjs';
-import { rehypeObsidian } from './lib/rehype-obsidian.mjs';
 import path from 'node:path';
 
 /** @type {import('astro').AstroIntegration} */
@@ -36,7 +34,10 @@ export default defineConfig({
     port: 4321,
   },
   markdown: {
-    remarkPlugins: [remarkObsidian],
-    rehypePlugins: [rehypeObsidian],
+    shikiConfig: {
+      langAlias: {
+        component: 'plaintext',
+      },
+    },
   },
 });
