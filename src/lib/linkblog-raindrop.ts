@@ -9,12 +9,36 @@ export type RaindropItem = {
   created: string;
 };
 
+type RaindropCollection = {
+  _id: number;
+  title: string;
+};
+
 export type LinkblogRaindropOptions = {
   token?: string;
   collectionTitle?: string;
+  importedCollectionTitle?: string;
   vaultPath?: string;
   cacheMs?: number;
   refresh?: boolean;
+};
+
+export type LinkblogRaindropSyncDoneOptions = LinkblogRaindropOptions & {
+  apply?: boolean;
+};
+
+export type LinkblogRaindropSyncDoneItem = LinkblogRaindropStatusItem & {
+  reason: "public-day-page";
+};
+
+export type LinkblogRaindropSyncDoneResult = {
+  apply: boolean;
+  collectionTitle: string;
+  importedCollectionTitle: string;
+  importedCollectionCreated: boolean;
+  moved: LinkblogRaindropSyncDoneItem[];
+  ready: LinkblogRaindropSyncDoneItem[];
+  remaining: LinkblogRaindropStatusItem[];
 };
 
 export type LinkblogRaindropStatus = {
@@ -48,6 +72,7 @@ export type LinkblogRaindropStatusItem = {
 
 const RAINDROP_API_BASE = "https://api.raindrop.io/rest/v1";
 const DEFAULT_COLLECTION_TITLE = "Logseq To Import";
+const DEFAULT_IMPORTED_COLLECTION_TITLE = "Logseq Imported";
 const DEFAULT_CACHE_MS = 5 * 60 * 1000;
 const CACHE_PATH = path.resolve(
   process.cwd(),
@@ -63,6 +88,10 @@ export function getLinkblogRaindropConfig(
       options.collectionTitle ??
       process.env.GARDEN_RAINDROP_COLLECTION ??
       DEFAULT_COLLECTION_TITLE,
+    importedCollectionTitle:
+      options.importedCollectionTitle ??
+      process.env.GARDEN_RAINDROP_IMPORTED_COLLECTION ??
+      DEFAULT_IMPORTED_COLLECTION_TITLE,
     vaultPath: path.resolve(
       options.vaultPath ?? process.env.GARDEN_VAULT_PATH ?? "./vault/Garden",
     ),
@@ -152,11 +181,17 @@ function displayPath(vaultPath: string, filePath: string) {
   return path.relative(vaultPath, filePath).replaceAll(path.sep, "/");
 }
 
-async function raindropFetch<T>(token: string, pathname: string): Promise<T> {
+async function raindropFetch<T>(
+  token: string,
+  pathname: string,
+  init: RequestInit = {},
+): Promise<T> {
   const response = await fetch(`${RAINDROP_API_BASE}${pathname}`, {
+    ...init,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
+      ...init.headers,
     },
   });
 
@@ -167,6 +202,46 @@ async function raindropFetch<T>(token: string, pathname: string): Promise<T> {
   }
 
   return response.json() as Promise<T>;
+}
+
+function clearRaindropCache() {
+  fs.rmSync(CACHE_PATH, { force: true });
+}
+
+async function listRaindropCollections(token: string) {
+  const collections = await raindropFetch<{ items: RaindropCollection[] }>(
+    token,
+    "/collections",
+  );
+
+  return collections.items;
+}
+
+async function getRaindropCollection(token: string, title: string) {
+  const collections = await listRaindropCollections(token);
+  return collections.find((item) => item.title === title);
+}
+
+async function createRaindropCollection(token: string, title: string) {
+  const response = await raindropFetch<{
+    item: RaindropCollection;
+  }>(token, "/collection", {
+    method: "POST",
+    body: JSON.stringify({ title, view: "list", public: false }),
+  });
+
+  return response.item;
+}
+
+async function moveRaindropToCollection(
+  token: string,
+  itemId: number,
+  collectionId: number,
+) {
+  await raindropFetch<{ result: boolean }>(token, `/raindrop/${itemId}`, {
+    method: "PUT",
+    body: JSON.stringify({ collection: { $id: collectionId } }),
+  });
 }
 
 function readRaindropCache(collectionTitle: string, cacheMs: number) {
@@ -217,12 +292,7 @@ export async function fetchRaindropItems(
     return cachedItems;
   }
 
-  const collections = await raindropFetch<{
-    items: { _id: number; title: string }[];
-  }>(token, "/collections");
-  const collection = collections.items.find(
-    (item) => item.title === config.collectionTitle,
-  );
+  const collection = await getRaindropCollection(token, config.collectionTitle);
 
   if (!collection) {
     throw new Error(
@@ -255,7 +325,7 @@ export async function fetchRaindropItems(
 
 export function readExistingLinkblog(vaultPath: string) {
   const linkblogDir = path.join(vaultPath, "Linkblog");
-  const publicLinksToPages = new Map<string, string>();
+  const publicLinksToPages = new Map<string, Set<string>>();
   const pages = new Map<string, { markdown: string; public: boolean }>();
 
   for (const filePath of collectMarkdownFiles(linkblogDir)) {
@@ -267,7 +337,9 @@ export function readExistingLinkblog(vaultPath: string) {
 
     if (publicPage) {
       for (const link of extractMarkdownLinks(markdown)) {
-        publicLinksToPages.set(link, relativePath);
+        const pages = publicLinksToPages.get(link) ?? new Set<string>();
+        pages.add(relativePath);
+        publicLinksToPages.set(link, pages);
       }
     }
   }
@@ -291,7 +363,10 @@ export async function getLinkblogRaindropStatus(
       config.vaultPath,
       linkblogPathForDate(config.vaultPath, date),
     );
-    const existingPage = existing.publicLinksToPages.get(normalizedLink);
+    const publicLinkPages = existing.publicLinksToPages.get(normalizedLink);
+    const existingPage = publicLinkPages?.has(draftPage)
+      ? draftPage
+      : undefined;
     const statusItem: LinkblogRaindropStatusItem = {
       id: item._id,
       title: item.title,
@@ -405,4 +480,63 @@ export async function writeLinkblogRaindropDrafts(
   }
 
   return { written, skippedPublic, status };
+}
+
+export async function syncDoneLinkblogRaindrops(
+  options: LinkblogRaindropSyncDoneOptions = {},
+): Promise<LinkblogRaindropSyncDoneResult> {
+  const config = getLinkblogRaindropConfig(options);
+  const token = requireToken(config.token);
+  const apply = options.apply ?? false;
+  const status = await getLinkblogRaindropStatus({ ...config, refresh: true });
+  const existing = readExistingLinkblog(config.vaultPath);
+  const ready: LinkblogRaindropSyncDoneItem[] = [];
+  const remaining: LinkblogRaindropStatusItem[] = [];
+
+  for (const item of status.todo) {
+    const pagePath = linkblogPathForDate(config.vaultPath, item.date);
+    const page = existing.pages.get(pagePath);
+
+    if (page?.public) {
+      ready.push({ ...item, reason: "public-day-page" });
+      continue;
+    }
+
+    remaining.push(item);
+  }
+
+  let importedCollectionCreated = false;
+  const moved: LinkblogRaindropSyncDoneItem[] = [];
+
+  if (apply && ready.length > 0) {
+    let importedCollection = await getRaindropCollection(
+      token,
+      config.importedCollectionTitle,
+    );
+
+    if (!importedCollection) {
+      importedCollection = await createRaindropCollection(
+        token,
+        config.importedCollectionTitle,
+      );
+      importedCollectionCreated = true;
+    }
+
+    for (const item of ready) {
+      await moveRaindropToCollection(token, item.id, importedCollection._id);
+      moved.push(item);
+    }
+
+    clearRaindropCache();
+  }
+
+  return {
+    apply,
+    collectionTitle: config.collectionTitle,
+    importedCollectionTitle: config.importedCollectionTitle,
+    importedCollectionCreated,
+    moved,
+    ready: apply ? [] : ready,
+    remaining,
+  };
 }

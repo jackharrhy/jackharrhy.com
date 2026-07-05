@@ -5,6 +5,7 @@ import path from "node:path";
 import {
   getLinkblogRaindropConfig,
   getLinkblogRaindropStatus,
+  syncDoneLinkblogRaindrops,
   writeLinkblogRaindropDrafts,
 } from "../src/lib/linkblog-raindrop.ts";
 
@@ -21,10 +22,12 @@ function usage(): never {
 Commands:
   status       Show completed/todo Raindrop linkblog items
   write-drafts Create or update private vault draft pages for todo items
+  sync-done    Move Raindrops with public day pages to imported collection
 
 Environment:
   GARDEN_RAINDROP_TOKEN       Raindrop.io API token
   GARDEN_RAINDROP_COLLECTION  Collection title, default "Logseq To Import"
+  GARDEN_RAINDROP_IMPORTED_COLLECTION Imported collection title, default "Logseq Imported"
   GARDEN_VAULT_PATH           Vault Garden path, default ./vault/Garden
 `);
   process.exit(1);
@@ -32,6 +35,7 @@ Environment:
 
 const command = process.argv[2];
 if (!command || command === "--help" || command === "-h") usage();
+const apply = process.argv.includes("--apply");
 
 const config = getLinkblogRaindropConfig();
 
@@ -71,6 +75,34 @@ switch (command) {
         console.log(`- ${file}`);
       }
     }
+    break;
+  }
+
+  case "sync-done": {
+    const result = await syncDoneLinkblogRaindrops({ ...config, apply });
+    console.log(`Collection: ${result.collectionTitle}`);
+    console.log(`Imported collection: ${result.importedCollectionTitle}`);
+
+    if (result.importedCollectionCreated) {
+      console.log("Created imported collection");
+    }
+
+    if (result.apply) {
+      console.log(`Moved: ${result.moved.length}`);
+      for (const item of result.moved) {
+        console.log(`- ${item.date} ${item.title}`);
+        console.log(`  ${item.link}`);
+      }
+    } else {
+      console.log(`Ready to move: ${result.ready.length}`);
+      console.log("Run with --apply to move these Raindrops.");
+      for (const item of result.ready) {
+        console.log(`- ${item.date} ${item.title}`);
+        console.log(`  ${item.link}`);
+      }
+    }
+
+    console.log(`Remaining todo: ${result.remaining.length}`);
     break;
   }
 

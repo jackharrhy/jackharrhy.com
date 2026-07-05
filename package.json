@@ -19,7 +19,9 @@
     "assets:sync:to-r2:dry-run": "node scripts/assets.ts sync-to-r2 --dry-run",
     "assets:sync:to-r2": "node scripts/assets.ts sync-to-r2",
     "linkblog:raindrop:status": "node scripts/linkblog-raindrop.ts status",
-    "linkblog:raindrop:write-drafts": "node scripts/linkblog-raindrop.ts write-drafts"
+    "linkblog:raindrop:write-drafts": "node scripts/linkblog-raindrop.ts write-drafts",
+    "linkblog:raindrop:sync-done:dry-run": "node scripts/linkblog-raindrop.ts sync-done",
+    "linkblog:raindrop:sync-done": "node scripts/linkblog-raindrop.ts sync-done --apply"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.1",

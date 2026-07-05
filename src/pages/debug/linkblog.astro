@@ -11,6 +11,15 @@ if (!import.meta.env.DEV) {
 let status;
 let error: string | null = null;
 let nextTodoDates: [string, NonNullable<typeof status>["todo"]][] = [];
+const obsidianVault = import.meta.env.GARDEN_OBSIDIAN_VAULT || "vault";
+
+function obsidianUrlForDraftPage(draftPage: string) {
+  const file = "Garden/" + draftPage;
+  return `obsidian://open?${new URLSearchParams({
+    vault: obsidianVault,
+    file,
+  })}`;
+}
 
 try {
   status = await getLinkblogRaindropStatus({
@@ -69,7 +78,10 @@ if (Astro.request.headers.get("accept")?.includes("application/json")) {
                 <h3>
                   {date}{" "}
                   <small>
-                    ({items.length} links) → {items[0].draftPage}
+                    ({items.length} links) → {items[0].draftPage} ·{" "}
+                    <a href={obsidianUrlForDraftPage(items[0].draftPage)}>
+                      open in Obsidian
+                    </a>
                   </small>
                 </h3>
                 <ul>
