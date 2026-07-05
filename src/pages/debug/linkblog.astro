@@ -1,0 +1,83 @@
+---
+export const prerender = false;
+
+import Layout from "../../layouts/Layout.astro";
+import { getLinkblogRaindropStatus } from "../../lib/linkblog-raindrop";
+
+if (!import.meta.env.DEV) {
+  return new Response("Not found", { status: 404 });
+}
+
+let status;
+let error: string | null = null;
+
+try {
+  status = await getLinkblogRaindropStatus();
+} catch (err) {
+  error = err instanceof Error ? err.message : String(err);
+}
+
+if (Astro.request.headers.get("accept")?.includes("application/json")) {
+  return new Response(JSON.stringify(error ? { error } : status), {
+    status: error ? 500 : 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+---
+
+<Layout title="Debug Linkblog">
+  <p><a href="/debug">← Debug</a></p>
+
+  <h1>Linkblog Raindrop</h1>
+
+  {
+    error ? (
+      <p>{error}</p>
+    ) : (
+      status && (
+        <>
+          <p>
+            Collection: <code>{status.collectionTitle}</code>
+          </p>
+          <p>
+            Total: {status.total} · Todo: {status.todo.length} · Completed:{" "}
+            {status.completed.length}
+          </p>
+
+          <h2>Todo</h2>
+          {Object.entries(status.todoByDate).length === 0 ? (
+            <p>No pending Raindrop items.</p>
+          ) : (
+            Object.entries(status.todoByDate).map(([date, items]) => (
+              <section>
+                <h3>
+                  {date} <small>→ {items[0].draftPage}</small>
+                </h3>
+                <ul>
+                  {items.map((item) => (
+                    <li>
+                      <a href={item.link}>{item.title}</a>
+                      {item.excerpt && <blockquote>{item.excerpt}</blockquote>}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          )}
+
+          <hr />
+
+          <h2>Completed</h2>
+          <ul>
+            {status.completed.map((item) => (
+              <li>
+                <a href={item.link}>{item.title}</a>{" "}
+                <small>in {item.existingPage}</small>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    )
+  }
+</Layout>

@@ -17,7 +17,9 @@
     "assets:pull:missing": "node scripts/assets.ts pull-missing",
     "assets:copy:to-r2": "node scripts/assets.ts copy-to-r2",
     "assets:sync:to-r2:dry-run": "node scripts/assets.ts sync-to-r2 --dry-run",
-    "assets:sync:to-r2": "node scripts/assets.ts sync-to-r2"
+    "assets:sync:to-r2": "node scripts/assets.ts sync-to-r2",
+    "linkblog:raindrop:status": "node scripts/linkblog-raindrop.ts status",
+    "linkblog:raindrop:write-drafts": "node scripts/linkblog-raindrop.ts write-drafts"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.1",
