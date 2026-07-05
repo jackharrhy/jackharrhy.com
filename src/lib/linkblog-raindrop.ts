@@ -13,14 +13,25 @@ export type LinkblogRaindropOptions = {
   token?: string;
   collectionTitle?: string;
   vaultPath?: string;
+  cacheMs?: number;
+  refresh?: boolean;
 };
 
 export type LinkblogRaindropStatus = {
   collectionTitle: string;
   total: number;
+  totalDays: number;
+  completedDays: number;
+  todoDays: number;
   completed: LinkblogRaindropStatusItem[];
   todo: LinkblogRaindropStatusItem[];
   todoByDate: Record<string, LinkblogRaindropStatusItem[]>;
+};
+
+type RaindropCache = {
+  collectionTitle: string;
+  fetchedAt: string;
+  items: RaindropItem[];
 };
 
 export type LinkblogRaindropStatusItem = {
@@ -37,6 +48,11 @@ export type LinkblogRaindropStatusItem = {
 
 const RAINDROP_API_BASE = "https://api.raindrop.io/rest/v1";
 const DEFAULT_COLLECTION_TITLE = "Logseq To Import";
+const DEFAULT_CACHE_MS = 5 * 60 * 1000;
+const CACHE_PATH = path.resolve(
+  process.cwd(),
+  ".debug-notes/linkblog-raindrop-cache.json",
+);
 
 export function getLinkblogRaindropConfig(
   options: LinkblogRaindropOptions = {},
@@ -50,6 +66,10 @@ export function getLinkblogRaindropConfig(
     vaultPath: path.resolve(
       options.vaultPath ?? process.env.GARDEN_VAULT_PATH ?? "./vault/Garden",
     ),
+    cacheMs:
+      options.cacheMs ??
+      Number(process.env.GARDEN_RAINDROP_CACHE_MS ?? DEFAULT_CACHE_MS),
+    refresh: options.refresh ?? false,
   };
 }
 
@@ -149,11 +169,54 @@ async function raindropFetch<T>(token: string, pathname: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+function readRaindropCache(collectionTitle: string, cacheMs: number) {
+  if (cacheMs <= 0 || !fs.existsSync(CACHE_PATH)) return null;
+
+  try {
+    const cache = JSON.parse(
+      fs.readFileSync(CACHE_PATH, "utf8"),
+    ) as RaindropCache;
+    const age = Date.now() - new Date(cache.fetchedAt).getTime();
+
+    if (cache.collectionTitle !== collectionTitle || age > cacheMs) {
+      return null;
+    }
+
+    return cache.items;
+  } catch {
+    return null;
+  }
+}
+
+function writeRaindropCache(collectionTitle: string, items: RaindropItem[]) {
+  fs.mkdirSync(path.dirname(CACHE_PATH), { recursive: true });
+  fs.writeFileSync(
+    CACHE_PATH,
+    JSON.stringify(
+      {
+        collectionTitle,
+        fetchedAt: new Date().toISOString(),
+        items,
+      } satisfies RaindropCache,
+      null,
+      2,
+    ),
+  );
+}
+
 export async function fetchRaindropItems(
   options: LinkblogRaindropOptions = {},
 ) {
   const config = getLinkblogRaindropConfig(options);
   const token = requireToken(config.token);
+  const cachedItems = config.refresh
+    ? null
+    : readRaindropCache(config.collectionTitle, config.cacheMs);
+
+  if (cachedItems) {
+    return cachedItems;
+  }
+
   const collections = await raindropFetch<{
     items: { _id: number; title: string }[];
   }>(token, "/collections");
@@ -185,12 +248,14 @@ export async function fetchRaindropItems(
     if (response.items.length === 0) break;
   }
 
+  writeRaindropCache(config.collectionTitle, items);
+
   return items;
 }
 
 export function readExistingLinkblog(vaultPath: string) {
   const linkblogDir = path.join(vaultPath, "Linkblog");
-  const linksToPages = new Map<string, string>();
+  const publicLinksToPages = new Map<string, string>();
   const pages = new Map<string, { markdown: string; public: boolean }>();
 
   for (const filePath of collectMarkdownFiles(linkblogDir)) {
@@ -200,12 +265,14 @@ export function readExistingLinkblog(vaultPath: string) {
 
     pages.set(filePath, { markdown, public: publicPage });
 
-    for (const link of extractMarkdownLinks(markdown)) {
-      linksToPages.set(link, relativePath);
+    if (publicPage) {
+      for (const link of extractMarkdownLinks(markdown)) {
+        publicLinksToPages.set(link, relativePath);
+      }
     }
   }
 
-  return { linksToPages, pages };
+  return { publicLinksToPages, pages };
 }
 
 export async function getLinkblogRaindropStatus(
@@ -224,7 +291,7 @@ export async function getLinkblogRaindropStatus(
       config.vaultPath,
       linkblogPathForDate(config.vaultPath, date),
     );
-    const existingPage = existing.linksToPages.get(normalizedLink);
+    const existingPage = existing.publicLinksToPages.get(normalizedLink);
     const statusItem: LinkblogRaindropStatusItem = {
       id: item._id,
       title: item.title,
@@ -248,14 +315,26 @@ export async function getLinkblogRaindropStatus(
   completed.sort((a, b) => b.created.localeCompare(a.created));
 
   const todoByDate: Record<string, LinkblogRaindropStatusItem[]> = {};
+  const allDates = new Set<string>();
+
+  for (const item of completed) {
+    allDates.add(item.date);
+  }
+
   for (const item of todo) {
+    allDates.add(item.date);
     todoByDate[item.date] ??= [];
     todoByDate[item.date].push(item);
   }
 
+  const todoDays = Object.keys(todoByDate).length;
+
   return {
     collectionTitle: config.collectionTitle,
     total: raindrops.length,
+    totalDays: allDates.size,
+    completedDays: allDates.size - todoDays,
+    todoDays,
     completed,
     todo,
     todoByDate,

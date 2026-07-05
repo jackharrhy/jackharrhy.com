@@ -10,9 +10,18 @@ if (!import.meta.env.DEV) {
 
 let status;
 let error: string | null = null;
+let nextTodoDates: [string, NonNullable<typeof status>["todo"]][] = [];
 
 try {
-  status = await getLinkblogRaindropStatus();
+  status = await getLinkblogRaindropStatus({
+    token: import.meta.env.GARDEN_RAINDROP_TOKEN,
+    collectionTitle: import.meta.env.GARDEN_RAINDROP_COLLECTION,
+    vaultPath: import.meta.env.GARDEN_VAULT_PATH,
+    refresh: Astro.url.searchParams.has("refresh"),
+  });
+  nextTodoDates = Object.entries(status.todoByDate)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(0, 3);
 } catch (err) {
   error = err instanceof Error ? err.message : String(err);
 }
@@ -37,21 +46,31 @@ if (Astro.request.headers.get("accept")?.includes("application/json")) {
       status && (
         <>
           <p>
-            Collection: <code>{status.collectionTitle}</code>
+            Collection: <code>{status.collectionTitle}</code>{" "}
+            <small>
+              <a href="/debug/linkblog?refresh">refresh cache</a>
+            </small>
           </p>
           <p>
-            Total: {status.total} · Todo: {status.todo.length} · Completed:{" "}
-            {status.completed.length}
+            Days: {status.totalDays} total · {status.todoDays} todo ·{" "}
+            {status.completedDays} completed
+          </p>
+          <p>
+            Links: {status.total} total · {status.todo.length} todo ·{" "}
+            {status.completed.length} completed
           </p>
 
-          <h2>Todo</h2>
-          {Object.entries(status.todoByDate).length === 0 ? (
+          <h2>Next Todo Days</h2>
+          {nextTodoDates.length === 0 ? (
             <p>No pending Raindrop items.</p>
           ) : (
-            Object.entries(status.todoByDate).map(([date, items]) => (
+            nextTodoDates.map(([date, items]) => (
               <section>
                 <h3>
-                  {date} <small>→ {items[0].draftPage}</small>
+                  {date}{" "}
+                  <small>
+                    ({items.length} links) → {items[0].draftPage}
+                  </small>
                 </h3>
                 <ul>
                   {items.map((item) => (
@@ -64,18 +83,6 @@ if (Astro.request.headers.get("accept")?.includes("application/json")) {
               </section>
             ))
           )}
-
-          <hr />
-
-          <h2>Completed</h2>
-          <ul>
-            {status.completed.map((item) => (
-              <li>
-                <a href={item.link}>{item.title}</a>{" "}
-                <small>in {item.existingPage}</small>
-              </li>
-            ))}
-          </ul>
         </>
       )
     )
