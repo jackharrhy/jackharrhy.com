@@ -16,11 +16,6 @@ export async function getStaticPaths() {
 }
 
 const { id } = Astro.props;
-
-// Redirect /home to root
-if (id === "home") {
-  return Astro.redirect("/", 301);
-}
 ---
 
 <Page id={id} />
