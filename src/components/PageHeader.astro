@@ -11,20 +11,24 @@ const { breadcrumbs, title, centerHeader } = Astro.props;
 const hasBreadcrumbs = breadcrumbs.length > 0;
 ---
 
-{hasBreadcrumbs && (
-  <div class="not-prose text-xl mb-2 font-medium">
-    {breadcrumbs.map((breadcrumb, index) => (
-      <>
-        {breadcrumb.path ? (
-          <a href={breadcrumb.path} class="hover:underline">{breadcrumb.name}</a>
-        ) : (
-          <span>{breadcrumb.name}</span>
-        )}
-        {index < breadcrumbs.length - 1 && <span class="mx-2">/</span>}
-      </>
-    ))}
-  </div>
-)}
+{
+  hasBreadcrumbs && (
+    <div class="not-prose text-xl mb-2 font-medium">
+      {breadcrumbs.map((breadcrumb, index) => (
+        <>
+          {breadcrumb.path ? (
+            <a href={breadcrumb.path} class="hover:underline">
+              {breadcrumb.name}
+            </a>
+          ) : (
+            <span>{breadcrumb.name}</span>
+          )}
+          {index < breadcrumbs.length - 1 && <span class="mx-2">/</span>}
+        </>
+      ))}
+    </div>
+  )
+}
 
 <h1
   class:list={[

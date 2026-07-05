@@ -61,7 +61,11 @@ function parseArgs(argv: string[]): { command: string; options: Options } {
   };
 }
 
-function run(command: string, args: string[], options: { capture?: boolean } = {}) {
+function run(
+  command: string,
+  args: string[],
+  options: { capture?: boolean } = {},
+) {
   const result = spawnSync(command, args, {
     cwd: ROOT_DIR,
     encoding: "utf8",
@@ -169,9 +173,21 @@ function getDiff() {
   };
 }
 
-function copyWithFilesFrom(source: string, dest: string, files: string[], options: Options) {
+function copyWithFilesFrom(
+  source: string,
+  dest: string,
+  files: string[],
+  options: Options,
+) {
   withFilesFrom(files, (filesFrom) => {
-    const args = ["copy", source, dest, "--files-from", filesFrom, "--progress"];
+    const args = [
+      "copy",
+      source,
+      dest,
+      "--files-from",
+      filesFrom,
+      "--progress",
+    ];
 
     if (options.dryRun) {
       args.push("--dry-run");
@@ -207,7 +223,9 @@ switch (command) {
 
   case "pull-missing": {
     const { missingLocal } = getDiff();
-    console.log(`Copying ${missingLocal.length} missing local files from ${RCLONE_REMOTE} to ${ASSETS_DIR}`);
+    console.log(
+      `Copying ${missingLocal.length} missing local files from ${RCLONE_REMOTE} to ${ASSETS_DIR}`,
+    );
     fs.mkdirSync(ASSETS_DIR, { recursive: true });
     copyWithFilesFrom(RCLONE_REMOTE, ASSETS_DIR, missingLocal, options);
     break;
@@ -215,18 +233,32 @@ switch (command) {
 
   case "copy-to-r2": {
     console.log(`Copying local assets from ${ASSETS_DIR} to ${RCLONE_REMOTE}`);
-    rclone(["copy", ASSETS_DIR, RCLONE_REMOTE, "--progress", ...(options.dryRun ? ["--dry-run"] : [])]);
+    rclone([
+      "copy",
+      ASSETS_DIR,
+      RCLONE_REMOTE,
+      "--progress",
+      ...(options.dryRun ? ["--dry-run"] : []),
+    ]);
     break;
   }
 
   case "sync-to-r2": {
     if (!options.dryRun && !options.yes) {
-      console.error("sync-to-r2 can delete remote files. Re-run with --dry-run or --yes.");
+      console.error(
+        "sync-to-r2 can delete remote files. Re-run with --dry-run or --yes.",
+      );
       process.exit(1);
     }
 
     console.log(`Syncing local assets from ${ASSETS_DIR} to ${RCLONE_REMOTE}`);
-    rclone(["sync", ASSETS_DIR, RCLONE_REMOTE, "--progress", ...(options.dryRun ? ["--dry-run"] : [])]);
+    rclone([
+      "sync",
+      ASSETS_DIR,
+      RCLONE_REMOTE,
+      "--progress",
+      ...(options.dryRun ? ["--dry-run"] : []),
+    ]);
     break;
   }
 

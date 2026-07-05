@@ -30,16 +30,16 @@ Linkblog entries should follow this pattern:
 
 ```md
 [Some Link](https://example.com)
-	Commentary paragraph...
+Commentary paragraph...
 
-	> Quoted excerpt...
+    > Quoted excerpt...
 
-	More commentary.
+    More commentary.
 
-	![[image.png]]
+    ![[image.png]]
 
 [Next Link](https://example.com)
-	Commentary for the next item...
+Commentary for the next item...
 ```
 
 ## Rendering Expectations

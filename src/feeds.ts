@@ -42,15 +42,18 @@ export const getPostsAsTree = async (source: string) => {
 };
 
 export const getLinkblogPosts = async () => {
-  const items = await getCollection("garden", ({ id, data }) =>
-    data.public && /^linkblog\/\d{4}\/\d{2}\/\d{2}$/.test(id)
+  const items = await getCollection(
+    "garden",
+    ({ id, data }) => data.public && /^linkblog\/\d{4}\/\d{2}\/\d{2}$/.test(id),
   );
   return items.sort((a, b) => b.id.localeCompare(a.id));
 };
 
 export const getDevblogPosts = async () => {
-  const items = await getCollection("garden", ({ id, data }) =>
-    data.public && /^devblog\/[^\/]+\/\d{4}\/\d{2}\/\d{2}$/.test(id)
+  const items = await getCollection(
+    "garden",
+    ({ id, data }) =>
+      data.public && /^devblog\/[^\/]+\/\d{4}\/\d{2}\/\d{2}$/.test(id),
   );
   return items.sort((a, b) => b.id.localeCompare(a.id));
 };
@@ -65,7 +68,7 @@ export const getLinkblogPostsAsTree = async () => {
 
   for (const post of items) {
     const [_, year, month, day] = post.id.match(
-      /^linkblog\/(\d{4})\/(\d{2})\/(\d{2})$/
+      /^linkblog\/(\d{4})\/(\d{2})\/(\d{2})$/,
     )!;
 
     if (!tree[year]) {
@@ -90,7 +93,7 @@ export const getDevblogPostsAsTree = async () => {
 
   for (const post of items) {
     const [_, project, year, month, day] = post.id.match(
-      /^devblog\/([^\/]+)\/(\d{4})\/(\d{2})\/(\d{2})$/
+      /^devblog\/([^\/]+)\/(\d{4})\/(\d{2})\/(\d{2})$/,
     )!;
 
     if (!tree[year]) {

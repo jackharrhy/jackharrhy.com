@@ -30,7 +30,9 @@ const customLayout = entry.data.custom_layout || entry.data["custom-layout"];
 const layout = getPageLayoutConfig(customLayout, header);
 const displayName = getDisplayName(entry);
 const publicEntryIds = new Set(
-  (await getCollection("garden", ({ data }) => data.public)).map((entry) => entry.id),
+  (await getCollection("garden", ({ data }) => data.public)).map(
+    (entry) => entry.id,
+  ),
 );
 const breadcrumbs = getBreadcrumbs(entry, displayName, publicEntryIds);
 const title = getRenderedTitle(entry, displayName);
@@ -48,17 +50,23 @@ const titlePartOfBreadcrumbs = shouldIncludeTitleInBreadcrumbs(entry.id);
   invert={layout.invert}
   mobileFriendly={layout.mobileFriendly}
 >
-  {!layout.noHeader && (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      title={title}
-      centerHeader={layout.centerHeader}
-    />
-  )}
+  {
+    !layout.noHeader && (
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        title={title}
+        centerHeader={layout.centerHeader}
+      />
+    )
+  }
 
-  {entry.data.description && !titlePartOfBreadcrumbs && (
-    <p class="not-prose text-2xl font-medium mb-10">{entry.data.description}</p>
-  )}
+  {
+    entry.data.description && !titlePartOfBreadcrumbs && (
+      <p class="not-prose text-2xl font-medium mb-10">
+        {entry.data.description}
+      </p>
+    )
+  }
 
   <PageContent segments={renderedSegments} pageId={entry.id} />
 </Layout>

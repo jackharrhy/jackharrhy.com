@@ -4,12 +4,16 @@ import { rehypeObsidian } from "../../lib/rehype-obsidian.mjs";
 import { buildGardenIndexFromVault } from "../../lib/garden-routing.mjs";
 
 export type ProseSegment = { type: "prose"; content: string };
-export type ComponentSegment = { type: "component"; props: Record<string, string> };
+export type ComponentSegment = {
+  type: "component";
+  props: Record<string, string>;
+};
 export type Segment = ProseSegment | ComponentSegment;
 export type RenderedSegment = string | ComponentSegment;
 
 let cachedGardenIndex: ReturnType<typeof buildGardenIndexFromVault> | undefined;
-let cachedMarkdownProcessor: Awaited<ReturnType<typeof createMarkdownProcessor>> | undefined;
+let cachedMarkdownProcessor:
+  Awaited<ReturnType<typeof createMarkdownProcessor>> | undefined;
 
 function parseComponentBlock(value: string): Record<string, string> | null {
   const lines = value
@@ -54,15 +58,24 @@ export function splitIntoSegments(body: string): Segment[] {
 
 function getGardenIndex() {
   const gardenIndex = import.meta.env.DEV
-    ? buildGardenIndexFromVault(process.env.GARDEN_VAULT_PATH || "./vault/Garden")
-    : cachedGardenIndex ??= buildGardenIndexFromVault(process.env.GARDEN_VAULT_PATH || "./vault/Garden");
+    ? buildGardenIndexFromVault(
+        process.env.GARDEN_VAULT_PATH || "./vault/Garden",
+      )
+    : (cachedGardenIndex ??= buildGardenIndexFromVault(
+        process.env.GARDEN_VAULT_PATH || "./vault/Garden",
+      ));
 
-  const routeCollisions = gardenIndex.collisions.filter((collision) => collision.type === "route");
+  const routeCollisions = gardenIndex.collisions.filter(
+    (collision) => collision.type === "route",
+  );
 
   if (routeCollisions.length > 0) {
     throw new Error(
       `Garden route collisions: ${routeCollisions
-        .map((collision) => `${collision.key} (${collision.entries.map((entry) => entry.sourcePath).join(", ")})`)
+        .map(
+          (collision) =>
+            `${collision.key} (${collision.entries.map((entry) => entry.sourcePath).join(", ")})`,
+        )
         .join("; ")}`,
     );
   }
@@ -88,7 +101,9 @@ async function getMarkdownProcessor() {
   return cachedMarkdownProcessor;
 }
 
-export async function renderMarkdownSegments(body: string): Promise<RenderedSegment[]> {
+export async function renderMarkdownSegments(
+  body: string,
+): Promise<RenderedSegment[]> {
   const processor = await getMarkdownProcessor();
   const renderedSegments: RenderedSegment[] = [];
 

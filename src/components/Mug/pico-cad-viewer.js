@@ -646,28 +646,28 @@ class Pass {
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(this.vertices),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
 
       gl.bindBuffer(gl.ARRAY_BUFFER, this.uvBuffer);
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(this.uvs),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
 
       gl.bindBuffer(gl.ARRAY_BUFFER, this.colorUVBuffer);
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(this.colorUVs),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.triangleBuffer);
       gl.bufferData(
         gl.ELEMENT_ARRAY_BUFFER,
         new Uint16Array(this.triangles),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
 
       if (this.shading) {
@@ -675,7 +675,7 @@ class Pass {
         gl.bufferData(
           gl.ARRAY_BUFFER,
           new Float32Array(this.normals),
-          gl.STATIC_DRAW
+          gl.STATIC_DRAW,
         );
       }
     }
@@ -729,7 +729,7 @@ class WirePass {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array(this.vertices),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
 
     this.vertices = null;
@@ -778,7 +778,7 @@ function loadModel(gl, model, tn) {
         shading: shading,
         texture: texture,
         clearDepth: i === 8,
-      })
+      }),
     );
   }
 
@@ -841,7 +841,7 @@ function loadModel(gl, model, tn) {
           vertex[2],
           vertex2[0],
           vertex2[1],
-          vertex2[2]
+          vertex2[2],
         );
 
         faceUVs.push([rawUV[0] / 16, rawUV[1] / 16]);
@@ -887,7 +887,7 @@ function loadModel(gl, model, tn) {
             vertices.push(
               lerp(p0[0], p1[0], yt),
               lerp(p0[1], p1[1], yt),
-              lerp(p0[2], p1[2], yt)
+              lerp(p0[2], p1[2], yt),
             );
             uvs.push(lerp(p0[3], p1[3], yt), lerp(p0[4], p1[4], yt));
             colorUVs.push(colorU, colorV);
@@ -910,7 +910,7 @@ function loadModel(gl, model, tn) {
               // 2
               n2,
               n1,
-              vertexIndex0 + dy + xi + tn + 2
+              vertexIndex0 + dy + xi + tn + 2,
             );
           }
         }
@@ -945,7 +945,7 @@ function loadModel(gl, model, tn) {
           triangles.push(
             vertexIndex0 + 1 + i,
             vertexIndex0,
-            vertexIndex0 + 2 + i
+            vertexIndex0 + 2 + i,
           );
         }
       }
@@ -1089,7 +1089,7 @@ class ShaderProgram {
       throw Error(
         `${
           type === gl.FRAGMENT_SHADER ? "fragment" : "vertex"
-        } shader compilation failed: ${msg}`
+        } shader compilation failed: ${msg}`,
       );
     }
 
@@ -1156,7 +1156,7 @@ function createTextureLightMap() {
   return createImage(
     32,
     4,
-    "00112233445566778899aabbccddeeff0010213542516d768294a9b3cdd5e8fe000011552211dd6622449933dd55889900000011110055dd1122445555112244"
+    "00112233445566778899aabbccddeeff0010213542516d768294a9b3cdd5e8fe000011552211dd6622449933dd55889900000011110055dd1122445555112244",
   );
 }
 
@@ -1164,7 +1164,7 @@ function createColorLightMap() {
   return createImage(
     32,
     7,
-    "00112233445566778899aabbccddeeff0011223542556d768894a9bbccddeefe001122552255dd66884499bbccddeeee001021512251d56d824294b3cdd5e8e800001111221155dd22224433dd55888800001010211151d521224235d551828200000000111111551122225555112222"
+    "00112233445566778899aabbccddeeff0011223542556d768894a9bbccddeefe001122552255dd66884499bbccddeeee001021512251d56d824294b3cdd5e8e800001111221155dd22224433dd55888800001010211151d521224235d551828200000000111111551122225555112222",
   );
 }
 
@@ -1199,7 +1199,7 @@ function parseLua(s) {
       return readNumber();
     } else {
       throw Error(
-        "Unkown value (" + i + "): " + '"' + c + '" = ' + c.charCodeAt(0)
+        "Unkown value (" + i + "): " + '"' + c + '" = ' + c.charCodeAt(0),
       );
     }
   }
@@ -1563,7 +1563,7 @@ class PicoCADViewer {
       this.gl.UNSIGNED_BYTE,
       new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
       16,
-      1
+      1,
     );
     /** @private @type {WebGLTexture} */
     this._indexTex = null;
@@ -1598,7 +1598,7 @@ class PicoCADViewer {
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array([-1, -1, +1, -1, -1, +1, -1, +1, +1, -1, +1, +1]),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
     } else {
       const className = "pico-cad-viewport";
@@ -1660,7 +1660,7 @@ class PicoCADViewer {
         gl.UNSIGNED_BYTE,
         null,
         width,
-        height
+        height,
       );
 
       gl.bindRenderbuffer(gl.RENDERBUFFER, this._depthBuffer);
@@ -1668,7 +1668,7 @@ class PicoCADViewer {
         gl.RENDERBUFFER,
         gl.DEPTH_COMPONENT16,
         width,
-        height
+        height,
       );
 
       gl.bindFramebuffer(gl.FRAMEBUFFER, this._frameBuffer);
@@ -1677,13 +1677,13 @@ class PicoCADViewer {
         gl.COLOR_ATTACHMENT0,
         gl.TEXTURE_2D,
         this._frameBufferTex,
-        0
+        0,
       );
       gl.framebufferRenderbuffer(
         gl.FRAMEBUFFER,
         gl.DEPTH_ATTACHMENT,
         gl.RENDERBUFFER,
-        this._depthBuffer
+        this._depthBuffer,
       );
     } else {
       canvas.width = width;
@@ -1730,7 +1730,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      createTextureLightMap()
+      createTextureLightMap(),
     );
     /** @private */
     this._colorLightMapTex = this._createTexture(
@@ -1738,7 +1738,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      createColorLightMap()
+      createColorLightMap(),
     );
     /** @type {number[][]} @private */
     this._lightMapColors = PICO_COLORS.slice();
@@ -1811,7 +1811,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      imageData
+      imageData,
     );
   }
 
@@ -1829,7 +1829,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      imageData
+      imageData,
     );
   }
 
@@ -1846,7 +1846,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      imageData
+      imageData,
     );
   }
 
@@ -1882,7 +1882,7 @@ class PicoCADViewer {
         PICO_COLORS.map(([r, g, b], i) => [
           0xff000000 | (b << 16) | (g << 8) | r,
           i,
-        ])
+        ]),
       );
       const ints = new Int32Array(src.data.buffer);
 
@@ -1923,7 +1923,7 @@ class PicoCADViewer {
       this.gl.UNSIGNED_BYTE,
       indices,
       imageData.width,
-      imageData.height
+      imageData.height,
     );
   }
 
@@ -1942,7 +1942,7 @@ class PicoCADViewer {
       this.gl.RGB,
       this.gl.RGB,
       this.gl.UNSIGNED_BYTE,
-      texture
+      texture,
     );
   }
 
@@ -1980,7 +1980,7 @@ class PicoCADViewer {
         internalFormat,
         format,
         type,
-        /** @type {TexImageSource} */ (source)
+        /** @type {TexImageSource} */ (source),
       );
     } else {
       gl.texImage2D(
@@ -1992,7 +1992,7 @@ class PicoCADViewer {
         0,
         format,
         type,
-        /** @type {ArrayBufferView} */ (source)
+        /** @type {ArrayBufferView} */ (source),
       );
     }
 
@@ -2099,7 +2099,7 @@ class PicoCADViewer {
     const rendering = prepareModelForRendering(
       gl,
       model,
-      this.tesselationCount
+      this.tesselationCount,
     );
 
     this._passes = rendering.passes;
@@ -2111,7 +2111,7 @@ class PicoCADViewer {
       gl.UNSIGNED_BYTE,
       new Uint8Array(rendering.textureIndices),
       128,
-      128
+      128,
     );
 
     this.loaded = true;
@@ -2150,7 +2150,7 @@ class PicoCADViewer {
         this.backgroundColor[0],
         this.backgroundColor[1],
         this.backgroundColor[2],
-        this.backgroundColor[3] ?? 1
+        this.backgroundColor[3] ?? 1,
       );
     }
 
@@ -2164,7 +2164,7 @@ class PicoCADViewer {
       (this.cameraFOV * Math.PI) / 180,
       this._resolution[0] / this._resolution[1],
       0.1,
-      400
+      400,
     );
     rotateX$1(mat, mat, this.cameraRotation.x);
     rotateY$1(mat, mat, this.cameraRotation.y);
@@ -2212,13 +2212,13 @@ class PicoCADViewer {
           gl.FLOAT,
           false,
           0,
-          0
+          0,
         );
         gl.enableVertexAttribArray(programInfo.program.vertexLocation);
 
         gl.bindBuffer(
           gl.ARRAY_BUFFER,
-          useColor ? pass.colorUVBuffer : pass.uvBuffer
+          useColor ? pass.colorUVBuffer : pass.uvBuffer,
         );
         gl.vertexAttribPointer(
           programInfo.locations.uv,
@@ -2226,7 +2226,7 @@ class PicoCADViewer {
           gl.FLOAT,
           false,
           0,
-          0
+          0,
         );
         gl.enableVertexAttribArray(programInfo.locations.uv);
 
@@ -2236,7 +2236,7 @@ class PicoCADViewer {
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(
             gl.TEXTURE_2D,
-            useColor ? this._colorIndexTex : this._indexTex
+            useColor ? this._colorIndexTex : this._indexTex,
           );
           gl.uniform1i(programInfo.locations.indexTex, 0);
 
@@ -2244,7 +2244,7 @@ class PicoCADViewer {
           gl.activeTexture(gl.TEXTURE1);
           gl.bindTexture(
             gl.TEXTURE_2D,
-            useColor ? this._colorLightMapTex : this._lightMapTex
+            useColor ? this._colorLightMapTex : this._lightMapTex,
           );
           gl.uniform1i(programInfo.locations.lightMap, 1);
         } else if (programInfo === this._programTexture) {
@@ -2252,7 +2252,7 @@ class PicoCADViewer {
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(
             gl.TEXTURE_2D,
-            useColor ? this._colorIndexTex : this._indexTex
+            useColor ? this._colorIndexTex : this._indexTex,
           );
           gl.uniform1i(programInfo.locations.indexTex, 0);
 
@@ -2260,18 +2260,18 @@ class PicoCADViewer {
           gl.activeTexture(gl.TEXTURE1);
           gl.bindTexture(
             gl.TEXTURE_2D,
-            useColor ? this._colorLightMapTex : this._lightMapTex
+            useColor ? this._colorLightMapTex : this._lightMapTex,
           );
           gl.uniform1i(programInfo.locations.lightMap, 1);
 
           // Light map curve
           gl.uniform1f(
             programInfo.locations.lightMapOffset,
-            useColor ? -0.316326530612245 : -0.3571428571428572
+            useColor ? -0.316326530612245 : -0.3571428571428572,
           );
           gl.uniform1f(
             programInfo.locations.lightMapGradient,
-            useColor ? 1.63265306122449 : 2.857142857142857
+            useColor ? 1.63265306122449 : 2.857142857142857,
           );
 
           // Light direction
@@ -2279,7 +2279,7 @@ class PicoCADViewer {
             programInfo.locations.lightDir,
             lightVector.x,
             lightVector.y,
-            lightVector.z
+            lightVector.z,
           );
 
           // Normal attrib
@@ -2290,7 +2290,7 @@ class PicoCADViewer {
             gl.FLOAT,
             false,
             0,
-            0
+            0,
           );
           gl.enableVertexAttribArray(programInfo.locations.normal);
         } else if (programInfo === this._programHDTexture) {
@@ -2304,19 +2304,19 @@ class PicoCADViewer {
             programInfo.locations.lightDir,
             lightVector.x,
             lightVector.y,
-            lightVector.z
+            lightVector.z,
           );
 
           // HD lighting options
           gl.uniform1f(
             programInfo.locations.lightSteps,
-            this.hdOptions.shadingSteps
+            this.hdOptions.shadingSteps,
           );
           gl.uniform3f(
             programInfo.locations.lightAmbient,
             this.hdOptions.shadingColor[0],
             this.hdOptions.shadingColor[1],
-            this.hdOptions.shadingColor[2]
+            this.hdOptions.shadingColor[2],
           );
 
           // Normal attrib
@@ -2327,7 +2327,7 @@ class PicoCADViewer {
             gl.FLOAT,
             false,
             0,
-            0
+            0,
           );
           gl.enableVertexAttribArray(programInfo.locations.normal);
         }
@@ -2380,7 +2380,7 @@ class PicoCADViewer {
         gl.FLOAT,
         false,
         0,
-        0
+        0,
       );
       gl.enableVertexAttribArray(this._programWireframe.program.vertexLocation);
 
@@ -2406,10 +2406,10 @@ class PicoCADViewer {
         gl.FLOAT,
         false,
         0,
-        0
+        0,
       );
       gl.enableVertexAttribArray(
-        this._programFramebuffer.program.vertexLocation
+        this._programFramebuffer.program.vertexLocation,
       );
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -2594,7 +2594,7 @@ class PicoCADViewer {
 
     // Create color -> index mapping.
     const paletteColors = new Map(
-      this.getPalette().map((rgb, i) => [rgbToInt(rgb), i])
+      this.getPalette().map((rgb, i) => [rgbToInt(rgb), i]),
     );
 
     // Convert.
@@ -2715,7 +2715,7 @@ function createTextureProgram(gl) {
 			highp float intensity = clamp(lightMapGradient * abs(dot(v_normal, lightDir)) + lightMapOffset, 0.0, 1.0);
 			gl_FragColor = texture2D(lightMap, vec2(0.015625 + index * 15.9375 + mod(gl_FragCoord.x + gl_FragCoord.y, 2.0) * 0.03125, 1.0 - intensity));
 		}
-	`
+	`,
   );
 
   return {
@@ -2763,7 +2763,7 @@ function createUnlitTextureProgram(gl) {
 			if (index == 1.0) discard;
 			gl_FragColor = texture2D(lightMap, vec2(0.015625 + index * 15.9375, 0.0));
 		}
-	`
+	`,
   );
 
   return {
@@ -2817,7 +2817,7 @@ function createHDTextureProgram(gl) {
 			intensity = clamp(intensity, 0.0, 1.0);
 			gl_FragColor = vec4(mix(col.rgb * lightAmbient, col.rgb, intensity), 1.0);
 		}
-	`
+	`,
   );
 
   return {
@@ -2855,7 +2855,7 @@ function createWireframeProgram(gl) {
 		void main() {
 			gl_FragColor = color;
 		}
-	`
+	`,
   );
 
   return {
@@ -2891,7 +2891,7 @@ function createFramebufferProgram(gl) {
 		void main() {
 			gl_FragColor = texture2D(mainTex, v_uv);
 		}
-	`
+	`,
   );
 
   return {

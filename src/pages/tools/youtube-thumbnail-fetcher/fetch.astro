@@ -22,7 +22,7 @@ function extractVideoId(url: string) {
 
   // Handle standard youtube.com/watch?v= format and other formats
   const match = urlString.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?\/]+)/,
   );
 
   if (match && match[1]) {

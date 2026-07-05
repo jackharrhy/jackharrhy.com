@@ -1,21 +1,21 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { canonicalRouteId } from '../lib/garden-routing.mjs';
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+import { canonicalRouteId } from "../lib/garden-routing.mjs";
 
-const GARDEN_VAULT_PATH = process.env.GARDEN_VAULT_PATH || './vault/Garden';
+const GARDEN_VAULT_PATH = process.env.GARDEN_VAULT_PATH || "./vault/Garden";
 
 const garden = defineCollection({
   loader: glob({
-    pattern: '**/*.md',
+    pattern: "**/*.md",
     base: GARDEN_VAULT_PATH,
     generateId: ({ entry }) => canonicalRouteId(entry),
   }),
   schema: z.object({
     public: z.boolean().default(false),
     description: z.string().optional(),
-    'og-image': z.string().optional(),
+    "og-image": z.string().optional(),
     custom_layout: z.string().optional(),
-    'custom-layout': z.string().optional(),
+    "custom-layout": z.string().optional(),
 
     title: z.string().optional(),
     date: z.date().optional(),
