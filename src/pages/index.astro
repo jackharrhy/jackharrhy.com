@@ -6,10 +6,12 @@ import Layout from "../layouts/Layout.astro";
 const home = await getEntry("garden", "home");
 ---
 
-{home ? (
-  <Page id="home" header={false} />
-) : (
-  <Layout>
-    <p>Garden vault not connected.</p>
-  </Layout>
-)}
+{
+  home ? (
+    <Page id="home" header={false} />
+  ) : (
+    <Layout>
+      <p>Garden vault not connected.</p>
+    </Layout>
+  )
+}

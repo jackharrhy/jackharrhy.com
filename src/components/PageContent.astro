@@ -10,8 +10,12 @@ interface Props {
 const { segments, pageId } = Astro.props;
 ---
 
-{segments.map((segment) => (
-  typeof segment === "string"
-    ? <Fragment set:html={segment} />
-    : <ComponentBlock props={segment.props} pageId={pageId} />
-))}
+{
+  segments.map((segment) =>
+    typeof segment === "string" ? (
+      <Fragment set:html={segment} />
+    ) : (
+      <ComponentBlock props={segment.props} pageId={pageId} />
+    ),
+  )
+}

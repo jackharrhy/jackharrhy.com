@@ -7,12 +7,14 @@ const items = (await getPosts(source)).slice(0, limit);
 ---
 
 <ul>
-  {items.map((item) => (
-    <li>
-      <p>
-        <a href={"/" + item.id}>{deslugify(item.id)}</a>
-        {item.data.description && <> {item.data.description}</>}
-      </p>
-    </li>
-  ))}
+  {
+    items.map((item) => (
+      <li>
+        <p>
+          <a href={"/" + item.id}>{deslugify(item.id)}</a>
+          {item.data.description && <> {item.data.description}</>}
+        </p>
+      </li>
+    ))
+  }
 </ul>

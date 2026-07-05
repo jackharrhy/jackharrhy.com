@@ -14,7 +14,7 @@ export const GET = async () => {
 
   const now = new Date();
   const nst = new Date(
-    now.toLocaleString("en-US", { timeZone: "America/St_Johns" })
+    now.toLocaleString("en-US", { timeZone: "America/St_Johns" }),
   );
   const todayAt8AM = new Date(nst);
   todayAt8AM.setHours(8, 0, 0, 0);
@@ -22,7 +22,7 @@ export const GET = async () => {
   const rssItems = items
     .map((post) => {
       const [_, project, year, month, day] = post.id.match(
-        /^devblog\/([^\/]+)\/(\d{4})\/(\d{2})\/(\d{2})$/
+        /^devblog\/([^\/]+)\/(\d{4})\/(\d{2})\/(\d{2})$/,
       )!;
       const projectName =
         projectNameToBetterName[
@@ -32,7 +32,9 @@ export const GET = async () => {
         title: `${projectName} - ${post.data.description}`,
         link: `${import.meta.env.SITE}/${post.id}`,
         pubDate: new Date(`${year}-${month}-${day}`),
-        customData: createImageCustomData(resolveOgImage(post.data['og-image'])),
+        customData: createImageCustomData(
+          resolveOgImage(post.data["og-image"]),
+        ),
       };
     })
     .filter((item) => {

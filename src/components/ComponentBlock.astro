@@ -29,7 +29,11 @@ switch (component) {
 
 {component === "Mug" && <Mug />}
 {component === "NowPlaying" && <NowPlaying />}
-{component === "Feed" && <Feed source={props.source} limit={Number(props.limit) || undefined} />}
+{
+  component === "Feed" && (
+    <Feed source={props.source} limit={Number(props.limit) || undefined} />
+  )
+}
 {component === "FeedTree" && <FeedTree source={props.source} />}
 {component === "Project" && <Project {...props} />}
 {component === "Letterbird" && <Letterbird />}

@@ -19,6 +19,7 @@
 The new site in `tmp/new-website/` becomes the main project. The old `site/` directory and Python pipeline are removed.
 
 **Files:**
+
 - Delete: `tmp/new-website/lib/quartz-plugins/` (entire directory — reference copy of Quartz, never used)
 - Delete: `tmp/new-website/lib/remark-obsidian-wikilinks.mjs` (superseded)
 - Delete: `tmp/new-website/lib/remark-obsidian-images.mjs` (superseded)
@@ -56,9 +57,11 @@ The new site in `tmp/new-website/` becomes the main project. The old `site/` dir
 The new `BaseLayout.astro` is minimal. The old `Layout.astro` has many features that need porting.
 
 **Files:**
+
 - Modify: `src/layouts/Layout.astro` (the new BaseLayout, renamed)
 
 **Port these features from old Layout.astro:**
+
 - Full props interface: `title`, `description`, `noFooter`, `ogImage`, `width`, `mainClass`, `invert`, `mobileFriendly`
 - Custom fonts (Virgil, Cascadia) from excalidraw.com
 - htmx loading + `astro:page-load` reprocessing
@@ -82,12 +85,14 @@ The new `BaseLayout.astro` is minimal. The old `Layout.astro` has many features 
 The old site has a `Page.astro` component that handles all garden content rendering — breadcrumbs, custom layouts, component injection. The new site's `[...slug].astro` has basic breadcrumbs inline but is missing custom layout support and component injection.
 
 **Files:**
+
 - Create: `src/components/Page.astro`
 - Modify: `src/pages/index.astro` — use `<Page id="home" header={false} />`
 - Modify: `src/pages/[...slug].astro` — simplify to use `<Page>`
 - Delete: `src/pages/about.astro`, `src/pages/now.astro`, `src/pages/projects.astro` — the catch-all handles these now
 
 **Port from old Page.astro:**
+
 - Custom layout switching (`quake`, `terminal`) with all their class overrides
 - `titlePartOfBreadcrumbs` for devblog/linkblog entries
 - Breadcrumb generation from entry ID segments
@@ -110,6 +115,7 @@ The old site has a `Page.astro` component that handles all garden content render
 ### Task 4: Port the Mug component
 
 **Files:**
+
 - Create: `src/components/Mug.astro` (from old site)
 - Create: `src/components/Mug/pico-cad-viewer.js` (copy from old site)
 - Create: `src/components/Mug/cuppa.txt` (copy from old site)
@@ -121,6 +127,7 @@ The old site has a `Page.astro` component that handles all garden content render
 ### Task 5: Port the Feed and FeedTree components
 
 **Files:**
+
 - Create: `src/feeds.ts` (from old `site/src/feeds.ts`)
 - Create: `src/components/Feed.astro` (from old site)
 - Create: `src/components/FeedTree.astro` (from old site)
@@ -138,6 +145,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 6: Port the Project component
 
 **Files:**
+
 - Create: `src/components/Project.astro` (from old site)
 
 **Step 1:** Copy from old site (it has no dependencies beyond props)
@@ -147,6 +155,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 7: Port the NowPlaying component and Last.fm endpoint
 
 **Files:**
+
 - Create: `src/components/NowPlaying.astro` (from old site)
 - Create: `src/pages/tools/lastfm.astro` (from old site)
 - Create: `src/pages/tools/lastfm/now-playing.astro` (from old site)
@@ -158,6 +167,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 8: Port the Spinner component
 
 **Files:**
+
 - Create: `src/components/Spinner.astro` (from old site)
 
 **Step 1:** Copy from old site
@@ -171,6 +181,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 9: Port utilities and RSS infrastructure
 
 **Files:**
+
 - Create: `src/utils.ts` (from old `site/src/utils.ts`)
 - Add dependency: `@astrojs/rss`
 
@@ -181,6 +192,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 10: Port RSS feed endpoints
 
 **Files:**
+
 - Create: `src/pages/linkblog/rss.xml.ts` (from old site)
 - Create: `src/pages/devblog/rss.xml.ts` (from old site)
 - Create: `src/pages/posts/rss.xml.ts` (from old site)
@@ -200,6 +212,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 11: Port YouTube thumbnail fetcher
 
 **Files:**
+
 - Create: `src/pages/tools/youtube-thumbnail-fetcher.astro` (from old site)
 - Create: `src/pages/tools/youtube-thumbnail-fetcher/fetch.astro` (from old site)
 
@@ -210,6 +223,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 12: Port tweet archiver (stub)
 
 **Files:**
+
 - Create: `src/pages/tools/tweet-archiver.astro` (from old site)
 - Create: `src/pages/tools/tweet-archiver/archive.astro` (from old site)
 
@@ -226,6 +240,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 13: Port Dockerfile and compose.yml
 
 **Files:**
+
 - Create: `Dockerfile` (adapted from old site — paths change since site is no longer in `site/` subdir)
 - Create: `compose.yml` (from old site)
 
@@ -238,6 +253,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 14: Port GitHub Actions CI/CD
 
 **Files:**
+
 - Modify: `.github/workflows/build-and-push.yml` (adapt paths for new structure)
 
 **Step 1:** Update the workflow — paths no longer include `site/` prefix
@@ -247,6 +263,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 15: Update .gitignore and environment config
 
 **Files:**
+
 - Modify: `.gitignore` — remove old site entries, add new ones (node_modules, dist, .astro, .env)
 - Create: `.env.dist` — document required env vars (R2 creds, Last.fm API key, GARDEN_VAULT_PATH)
 
@@ -259,6 +276,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 ### Task 16: Port justfile
 
 **Files:**
+
 - Modify: `justfile` — update commands for new site structure
 
 **Step 1:** Adapt justfile recipes (remove `garden.py` references, update paths)
@@ -274,6 +292,7 @@ The `deslugify` function needs to work with IDs instead of slugified names, but 
 The old site used `garden.py` to set frontmatter fields like `name`, `customLayout`, `ogImage` (camelCase). The Obsidian vault uses `custom_layout` / `custom-layout`, `og-image` (kebab-case). The content config schema needs to handle both gracefully and the Page component needs to read the right fields.
 
 **Files:**
+
 - Modify: `src/content/config.ts` — ensure schema handles Obsidian frontmatter conventions
 - Modify: `src/components/Page.astro` — read `custom_layout` or `custom-layout` instead of `customLayout`
 
@@ -288,6 +307,7 @@ The old site used `garden.py` to set frontmatter fields like `name`, `customLayo
 ### Task 18: Remove old site artifacts
 
 **Files:**
+
 - Delete: `tmp/` directory (the new-website source is now at repo root)
 - Delete: any remaining Python/Logseq artifacts
 - Clean up: `package.json` name field, any stale references
@@ -312,15 +332,15 @@ The old site used `garden.py` to set frontmatter fields like `name`, `customLayo
 
 These files from the old site are **intentionally not ported** because they're replaced by the Obsidian-based approach:
 
-| Old File | Reason for Removal |
-|---|---|
-| `garden.py` (783 lines) | Replaced by direct Obsidian vault reading |
-| `pyproject.toml`, `uv.lock`, `.python-version` | No more Python runtime |
-| `site/src/data/garden/*.mdx` | Generated artifacts — content lives in Obsidian vault |
-| `remark-wiki-link` dependency | Replaced by custom `remark-obsidian.mjs` |
-| `@astrojs/mdx` integration | Content is `.md` not `.mdx` now |
-| `astro-meta-tags` integration | OG tags are manually set in Layout |
-| `logseq/` directory | No longer the content source |
+| Old File                                       | Reason for Removal                                    |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| `garden.py` (783 lines)                        | Replaced by direct Obsidian vault reading             |
+| `pyproject.toml`, `uv.lock`, `.python-version` | No more Python runtime                                |
+| `site/src/data/garden/*.mdx`                   | Generated artifacts — content lives in Obsidian vault |
+| `remark-wiki-link` dependency                  | Replaced by custom `remark-obsidian.mjs`              |
+| `@astrojs/mdx` integration                     | Content is `.md` not `.mdx` now                       |
+| `astro-meta-tags` integration                  | OG tags are manually set in Layout                    |
+| `logseq/` directory                            | No longer the content source                          |
 
 ---
 

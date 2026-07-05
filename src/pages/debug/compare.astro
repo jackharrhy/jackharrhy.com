@@ -1,337 +1,406 @@
 ---
 export const prerender = false;
 
-const LOCAL = 'http://localhost:4321';
-const PROD = 'https://jackharrhy.com';
+const LOCAL = "http://localhost:4321";
+const PROD = "https://jackharrhy.com";
 
 if (!import.meta.env.DEV) {
-  return new Response('Not found', { status: 404 });
+  return new Response("Not found", { status: 404 });
 }
 
 function normalizeComparePath(value: string | null) {
-  if (!value || !value.trim()) return '/';
+  if (!value || !value.trim()) return "/";
   const path = value.trim();
-  return path.startsWith('/') && !path.startsWith('//') ? path : '/';
+  return path.startsWith("/") && !path.startsWith("//") ? path : "/";
 }
 
-const path = normalizeComparePath(Astro.url.searchParams.get('path'));
+const path = normalizeComparePath(Astro.url.searchParams.get("path"));
 const localUrl = `${LOCAL}${path}`;
 const prodUrl = `${PROD}${path}`;
 ---
 
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compare: {path}</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      font-family: monospace;
-      background: #1a1a1a;
-      color: #eee;
-    }
-
-    #toolbar, #notes {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.75rem;
-      background: #111;
-      border-bottom: 1px solid #333;
-      flex-shrink: 0;
-    }
-
-    #toolbar label { font-size: 0.75rem; color: #aaa; }
-
-    #notes {
-      align-items: stretch;
-      background: #181818;
-    }
-
-    #notes label {
-      padding-top: 0.3rem;
-      font-size: 0.75rem;
-      color: #aaa;
-      white-space: nowrap;
-    }
-
-    #note-input {
-      flex: 1;
-      min-height: 3.4rem;
-      resize: vertical;
-      font-family: monospace;
-      font-size: 0.8rem;
-      line-height: 1.35;
-      background: #222;
-      color: #eee;
-      border: 1px solid #444;
-      border-radius: 3px;
-      padding: 0.35rem 0.45rem;
-    }
-
-    #path-select, #path-input {
-      font-family: monospace;
-      font-size: 0.8rem;
-      background: #222;
-      color: #eee;
-      border: 1px solid #444;
-      border-radius: 3px;
-      padding: 0.2rem 0.4rem;
-    }
-
-    #path-select { flex: 1; max-width: 420px; }
-    #path-input  { flex: 1; }
-
-    #go, #save-note, #clear-note {
-      font-family: monospace;
-      font-size: 0.8rem;
-      background: #333;
-      color: #eee;
-      border: 1px solid #555;
-      border-radius: 3px;
-      padding: 0.2rem 0.6rem;
-      cursor: pointer;
-    }
-    #go:hover, #save-note:hover, #clear-note:hover { background: #444; }
-
-    #note-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      min-width: 7rem;
-    }
-
-    #note-status {
-      font-size: 0.7rem;
-      color: #888;
-      min-height: 1rem;
-    }
-
-    #prev, #next {
-      font-family: monospace;
-      font-size: 0.8rem;
-      background: #333;
-      color: #eee;
-      border: 1px solid #555;
-      border-radius: 3px;
-      padding: 0.2rem 0.6rem;
-      cursor: pointer;
-    }
-    #prev:hover, #next:hover { background: #444; }
-    #prev:disabled, #next:disabled { opacity: 0.3; cursor: default; }
-
-    #frames {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .pane {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      border-right: 1px solid #333;
-    }
-    .pane:last-child { border-right: none; }
-
-    .pane-label {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      background: #0d0d0d;
-      color: #888;
-      border-bottom: 1px solid #333;
-      flex-shrink: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-    }
-  </style>
-</head>
-<body data-current-path={path}>
-  <div id="toolbar">
-    <label for="path-select">page</label>
-    <select id="path-select">
-      <option value="">loading…</option>
-    </select>
-    <label for="path-input">or type</label>
-    <input id="path-input" type="text" value={path} placeholder="/some/slug" />
-    <button id="go">go</button>
-    <button id="prev" disabled>←</button>
-    <button id="next" disabled>→</button>
-  </div>
-
-  <div id="notes">
-    <label for="note-input">note</label>
-    <textarea id="note-input" placeholder="Leave cleanup notes for this page. Save with Cmd/Ctrl+Enter."></textarea>
-    <div id="note-actions">
-      <button id="save-note">save</button>
-      <button id="clear-note">clear</button>
-      <div id="note-status"></div>
-    </div>
-  </div>
-
-  <div id="frames">
-    <div class="pane">
-      <div class="pane-label">local — {localUrl}</div>
-      <iframe id="local-frame" src={localUrl} sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-    </div>
-    <div class="pane">
-      <div class="pane-label">prod — {prodUrl}</div>
-      <iframe id="prod-frame" src={prodUrl} sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-    </div>
-  </div>
-
-  <script>
-    // Populate path picker from /debug JSON endpoint
-    const allPaths = ['/'];
-    let allEntries = [];
-    let notes = {};
-    const currentPath = document.body.dataset.currentPath || '/';
-    const noteInput = document.getElementById('note-input');
-    const noteStatus = document.getElementById('note-status');
-
-    function setNoteStatus(text) {
-      noteStatus.textContent = text;
-    }
-
-    function noteLabelFor(path, label) {
-      return notes[path] ? `${label} [note]` : label;
-    }
-
-    function loadCurrentNote() {
-      const entry = notes[currentPath];
-      noteInput.value = entry?.note ?? '';
-      setNoteStatus(entry ? `saved ${new Date(entry.updatedAt).toLocaleString()}` : '');
-    }
-
-    function renderPathOptions(entries) {
-      const sel = document.getElementById('path-select');
-
-      sel.innerHTML = `<option value="/">${noteLabelFor('/', '/ (home)')}</option>` +
-        entries.map(e => {
-          const slug = '/' + e.id;
-          const label = e.public ? e.id : `${e.id} (private)`;
-          const selected = slug === currentPath ? ' selected' : '';
-          return `<option value="${slug}"${selected}>${noteLabelFor(slug, label)}</option>`;
-        }).join('');
-    }
-
-    async function loadNotes() {
-      const response = await fetch('/debug/notes', { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('Failed to load notes');
-      const data = await response.json();
-      notes = data.notes ?? {};
-      loadCurrentNote();
-    }
-
-    async function saveNote() {
-      setNoteStatus('saving...');
-      const response = await fetch('/debug/notes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ path: currentPath, note: noteInput.value }),
-      });
-
-      if (!response.ok) {
-        setNoteStatus('save failed');
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare: {path}</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
-      const data = await response.json();
-
-      if (data.entry) {
-        notes[currentPath] = data.entry;
-      } else {
-        delete notes[currentPath];
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+        font-family: monospace;
+        background: #1a1a1a;
+        color: #eee;
       }
 
-      setNoteStatus(data.entry ? `saved ${new Date(data.entry.updatedAt).toLocaleString()}` : 'cleared');
-      renderPathOptions(allEntries);
-    }
+      #toolbar,
+      #notes {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.75rem;
+        background: #111;
+        border-bottom: 1px solid #333;
+        flex-shrink: 0;
+      }
 
-    const notesPromise = loadNotes().catch(() => {
-      setNoteStatus('notes unavailable');
-    });
+      #toolbar label {
+        font-size: 0.75rem;
+        color: #aaa;
+      }
 
-    fetch('/debug', { headers: { Accept: 'application/json' } })
-      .then(r => r.json())
-      .then(async entries => {
-        await notesPromise;
-        allEntries = entries;
-        entries.forEach(e => allPaths.push('/' + e.id));
-        renderPathOptions(entries);
-        updatePrevNext();
-      })
-      .catch(() => {
-        document.getElementById('path-select').innerHTML = '<option value="">failed to load</option>';
+      #notes {
+        align-items: stretch;
+        background: #181818;
+      }
+
+      #notes label {
+        padding-top: 0.3rem;
+        font-size: 0.75rem;
+        color: #aaa;
+        white-space: nowrap;
+      }
+
+      #note-input {
+        flex: 1;
+        min-height: 3.4rem;
+        resize: vertical;
+        font-family: monospace;
+        font-size: 0.8rem;
+        line-height: 1.35;
+        background: #222;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 3px;
+        padding: 0.35rem 0.45rem;
+      }
+
+      #path-select,
+      #path-input {
+        font-family: monospace;
+        font-size: 0.8rem;
+        background: #222;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 3px;
+        padding: 0.2rem 0.4rem;
+      }
+
+      #path-select {
+        flex: 1;
+        max-width: 420px;
+      }
+      #path-input {
+        flex: 1;
+      }
+
+      #go,
+      #save-note,
+      #clear-note {
+        font-family: monospace;
+        font-size: 0.8rem;
+        background: #333;
+        color: #eee;
+        border: 1px solid #555;
+        border-radius: 3px;
+        padding: 0.2rem 0.6rem;
+        cursor: pointer;
+      }
+      #go:hover,
+      #save-note:hover,
+      #clear-note:hover {
+        background: #444;
+      }
+
+      #note-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        min-width: 7rem;
+      }
+
+      #note-status {
+        font-size: 0.7rem;
+        color: #888;
+        min-height: 1rem;
+      }
+
+      #prev,
+      #next {
+        font-family: monospace;
+        font-size: 0.8rem;
+        background: #333;
+        color: #eee;
+        border: 1px solid #555;
+        border-radius: 3px;
+        padding: 0.2rem 0.6rem;
+        cursor: pointer;
+      }
+      #prev:hover,
+      #next:hover {
+        background: #444;
+      }
+      #prev:disabled,
+      #next:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+
+      #frames {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .pane {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-right: 1px solid #333;
+      }
+      .pane:last-child {
+        border-right: none;
+      }
+
+      .pane-label {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        background: #0d0d0d;
+        color: #888;
+        border-bottom: 1px solid #333;
+        flex-shrink: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      iframe {
+        flex: 1;
+        width: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body data-current-path={path}>
+    <div id="toolbar">
+      <label for="path-select">page</label>
+      <select id="path-select">
+        <option value="">loading…</option>
+      </select>
+      <label for="path-input">or type</label>
+      <input
+        id="path-input"
+        type="text"
+        value={path}
+        placeholder="/some/slug"
+      />
+      <button id="go">go</button>
+      <button id="prev" disabled>←</button>
+      <button id="next" disabled>→</button>
+    </div>
+
+    <div id="notes">
+      <label for="note-input">note</label>
+      <textarea
+        id="note-input"
+        placeholder="Leave cleanup notes for this page. Save with Cmd/Ctrl+Enter."
+      ></textarea>
+      <div id="note-actions">
+        <button id="save-note">save</button>
+        <button id="clear-note">clear</button>
+        <div id="note-status"></div>
+      </div>
+    </div>
+
+    <div id="frames">
+      <div class="pane">
+        <div class="pane-label">local — {localUrl}</div>
+        <iframe
+          id="local-frame"
+          src={localUrl}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+        ></iframe>
+      </div>
+      <div class="pane">
+        <div class="pane-label">prod — {prodUrl}</div>
+        <iframe
+          id="prod-frame"
+          src={prodUrl}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+        ></iframe>
+      </div>
+    </div>
+
+    <script>
+      // Populate path picker from /debug JSON endpoint
+      const allPaths = ["/"];
+      let allEntries = [];
+      let notes = {};
+      const currentPath = document.body.dataset.currentPath || "/";
+      const noteInput = document.getElementById("note-input");
+      const noteStatus = document.getElementById("note-status");
+
+      function setNoteStatus(text) {
+        noteStatus.textContent = text;
+      }
+
+      function noteLabelFor(path, label) {
+        return notes[path] ? `${label} [note]` : label;
+      }
+
+      function loadCurrentNote() {
+        const entry = notes[currentPath];
+        noteInput.value = entry?.note ?? "";
+        setNoteStatus(
+          entry ? `saved ${new Date(entry.updatedAt).toLocaleString()}` : "",
+        );
+      }
+
+      function renderPathOptions(entries) {
+        const sel = document.getElementById("path-select");
+
+        sel.innerHTML =
+          `<option value="/">${noteLabelFor("/", "/ (home)")}</option>` +
+          entries
+            .map((e) => {
+              const slug = "/" + e.id;
+              const label = e.public ? e.id : `${e.id} (private)`;
+              const selected = slug === currentPath ? " selected" : "";
+              return `<option value="${slug}"${selected}>${noteLabelFor(slug, label)}</option>`;
+            })
+            .join("");
+      }
+
+      async function loadNotes() {
+        const response = await fetch("/debug/notes", {
+          headers: { Accept: "application/json" },
+        });
+        if (!response.ok) throw new Error("Failed to load notes");
+        const data = await response.json();
+        notes = data.notes ?? {};
+        loadCurrentNote();
+      }
+
+      async function saveNote() {
+        setNoteStatus("saving...");
+        const response = await fetch("/debug/notes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ path: currentPath, note: noteInput.value }),
+        });
+
+        if (!response.ok) {
+          setNoteStatus("save failed");
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data.entry) {
+          notes[currentPath] = data.entry;
+        } else {
+          delete notes[currentPath];
+        }
+
+        setNoteStatus(
+          data.entry
+            ? `saved ${new Date(data.entry.updatedAt).toLocaleString()}`
+            : "cleared",
+        );
+        renderPathOptions(allEntries);
+      }
+
+      const notesPromise = loadNotes().catch(() => {
+        setNoteStatus("notes unavailable");
       });
 
-    function updatePrevNext() {
-      const idx = allPaths.indexOf(currentPath);
-      document.getElementById('prev').disabled = idx <= 0;
-      document.getElementById('next').disabled = idx < 0 || idx >= allPaths.length - 1;
-    }
+      fetch("/debug", { headers: { Accept: "application/json" } })
+        .then((r) => r.json())
+        .then(async (entries) => {
+          await notesPromise;
+          allEntries = entries;
+          entries.forEach((e) => allPaths.push("/" + e.id));
+          renderPathOptions(entries);
+          updatePrevNext();
+        })
+        .catch(() => {
+          document.getElementById("path-select").innerHTML =
+            '<option value="">failed to load</option>';
+        });
 
-    // Navigation
-    function navigate(path) {
-      const u = new URL(location.href);
-      u.searchParams.set('path', path);
-      location.href = u.toString();
-    }
+      function updatePrevNext() {
+        const idx = allPaths.indexOf(currentPath);
+        document.getElementById("prev").disabled = idx <= 0;
+        document.getElementById("next").disabled =
+          idx < 0 || idx >= allPaths.length - 1;
+      }
 
-    document.getElementById('path-select').addEventListener('change', e => {
-      if (e.target.value) navigate(e.target.value);
-    });
+      // Navigation
+      function navigate(path) {
+        const u = new URL(location.href);
+        u.searchParams.set("path", path);
+        location.href = u.toString();
+      }
 
-    document.getElementById('go').addEventListener('click', () => {
-      const val = document.getElementById('path-input').value.trim() || '/';
-      navigate(val);
-    });
+      document.getElementById("path-select").addEventListener("change", (e) => {
+        if (e.target.value) navigate(e.target.value);
+      });
 
-    document.getElementById('path-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') document.getElementById('go').click();
-    });
+      document.getElementById("go").addEventListener("click", () => {
+        const val = document.getElementById("path-input").value.trim() || "/";
+        navigate(val);
+      });
 
-    document.getElementById('save-note').addEventListener('click', saveNote);
+      document.getElementById("path-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("go").click();
+      });
 
-    document.getElementById('clear-note').addEventListener('click', () => {
-      noteInput.value = '';
-      saveNote();
-    });
+      document.getElementById("save-note").addEventListener("click", saveNote);
 
-    noteInput.addEventListener('keydown', e => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') saveNote();
-    });
+      document.getElementById("clear-note").addEventListener("click", () => {
+        noteInput.value = "";
+        saveNote();
+      });
 
-    document.getElementById('prev').addEventListener('click', () => {
-      const idx = allPaths.indexOf(currentPath);
-      if (idx > 0) navigate(allPaths[idx - 1]);
-    });
+      noteInput.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") saveNote();
+      });
 
-    document.getElementById('next').addEventListener('click', () => {
-      const idx = allPaths.indexOf(currentPath);
-      if (idx >= 0 && idx < allPaths.length - 1) navigate(allPaths[idx + 1]);
-    });
+      document.getElementById("prev").addEventListener("click", () => {
+        const idx = allPaths.indexOf(currentPath);
+        if (idx > 0) navigate(allPaths[idx - 1]);
+      });
 
-    document.addEventListener('keydown', e => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-      if (e.key === 'ArrowLeft') document.getElementById('prev').click();
-      if (e.key === 'ArrowRight') document.getElementById('next').click();
-    });
-  </script>
-</body>
+      document.getElementById("next").addEventListener("click", () => {
+        const idx = allPaths.indexOf(currentPath);
+        if (idx >= 0 && idx < allPaths.length - 1) navigate(allPaths[idx + 1]);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.target.tagName === "INPUT" ||
+          e.target.tagName === "SELECT" ||
+          e.target.tagName === "TEXTAREA"
+        )
+          return;
+        if (e.key === "ArrowLeft") document.getElementById("prev").click();
+        if (e.key === "ArrowRight") document.getElementById("next").click();
+      });
+    </script>
+  </body>
 </html>

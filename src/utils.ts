@@ -3,7 +3,9 @@
  * Handles Obsidian wikilink syntax: "![[filename.png]]" or "![[filename.png|WxH]]"
  * Returns a proper /asset/ URL, or passes through already-resolved URLs unchanged.
  */
-export const resolveOgImage = (ogImage: string | undefined): string | undefined => {
+export const resolveOgImage = (
+  ogImage: string | undefined,
+): string | undefined => {
   if (!ogImage) return undefined;
 
   // Match ![[filename]] or ![[filename|WxH]]

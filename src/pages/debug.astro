@@ -1,29 +1,29 @@
 ---
 export const prerender = false;
 
-import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 if (!import.meta.env.DEV) {
-  return new Response('Not found', { status: 404 });
+  return new Response("Not found", { status: 404 });
 }
 
-const allEntries = await getCollection('garden');
+const allEntries = await getCollection("garden");
 
-const publicEntries = allEntries.filter(entry => entry.data.public);
-const privateEntries = allEntries.filter(entry => !entry.data.public);
+const publicEntries = allEntries.filter((entry) => entry.data.public);
+const privateEntries = allEntries.filter((entry) => !entry.data.public);
 
 publicEntries.sort((a, b) => a.id.localeCompare(b.id));
 privateEntries.sort((a, b) => a.id.localeCompare(b.id));
 
-const accept = Astro.request.headers.get('accept') ?? '';
-if (accept.includes('application/json')) {
+const accept = Astro.request.headers.get("accept") ?? "";
+if (accept.includes("application/json")) {
   const payload = [
-    ...publicEntries.map(e => ({ id: e.id, public: true })),
-    ...privateEntries.map(e => ({ id: e.id, public: false })),
+    ...publicEntries.map((e) => ({ id: e.id, public: true })),
+    ...privateEntries.map((e) => ({ id: e.id, public: false })),
   ];
   return new Response(JSON.stringify(payload), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 }
 ---
@@ -51,21 +51,23 @@ if (accept.includes('application/json')) {
 
   <h2>Public Pages ({publicEntries.length})</h2>
   <ul>
-    {publicEntries.map((entry) => (
-      <li>
-        <a href={`/${entry.id}`}>{entry.id}</a>
-      </li>
-    ))}
+    {
+      publicEntries.map((entry) => (
+        <li>
+          <a href={`/${entry.id}`}>{entry.id}</a>
+        </li>
+      ))
+    }
   </ul>
 
   <hr />
 
   <h2>Private Pages ({privateEntries.length})</h2>
   <ul>
-    {privateEntries.map((entry) => (
-      <li style="opacity: 0.5;">
-        {entry.id} (private)
-      </li>
-    ))}
+    {
+      privateEntries.map((entry) => (
+        <li style="opacity: 0.5;">{entry.id} (private)</li>
+      ))
+    }
   </ul>
 </Layout>
