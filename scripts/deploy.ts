@@ -19,6 +19,10 @@ type DeployManifest = {
 
 loadEnv();
 
+const gardenDir = path.resolve(
+  ROOT_DIR,
+  process.env.GARDEN_VAULT_PATH || "./vault/Garden",
+);
 const image = process.env.DEPLOY_IMAGE || "ghcr.io/jackharrhy/jackharrhy.com";
 const tag =
   process.env.DEPLOY_TAG || output("git", ["rev-parse", "--short", "HEAD"]);
@@ -38,6 +42,69 @@ console.log(`Deploy platform: ${platform}`);
 
 function readLocalManifest() {
   return JSON.parse(fs.readFileSync(manifestPath, "utf8")) as DeployManifest;
+}
+
+function parseFrontmatter(markdown: string) {
+  const match = markdown.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return new Map<string, string>();
+
+  const values = new Map<string, string>();
+  for (const line of match[1].split("\n")) {
+    const scalar = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!scalar) continue;
+    values.set(scalar[1], scalar[2].trim().replace(/^['"]|['"]$/g, ""));
+  }
+
+  return values;
+}
+
+function walkMarkdownFiles(dir: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+
+  const files: string[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const filePath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...walkMarkdownFiles(filePath));
+    } else if (entry.isFile() && filePath.endsWith(".md")) {
+      files.push(filePath);
+    }
+  }
+
+  return files.sort();
+}
+
+function validatePublicLinkblogEntries() {
+  const linkblogDir = path.join(gardenDir, "Linkblog");
+  const failures: string[] = [];
+
+  for (const filePath of walkMarkdownFiles(linkblogDir)) {
+    const frontmatter = parseFrontmatter(fs.readFileSync(filePath, "utf8"));
+    if (frontmatter.get("public") !== "true") continue;
+
+    const missing = [];
+    if (!frontmatter.get("description")) missing.push("description");
+    if (!frontmatter.get("og-image")) missing.push("og-image");
+
+    if (missing.length > 0) {
+      failures.push(
+        `${path.relative(ROOT_DIR, filePath)} missing ${missing.join(", ")}`,
+      );
+    }
+  }
+
+  if (failures.length === 0) return;
+
+  console.error("");
+  console.error("Deploy blocked: public Linkblog entries need metadata.");
+  for (const failure of failures) {
+    console.error(`  - ${failure}`);
+  }
+  console.error("");
+  console.error(
+    "Set public: false for drafts, or add non-empty description and og-image frontmatter.",
+  );
+  process.exit(1);
 }
 
 async function fetchProdManifest() {
@@ -160,6 +227,7 @@ async function confirmDeploy(
 
 run("pnpm", ["format:check"]);
 run("npm", ["run", "check"]);
+validatePublicLinkblogEntries();
 run("npm", ["run", "deploy:manifest"]);
 await confirmDeploy(readLocalManifest(), await fetchProdManifest());
 run("npm", ["run", "build"]);
