@@ -225,6 +225,10 @@ async function confirmDeploy(
   await confirmOrExit("Continue deploy?", { envVar: "DEPLOY_YES" });
 }
 
+if (!fs.existsSync(gardenDir) || walkMarkdownFiles(gardenDir).length === 0) {
+  throw new Error(`Deploy blocked: Garden content is missing at ${gardenDir}`);
+}
+
 run("pnpm", ["format:check"]);
 run("npm", ["run", "check"]);
 validatePublicLinkblogEntries();
@@ -241,6 +245,10 @@ const buildArgs = [
   platform,
   "--target",
   "prebuilt-runtime",
+  "--label",
+  `org.opencontainers.image.revision=${output("git", ["rev-parse", "HEAD"])}`,
+  "--label",
+  "org.opencontainers.image.source=https://github.com/jackharrhy/jackharrhy.com",
   "--push",
 ];
 for (const imageTag of tags) {
