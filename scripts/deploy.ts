@@ -245,10 +245,6 @@ const buildArgs = [
   platform,
   "--target",
   "prebuilt-runtime",
-  "--label",
-  `org.opencontainers.image.revision=${output("git", ["rev-parse", "HEAD"])}`,
-  "--label",
-  "org.opencontainers.image.source=https://github.com/jackharrhy/jackharrhy.com",
   "--push",
 ];
 for (const imageTag of tags) {

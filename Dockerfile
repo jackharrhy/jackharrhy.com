@@ -1,4 +1,4 @@
-FROM node:26.12.1-alpine@sha256:9bd229b644e391df00fb989efa732335aefc6170a05d8c163c5c8ca9870da401 AS base
+FROM node:26-alpine AS base
 RUN apk upgrade --no-cache && apk add --no-cache ca-certificates && update-ca-certificates
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
