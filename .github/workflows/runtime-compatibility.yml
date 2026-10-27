@@ -1,0 +1,55 @@
+name: Container runtime compatibility
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runtime-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Intentionally test current published content, then freeze its resolved digest.
+      # jactionlint ignore=unpinned-images
+      - name: Test runtime against the published site content
+        shell: bash
+        run: |
+          set -euo pipefail
+          name="website-runtime-${GITHUB_RUN_ID}"
+          source="website-content-${GITHUB_RUN_ID}"
+          trap 'docker logs "$name" 2>/dev/null || true; docker rm -f "$name" "$source" 2>/dev/null || true' EXIT
+          # Test current published content; freeze its resolved digest before extraction.
+          # jactionlint ignore=unpinned-images
+          docker pull ghcr.io/jackharrhy/jackharrhy.com:latest
+          content_image=$(docker image inspect ghcr.io/jackharrhy/jackharrhy.com:latest --format '{{index .RepoDigests 0}}')
+          docker create --name "$source" "$content_image"
+          mkdir -p dist
+          docker cp "$source:/app/dist/." ./dist
+          docker build --target prebuilt-runtime -t website-runtime .
+          docker run -d --name "$name" --network none website-runtime
+          ready=false
+          for _ in $(seq 1 30); do
+            if docker exec "$name" node --input-type=module -e '
+              import assert from "node:assert/strict";
+              assert.equal(process.versions.node.split(".")[0], "26");
+              assert.equal(process.config.variables.v8_enable_pointer_compression, 1);
+              for (const path of ["/", "/deploy-manifest.json", "/posts/rss.xml"]) {
+                const response = await fetch("http://127.0.0.1:80" + path);
+                assert.equal(response.status, 200, path);
+                assert((await response.text()).length > 0, path);
+              }
+            '; then ready=true; break; fi
+            sleep 1
+          done
+          test "$ready" = true

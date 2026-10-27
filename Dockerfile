@@ -1,5 +1,7 @@
-FROM node:26-alpine AS base
-RUN apk upgrade --no-cache && apk add --no-cache ca-certificates && update-ca-certificates
+FROM platformatic/node-caged:26-slim AS base
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+RUN node -e "require('node:assert/strict').equal(process.config.variables.v8_enable_pointer_compression, 1)"
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm install --global pnpm@11.9.0
