@@ -1,6 +1,0 @@
-dist/
-.astro/
-node_modules/
-.garden/
-vault/
-pnpm-lock.yaml
